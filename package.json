@@ -13,6 +13,7 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "emoji-mart": "^5.2.2",
+    "faker": "^6.6.6",
     "framer-motion": "^7.5.3",
     "phosphor-react": "^1.4.1",
     "prop-types": "^15.8.1",

@@ -58,8 +58,9 @@ const DashboardLayout = () => {
   const {onToggleMode} = useSettings();
 
   return (
-    <>
-      <Box
+    
+      <Stack direction="row">
+        <Box
         p={2}
         sx={{
           backgroundColor: theme.palette.background.paper,
@@ -147,9 +148,11 @@ const DashboardLayout = () => {
           </Stack>
         </Stack>
       </Box>
+      
 
       <Outlet />
-    </>
+    
+      </Stack>
   );
 };
 
