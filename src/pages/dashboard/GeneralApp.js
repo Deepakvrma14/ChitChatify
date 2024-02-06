@@ -4,7 +4,7 @@ const GeneralApp = () => {
 
   return (
     <>
-      App
+      
     </>
   );
 };
