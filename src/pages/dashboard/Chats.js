@@ -169,7 +169,7 @@ function Chats() {
             {/* <ChatElement />
              */}
             {ChatList.filter((el) => el.pinned).map((el) => {
-              return <ChatElement {...el} />;
+              return <ChatElement key={el.id} {...el} />;
             })}
           </Stack>
 
@@ -181,7 +181,7 @@ function Chats() {
               {/* <ChatElement />
                */}
               {ChatList.filter((el) => !el.pinned).map((el) => {
-                return <ChatElement {...el} />;
+                return <ChatElement key={el.id} {...el} />;
               })}
             </Stack>
           </Stack>
