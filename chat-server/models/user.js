@@ -66,6 +66,17 @@ userSchema.pre("save", async function (next) {
   this.otp = await bcrypt.hash(this.otp, 12);
   next();
 });
+// again encrypt the password after resetting
+userSchema.pre("save", async function (next) {
+  // only run when user modifies the password
+  if (!this.isModified("password")) return next();
+
+  // hasing the password
+  this.password = await bcrypt.hash(this.password, 12);
+  next();
+});
+
+
 userSchema.methods.correctPassword = async function (
   candidatePassword,
   userPassword
@@ -86,6 +97,9 @@ userSchema.methods.correctOTP = async function (
   userOTP // db otp encrypted one skjdghkjq212
 ) {
   return await bcrypt.compare(candidateOTP, userOTP);
+};
+userSchema.methods.changedPasswordAfter = function (timestamp) {
+  return timestamp < this.passwordChangedAt;
 };
 
 const User = new mongoose.model("User", userSchema);

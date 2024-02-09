@@ -140,7 +140,29 @@ exports.protect = async(req, res, next) =>{
     return;
   }
   // verification of token
-  const decoded = promisify
+  const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+
+  // if user still exists when he deleted his account for if he's loggin in somewheree else or if he's being blocked and still if trying to access the routes
+  const this_user = await User.findById(decoded.userId);
+  if(!this_user){
+    res.status(400).json({
+      status:"error",
+      message: "user with this token does not exist"
+    });
+  }
+  // edge case: 2 users have access to same email and one user is logged in already at 10:15 but second user is resetting the password at 10:20 so we shoudlnt allow the first user to have more access to that 
+
+  // if user changed their password after token was issued
+  if(this_user.changedPasswordAfter(decoded.iat)){// iat from jwt payload which have time stamp when it was created
+    res.status(400).json({
+      status:"error",
+      message:"user recently changed password, please try again to login"
+    });
+
+  }
+  req.user = this_user;
+  
+  next();
 
 }
 
