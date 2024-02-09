@@ -3,6 +3,8 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 const filterObj = require("../utils/filterObj");
 const otpGenerator = require("otp-generator");
+const crypto = require("crypto");
+
 const signToken = (userId) => {
   jwt.sign({ userId }, process.env.JWT_SECRET);
 };
@@ -115,3 +117,61 @@ exports.login = async (req, res, next) => {
     token,
   });
 };
+
+// only allow users logged in to have these routes and middleware access to our api
+exports.protect = async(req, res, next) =>{
+
+}
+exports.forgotPassword = async(req, res, next) =>{
+// 1 get mail id 
+  const user = await User.findOne({email:req.body.email});
+  if(!user){ 
+    res.status(400).json({
+      status: "error",
+      message:"no user with such email"
+    });
+    
+  }
+  // generate random reset token
+  const resetToken = user.createPasswordResetToken();
+  const resetURL = `https://tawk.com/auth/reset-password/?code=${resetToken}`;
+  try{
+    // todo send email with reset
+    res.status(200).json({
+      status:"success",
+      message:"reset password link sent to mail",
+    });
+  }catch(error){
+    user.passwordResetToken = undefined;
+    user.passwordResetExpires = undefined;
+
+    await user.save({validateBeforeSave:false});
+    res.status(500).json({
+      status:"error",
+      message:"something went wrong in server side, try again later",
+    });
+  }
+};
+exports.resetPassword = async(req, res, next) =>{
+  // get user based on token
+  const hashedToken = crypto.createHash("sha256").update(req.params.token).digest("hex");
+  const user = User.findOne({
+    passwordResetToken:hashedToken,
+    passwordResetExpires: {$gt: Date.now()},
+
+  });
+  // passing wrong token or after 10 min
+  if(!user){
+    res.status(400).json({
+      status:"error",
+      message:"Token invalid or expired",
+    });
+  }
+  user.password = req.body.password;
+  user.confirmPassword = req.body.passwordConfirm;
+  user.passwordResetToken = undefined;
+  user.passwordResetExpires = undefined;
+  
+
+}
+
