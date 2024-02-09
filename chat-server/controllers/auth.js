@@ -38,21 +38,60 @@ exports.register = async (req, res, next) => {
   }
 };
 exports.sendOTP = async (req, res, next) => {
-    const {userId}  = req;
+  const { userId } = req;
 
   const new_otp = otpGenerator.generate(6, {
     upperCaseAlphabets: false,
     specialChars: false,
     lowerCaseAlphabets: false,
   });
-  const otp_expiry_time = Date.now()+ 10*60*1000 //10 min after otp sent 
+  const otp_expiry_time = Date.now() + 10 * 60 * 1000; //10 min after otp sent
   await findByIdAndUpdate(userId, {
-    otp:new_otp,
+    otp: new_otp,
     otp_expiry_time,
-
   });
-//   TODO SEND Mail
+  //   TODO SEND Mail
+
+  res.status(200).json({
+    status: "success",
+    message: "otp sent successfully on mail",
+  });
 };
+
+exports.verifyOTP = async(req, res, next) =>{
+    const {email, otp}= req.body;
+
+    const user  = await User.findOne({
+        email,
+        otp_expiry_time: {$gt: Date.now()};
+
+    });
+    if(!user){
+        res.status(400).json({
+            status:"error",
+            message:"Email invalid or Otp already expired",
+
+        });
+    }
+    if(!await user.correctOTP(otp, user.otp)){
+        res.status(400).json({
+            status:"error",
+            message: "Error wrong otp ",
+        })
+    }
+    // if otp is correct 
+    user.verified = true;
+    user.otp= undefined;
+    
+    await user.save({new:true, validateModifiedOnly:true });
+    const token = signToken(user._id);
+    res.status(200).json({
+    status: "success",
+    message: "OTP verified success",
+    token,
+  });
+
+}
 exports.login = async (req, res, next) => {
   const { email, password } = req.body;
   if (!email || !password) {

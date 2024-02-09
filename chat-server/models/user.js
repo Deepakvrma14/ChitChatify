@@ -53,11 +53,28 @@ const userSchema = new mongoose.Schema({
     type: Date,
   },
 });
+
+userSchema.pre("save", async function (next) {
+  // only run when user modifies the otp
+  if (!this.isModified("otp")) return next();
+
+  // hasing the opt
+  this.otp = await bcrypt.hash(this.otp, 12);
+  next();
+});
 userSchema.methods.correctPassword = async function (
   candidatePassword,
   userPassword
 ) {
   return await bcrypt.compare(candidatePassword, userPassword);
 };
+
+userSchema.methods.correctOTP = async function (
+  candidateOTP, // frontend one 1224
+  userOTP // db otp encrypted one skjdghkjq212
+) {
+  return await bcrypt.compare(candidateOTP, userOTP);
+};
+
 const User = new mongoose.model("User", userSchema);
 module.exports = User;
