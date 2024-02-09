@@ -28,8 +28,8 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
   },
-  passwordConfirm:{
-    type:String,
+  passwordConfirm: {
+    type: String,
   },
   passwordChangedAt: {
     type: Date,
@@ -78,7 +78,7 @@ userSchema.methods.createPasswordResetToken = function () {
     .createHash("sha256")
     .update(resetToken)
     .digest("hex");
-  this.passwordResetExpires = Date.now() + 10*60*1000;
+  this.passwordResetExpires = Date.now() + 10 * 60 * 1000;
   return resetToken;
 };
 userSchema.methods.correctOTP = async function (

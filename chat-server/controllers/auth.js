@@ -1,9 +1,9 @@
-const jwt = require("jsonwebtoken");
-
+const jwt = require("jsonwebtoken");   
 const User = require("../models/user");
 const filterObj = require("../utils/filterObj");
 const otpGenerator = require("otp-generator");
 const crypto = require("crypto");
+const { promisify } = require("util");
 
 const signToken = (userId) => {
   jwt.sign({ userId }, process.env.JWT_SECRET);
@@ -52,6 +52,7 @@ exports.sendOTP = async (req, res, next) => {
     otp: new_otp,
     otp_expiry_time,
   });
+  
   //   TODO SEND Mail
 
   res.status(200).json({
@@ -117,11 +118,32 @@ exports.login = async (req, res, next) => {
     token,
   });
 };
-
+// types of routes :  only logged in can access, 
+// unprotected routes
 // only allow users logged in to have these routes and middleware access to our api
 exports.protect = async(req, res, next) =>{
+  // jwt token get and check if it's actually there
+  let token;
+  if(req.headers.authorization && req.headers.authorization.startsWith("Bearer")){
+    // Bearer serdfhdsfgh456756yerdtfuhjdfgh
+    token = req.headers.authorization.split(" ")[1];
+
+  }else if(req.cookies.jwt){
+    token = req.cookies.jwt;
+  }
+  // user not logged in and trying to access the router
+  else{
+    res.status(400).json({
+      status:"error",
+      message:"not logged in please login to get access"
+    });
+    return;
+  }
+  // verification of token
+  const decoded = promisify
 
 }
+
 exports.forgotPassword = async(req, res, next) =>{
 // 1 get mail id 
   const user = await User.findOne({email:req.body.email});
@@ -143,6 +165,7 @@ exports.forgotPassword = async(req, res, next) =>{
     });
   }catch(error){
     user.passwordResetToken = undefined;
+    
     user.passwordResetExpires = undefined;
 
     await user.save({validateBeforeSave:false});
@@ -150,7 +173,9 @@ exports.forgotPassword = async(req, res, next) =>{
       status:"error",
       message:"something went wrong in server side, try again later",
     });
+    return;
   }
+  
 };
 exports.resetPassword = async(req, res, next) =>{
   // get user based on token
@@ -160,6 +185,7 @@ exports.resetPassword = async(req, res, next) =>{
     passwordResetExpires: {$gt: Date.now()},
 
   });
+
   // passing wrong token or after 10 min
   if(!user){
     res.status(400).json({
@@ -167,11 +193,23 @@ exports.resetPassword = async(req, res, next) =>{
       message:"Token invalid or expired",
     });
   }
+
+  // update user pass and set reset token and expiry 
   user.password = req.body.password;
   user.confirmPassword = req.body.passwordConfirm;
   user.passwordResetToken = undefined;
   user.passwordResetExpires = undefined;
   
+  await user.save();
 
+  // login the user now and send new jwt
+// TODO send email about paswword change
+  const token = signToken(user._id);
+  res.status(200).json({
+    status:"success",
+    message:"successfully password reset",
+    token,
+  });
+  return;
 }
 
