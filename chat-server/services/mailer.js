@@ -1,24 +1,27 @@
 const nodemailer = require("nodemailer");
-const sendMail = async (req, res) => {
-  const testAccount = await nodemailer.createTestAccount();
-  const transporter = nodemailer.createTransport({
-    host: "smtp.ethereal.email",
-    port: 587,
-    auth: {
-      user: "angel8@ethereal.email",
-      pass: "dm6xfKZtXCRhVs9AU6",
-    },
-  });
-  const info = await transporter.sendMail({
-    from: '"Fred Foo 👻" <foo@example.com>', // sender address
-    to: "bar@example.com, baz@example.com", // list of receivers
-    subject: "Hello ✔", // Subject line
-    text: "Hello world?", // plain text body
-    html: "<b>Hello world?</b>", // html body
-  });
-  console.log(info.messageId);
-  res.json(info);
-};
-module.exports = sendMail;
+require('dotenv').config();
+const email = process.env.NODEMAILER_EMAIL;
+const password = process.env.NODEMAILER_PASSWORD;
+const sendEmail =  (afrom, ato, asubject, atext, ahtml) => async (req, res) => {
+    const testAccount = await nodemailer.createTestAccount();
+    const transporter = nodemailer.createTransport({
+      host: "smtp.ethereal.email",
+      port: 587,
+      auth: {
+        user: email,
+        pass: password,
+      },
+    });
+    const info = await transporter.sendMail({
+      from: afrom, 
+      to: ato,
+      subject: asubject,
+      text: atext,
+      html: ahtml
+    });
+    console.log(info.messageId);
+    res.json(info);
+  };
+module.exports = sendEmail;
 
 

@@ -4,7 +4,7 @@ const filterObj = require("../utils/filterObj");
 const otpGenerator = require("otp-generator");
 const crypto = require("crypto");
 const { promisify } = require("util");
-
+const sendEmail = require("../services/mailer");
 const signToken = (userId) => {
   jwt.sign({ userId }, process.env.JWT_SECRET);
 };
@@ -54,7 +54,19 @@ exports.sendOTP = async (req, res, next) => {
   });
   
   //   TODO SEND Mail
+  sendEmail("deepak@gmail.com",
+  "temp@gmail.com",
+  "new OTP",
+  `your OTP is ${new_otp}`,
+  "<h1>10 Min</h1><h3>This is valid for 10 min only</h3>"
+  ).then(()=>{
 
+  }).catch((err)=>{
+    res.status(500).json({
+      status: "error",
+      message: "otp sent unsuccessfully on due to server error",
+    });
+  });
   res.status(200).json({
     status: "success",
     message: "otp sent successfully on mail",
