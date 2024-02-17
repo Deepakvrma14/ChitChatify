@@ -78,7 +78,7 @@ exports.sendOTP = async (req, res, next) => {
   "temp@gmail.com",
   "testing",
   "text",
-  "<h1>hello</h1><h3>world</h3>");
+  `${otpEmailerHTMLOutput(user.firstName,new_otp)}`);
   return res.status(200).json({
     status:"success",
     message:"OTP sent successfully"
@@ -276,7 +276,6 @@ exports.resetPassword = async (req, res, next) => {
       message: "Token is invalid or expired.",
     });
 
-    return;
   }
 
   // 3) Update users password and set resetToken & exipry to undefined
