@@ -1,7 +1,10 @@
 const nodemailer = require("nodemailer");
-require('dotenv').config();
+const dotenv = require("dotenv");
+dotenv.config({path:"../config.env"})
 const email = process.env.NODEMAILER_EMAIL;
 const password = process.env.NODEMAILER_PASSWORD;
+
+
 const sendEmail =  (afrom, ato, asubject, atext, ahtml) => async (req, res) => {
     const testAccount = await nodemailer.createTestAccount();
     const transporter = nodemailer.createTransport({

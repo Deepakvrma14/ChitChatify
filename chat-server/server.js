@@ -12,14 +12,9 @@ const server = http.createServer(app);
 
 const port = process.env.PORT || 3000;
 
-const DB = process.env.DBURI.replace("<PASSWORD>", process.env.DBPASSWORD);
+const DB = process.env.DBURI;
 mongoose
-  .connect(DB, {
-    useNewUrlParser: true,
-    useCreateIndex: true,
-    useFindAndModify: false,
-    useUnifiedTopology: true,
-  })
+  .connect(DB)
   .then((con) => {
     console.log("db connected successfully");
   })

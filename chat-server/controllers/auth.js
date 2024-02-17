@@ -78,7 +78,7 @@ exports.verifyOTP = async(req, res, next) =>{
 
     const user  = await User.findOne({
         email,
-        otp_expiry_time: {$gt: Date.now()};
+        otp_expiry_time: {$gt: Date.now()},
 
     });
     if(!user){
