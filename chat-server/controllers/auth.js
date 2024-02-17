@@ -27,7 +27,7 @@ exports.register = async (req, res, next) => {
   const existing_user = await User.findOne({ email: email });
 
   if (existing_user && existing_user.verified) {
-    res.status(400).json({
+    return res.status(400).json({
       status: "error",
       message: "Email is already in use. Please log in.",
     });
@@ -78,17 +78,11 @@ exports.sendOTP = async (req, res, next) => {
   "temp@gmail.com",
   "testing",
   "text",
-  "<h1>hello</h1><h3>world</h3>").then(()=>{
-    res.status(200).json({
-      status:"success",
-      message:"OTP sent successfully"
-    });
-  }).catch((err) => {
-        res.status(500).json({
-          status: "error",
-          message: "otp sent unsuccessfully on due to server error",
-        });
-      });
+  "<h1>hello</h1><h3>world</h3>");
+  return res.status(200).json({
+    status:"success",
+    message:"OTP sent successfully"
+  });
 
   // //   TODO SEND Mail
   // mailService
@@ -101,7 +95,7 @@ exports.sendOTP = async (req, res, next) => {
   //   })
   //   .then(() => {})
   //   .catch((err) => {
-  //     res.status(500).json({
+  //     return res.status(500).json({
   //       status: "error",
   //       message: "otp sent unsuccessfully on due to server error",
   //     });
@@ -118,14 +112,14 @@ exports.verifyOTP = async (req, res, next) => {
   });
 
   if (!user) {
-    res.status(400).json({
+    return res.status(400).json({
       status: "error",
       message: "Email is invalid or OTP has expired.",
     });
   }
 
   if (!(await user.correctOTP(otp.toString(), user.otp))) {
-    res.status(400).json({
+    return res.status(400).json({
       status: "error",
       message: "OTP is incorrect",
     });
@@ -139,7 +133,7 @@ exports.verifyOTP = async (req, res, next) => {
 
   const token = signToken(user._id);
 
-  res.status(200).json({
+  return res.status(200).json({
     status: "success",
     message: "OTP is verified successfully",
     token,
@@ -151,7 +145,7 @@ exports.login = async (req, res, next) => {
   const { email, password } = req.body;
 
   if (!email || !password) {
-    res.status(400).json({
+    return res.status(400).json({
       status: "error",
       message: "Both email and password are required.",
     });
@@ -160,7 +154,7 @@ exports.login = async (req, res, next) => {
   const user = await User.findOne({ email: email }).select("+password");
 
   if (!user || !(await user.correctPassword(password, user.password))) {
-    res.status(400).json({
+    return res.status(400).json({
       status: "error",
       message: "Email or password is incorrect.",
     });
@@ -168,7 +162,7 @@ exports.login = async (req, res, next) => {
 
   const token = signToken(user._id);
 
-  res.status(200).json({
+  return res.status(200).json({
     status: "success",
     message: "Logged in successfully.",
     token,
@@ -188,7 +182,7 @@ exports.protect = async (req, res, next) => {
   } else if (req.cookies.jwt) {
     token = req.cookies.jwt;
   } else {
-    res.status(400).json({
+    return res.status(400).json({
       status: "error",
       message: "You are not logged in. Please log in to get access.",
     });
@@ -203,7 +197,7 @@ exports.protect = async (req, res, next) => {
   const this_user = await User.findById(decoded.userId);
 
   if (!this_user) {
-    res.status(400).json({
+    return res.status(400).json({
       status: "error",
       message: "The user does not exist.",
     });
@@ -212,7 +206,7 @@ exports.protect = async (req, res, next) => {
   // 4) check if user changed their password after token was issued.
 
   if (this_user.changedPasswordAfter(decoded.iat)) {
-    res.status(400).json({
+    return res.status(400).json({
       status: "error",
       message: "User recently updated password. Please log in again.",
     });
@@ -229,7 +223,7 @@ exports.forgotPassword = async (req, res, next) => {
   const user = await User.findOne({ email: req.body.email });
 
   if (!user) {
-    res.status(400).json({
+    return res.status(400).json({
       status: "error",
       message: "There is no user with this email address.",
     });
@@ -241,11 +235,11 @@ exports.forgotPassword = async (req, res, next) => {
   await user.save();
 
   // const resetURL = `https://tawk.com/auth/reset-password/?code=${resetToken}`;
-
+  console.log(resetToken);
   try {
     // TODO => email to user with reset url
 
-    res.status(200).json({
+    return res.status(200).json({
       status: "success",
       message: "Reset Password link sent to email",
       resetToken,
@@ -256,7 +250,7 @@ exports.forgotPassword = async (req, res, next) => {
 
     await user.save({ validateBeforeSave: false });
 
-    res.status(500).json({
+    return res.status(500).json({
       status: "error",
       message: "There was an error sending the email. Please try again later.",
     });
@@ -267,7 +261,7 @@ exports.resetPassword = async (req, res, next) => {
   // 1) Get the user based on token
   const hashedToken = crypto
     .createHash("sha256")
-    .update(req.body.resetToken)
+    .update(req.body. resetToken)
     .digest("hex");
 
   const user = await User.findOne({
@@ -277,7 +271,7 @@ exports.resetPassword = async (req, res, next) => {
 
   // 2) If token has expired or submission is out of time window
   if (!user) {
-    res.status(400).json({
+    return res.status(400).json({
       status: "error",
       message: "Token is invalid or expired.",
     });
@@ -298,7 +292,7 @@ exports.resetPassword = async (req, res, next) => {
   // TODO => send an email to user informing about password
   const token = signToken(user._id);
 
-  res.status(200).json({
+  return res.status(200).json({
     status: "success",
     message: "Password reset successfully.",
     token,
