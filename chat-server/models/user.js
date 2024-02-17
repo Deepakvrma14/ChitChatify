@@ -1,6 +1,7 @@
-const mongoose = require("mongoose");
-const bcrypt = require("bcryptjs");
-const crypto = require("crypto");
+const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
+const crypto = require('crypto');
+
 const userSchema = new mongoose.Schema({
   firstName: {
     type: String,
@@ -20,8 +21,9 @@ const userSchema = new mongoose.Schema({
       validator: function (email) {
         return String(email)
           .toLowerCase()
-          .match(/^\S+@\S+\.\S+$/);
+          .match(/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/);
       },
+      
       message: (props) => `Email ${props.value} is invalid`,
     },
   },
@@ -62,16 +64,18 @@ userSchema.pre("save", async function (next) {
   // only run when user modifies the otp
   if (!this.isModified("otp")) return next();
 
-  // hasing the opt
-  this.otp = await bcrypt.hash(this.otp, 12);
+  // hasing the otp
+  this.otp = await bcrypt.hash(this.otp.toString(), 12);
   next();
 });
+
 // again encrypt the password after resetting
 userSchema.pre("save", async function (next) {
   // only run when user modifies the password
   if (!this.isModified("password")) return next();
 
   // hasing the password
+  
   this.password = await bcrypt.hash(this.password, 12);
   next();
 });
@@ -83,6 +87,7 @@ userSchema.methods.correctPassword = async function (
 ) {
   return await bcrypt.compare(candidatePassword, userPassword);
 };
+
 userSchema.methods.createPasswordResetToken = function () {
   const resetToken = crypto.randomBytes(32).toString("hex");
   this.passwordResetToken = crypto
