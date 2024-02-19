@@ -6,6 +6,7 @@ import authReducer from './slices/auth';
 
 // ----------------------------------------------------------------------
 
+
 const rootPersistConfig = {
   key: 'root',
   storage,
