@@ -19,6 +19,7 @@ const AuthLayout = () => {
           <Outlet />
         </Stack>
       </Container>
+      <Outlet></Outlet>
     </>
   );
 };

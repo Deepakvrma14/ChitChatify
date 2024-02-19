@@ -278,7 +278,7 @@ exports.resetPassword = async (req, res, next) => {
 
   }
 
-  // 3) Update users password and set resetToken & exipry to undefined
+  // 3) Update users password and set resetToken &  to undefined
   user.password = req.body.password;
   user.passwordConfirm = req.body.passwordConfirm;
   user.createPasswordResetToken = undefined;
