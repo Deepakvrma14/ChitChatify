@@ -24,7 +24,6 @@ import useResponsive from "../../hooks/useResponsive";
 
 import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
-import { useSelector } from "react-redux";
 
 const StyledInput = styled(TextField)(({ theme }) => ({
   "& .MuiInputBase-input": {
@@ -137,7 +136,7 @@ const Footer = () => {
 
   const isMobile = useResponsive("between", "md", "xs", "sm");
 
-  const {sideBar} = useSelector((state) => state.app);
+  const [searchParams] = useSearchParams();
 
   const [openPicker, setOpenPicker] = React.useState(false);
   return (
@@ -168,7 +167,7 @@ const Footer = () => {
                 bottom: 81,
                 right: isMobile
                   ? 20
-                  : sideBar.open
+                  : searchParams.get("open") === "true"
                   ? 420
                   : 100,
               }}

@@ -50,7 +50,7 @@ export default function Scrollbar({ children, sx, ...other }) {
 
   if (isMobile) {
     return (
-      <Box sx={{ overflowX: 'auto', ...sx }} {...other}>
+      <Box sx={{ overflowX: 'hidden', ...sx }} {...other}>
         {children}
       </Box>
     );
