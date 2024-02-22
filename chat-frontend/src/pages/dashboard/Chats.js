@@ -47,7 +47,7 @@ const Chats = () => {
         width: 320,
         backgroundColor: theme.palette.mode === "light" ? "#F8FAFF" : theme.palette.background.default,
         boxShadow: "0 0 2px rgba(0, 0, 0, 0.25)",
-        border: `2px solid ${theme.palette.mode === "light" ? "#d0d0d0" : "#2a303c"}`, 
+        border: `1px solid ${theme.palette.mode === "light" ? "#d0d0d0" : "#2a303c"}`, 
         borderRadius: 0,
     }}
     >

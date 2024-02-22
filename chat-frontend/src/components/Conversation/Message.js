@@ -21,6 +21,7 @@ const Message = () => {
                             case "doc":
                                 // Doc msg
                                 return <DocMsg el={el} />
+                                
                             case "link":
                                 // Link msg
                                 return <LinkMsg el={el} />

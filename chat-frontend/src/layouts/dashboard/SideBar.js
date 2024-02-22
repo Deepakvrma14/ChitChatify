@@ -40,7 +40,7 @@ const SideBar = () => {
                   width: 64,
                   borderRadius: 1.5,
                 }}>
-                    <img src={appimages.images.logo} alt="chat app logo" />  
+                    <img src={appimages.images.logo} height="100%" width="100%" alt="chat app logo" />  
                 </Box> 
                 <Stack 
                   spacing={3} 
