@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { alpha } from '@mui/material/styles';
 import { Button } from '@mui/material';
 //
-import Iconify from '../../Iconify';
+import Iconify from '../../customMui/Iconify';
 
 // ----------------------------------------------------------------------
 

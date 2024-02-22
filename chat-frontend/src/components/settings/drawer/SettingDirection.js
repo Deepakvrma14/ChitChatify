@@ -4,7 +4,7 @@ import { Grid, RadioGroup, CardActionArea } from '@mui/material';
 // hooks
 import useSettings from '../../../hooks/useSettings';
 //
-import Iconify from '../../Iconify';
+import Iconify from '../../customMui/Iconify';
 import BoxMask from './BoxMask';
 
 // ----------------------------------------------------------------------

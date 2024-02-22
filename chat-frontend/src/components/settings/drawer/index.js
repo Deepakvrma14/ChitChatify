@@ -16,8 +16,8 @@ import cssStyles from "../../../utils/cssStyles";
 // config
 import { NAVBAR, defaultSettings } from "../../../config";
 //
-import Iconify from "../../Iconify";
-import Scrollbar from "../../Scrollbar";
+import Iconify from "../../customMui/Iconify";
+import Scrollbar from "../../customMui/Scrollbar";
 //
 import ToggleButton from "./ToggleButton";
 import SettingDirection from "./SettingDirection";

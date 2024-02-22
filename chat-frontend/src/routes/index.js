@@ -6,7 +6,7 @@ import DashboardLayout from "../layouts/dashboard";
 
 // config
 import { DEFAULT_PATH } from "../config";
-import LoadingScreen from "../components/LoadingScreen";
+import LoadingScreen from "../components/customMui/LoadingScreen";
 
 const Loadable = (Component) => (props) => {
   return (

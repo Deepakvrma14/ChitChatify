@@ -5,7 +5,7 @@ import { Tooltip } from '@mui/material';
 // utils
 import cssStyles from '../../../utils/cssStyles';
 //
-import Iconify from '../../Iconify';
+import Iconify from '../../customMui/Iconify';
 import { IconButtonAnimate } from '../../animate';
 
 // ----------------------------------------------------------------------
