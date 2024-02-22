@@ -24,7 +24,7 @@ import { useSearchParams } from "react-router-dom";
 import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
 
-const StyledInput = styled(TextField)(({ theme }) => ({
+const StyledInput = styled(TextField)(() => ({
   "& .MuiInputBase-input": {
     paddingTop: "12px !important",
     paddingBottom: "12px !important",

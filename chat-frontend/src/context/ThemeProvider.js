@@ -2,8 +2,7 @@
 import { useState } from 'react';
 import { ThemeProvider as MUIThemeProvider } from '@mui/material/styles';
 import { ThemeContext } from './ThemeContext';
-import { createTheme } from '../theme/index'; 
-
+import createTheme from '../theme/index';
 export const ThemeProvider = ({ children }) => {
   const [themeMode, setThemeMode] = useState('light');
 

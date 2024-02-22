@@ -118,18 +118,18 @@ const ChatHeader = () => {
             <Typography variant="caption">Online</Typography>
           </Stack>
         </Stack>
-        <Stack direction={"row"} alignItems="center" spacing={isMobile ? 1 : 3}>
+        <Stack direction={"row"} alignItems="center" spacing={ 3}>
           <IconButton>
             <VideoCamera />
           </IconButton>
           <IconButton>
             <Phone />
           </IconButton>
-          {!isMobile && (
+          
             <IconButton>
               <MagnifyingGlass />
             </IconButton>
-          )}
+         
 
           <Divider orientation="vertical" flexItem />
           <IconButton
