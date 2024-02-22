@@ -1,8 +1,9 @@
-import { Box, IconButton, Typography, Stack, InputBase, Divider, Button } from '@mui/material';
+import { Box, IconButton, Typography, Stack, InputBase,Divider, Button } from '@mui/material';
 import { CircleDashed, MagnifyingGlass, ArchiveBox } from 'phosphor-react';
 import { styled, alpha, useTheme } from '@mui/material/styles';
 import ChatElement from './ChatElement';
 import { ChatList } from '../../data';
+
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -41,12 +42,14 @@ const Chats = () => {
     
   return (
     <Box 
-        sx={{
-            position: "relative", 
-            width: 320,
-            backgroundColor: theme.palette.mode === "light" ? "#F8FAFF" : theme.palette.background.default,
-            boxShadow: "0 0 2px rgba(0, 0, 0, 0.25)"
-        }}
+    sx={{
+        position: "relative", 
+        width: 320,
+        backgroundColor: theme.palette.mode === "light" ? "#F8FAFF" : theme.palette.background.default,
+        boxShadow: "0 0 2px rgba(0, 0, 0, 0.25)",
+        border: `2px solid ${theme.palette.mode === "light" ? "#d0d0d0" : "#2a303c"}`, 
+        borderRadius: 0,
+    }}
     >
         <Stack p={3} spacing={2}  sx={{height: "100vh"}} >
             <Stack 
@@ -88,7 +91,7 @@ const Chats = () => {
                     <ArchiveBox size={24} />               
                     <Button>Archive</Button>                   
                 </Stack>
-                <Divider />
+                <Divider/>
             </Stack>
             <Stack
                 direction={"column"}
