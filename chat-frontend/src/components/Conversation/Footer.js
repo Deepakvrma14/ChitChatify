@@ -5,7 +5,7 @@ import Picker from '@emoji-mart/react'
 import data from '@emoji-mart/data'
 import {useState} from 'react';
 
-const StyledInput = styled(TextField)(({ theme }) => ({
+const StyledInput = styled(TextField)(() => ({
     "& .MuiInputBase-input": {
       paddingTop: "12px !important",
       paddingBottom: "12px !important",
@@ -66,7 +66,7 @@ const ChatInput = ({setOpenPicker}) => {
                                 }}
                             >
                                 {Actions.map((el) => (
-                                    <Tooltip placement="right" title={el.title}>
+                                    <Tooltip placement="right" title={el.title} key={el.title}>
                                         <Fab 
                                             sx={{
                                                 position: "absolute", 
@@ -108,6 +108,8 @@ const ChatInput = ({setOpenPicker}) => {
 const Footer = () => {
     
     const theme = useTheme();
+
+
     const [openPicker, setOpenPicker] = useState(false);
 
   return (

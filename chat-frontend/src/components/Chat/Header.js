@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Avatar,
   Badge,
@@ -12,11 +11,12 @@ import {
   styled,
   Typography,
 } from "@mui/material";
+import React from "react";
 import { useTheme } from "@mui/material/styles";
 import { CaretDown, MagnifyingGlass, Phone, VideoCamera } from "phosphor-react";
 import { faker } from "@faker-js/faker";
 import { useSearchParams } from "react-router-dom";
-import useResponsive from "../../hooks/useResponsive";
+
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {
@@ -63,7 +63,7 @@ const Conversation_Menu = [
 ];
 
 const ChatHeader = () => {
-  const isMobile = useResponsive("between", "md", "xs", "sm");
+  
   const [searchParams, setSearchParams] = useSearchParams();
   const theme = useTheme();
 
@@ -165,7 +165,7 @@ const ChatHeader = () => {
             <Box p={1}>
               <Stack spacing={1}>
                 {Conversation_Menu.map((el) => (
-                  <MenuItem onClick={handleCloseConversationMenu}>
+                  <MenuItem onClick={handleCloseConversationMenu} key={el.title}>
                     <Stack
                       sx={{ minWidth: 100 }}
                       direction="row"
