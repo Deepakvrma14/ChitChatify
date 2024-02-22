@@ -53,6 +53,7 @@ const DocMsg = ({ el }) => {
           </Typography>
         </Stack>
       </Box>
+      <MessageOptions />
     </Stack>
   );
 };
@@ -113,6 +114,7 @@ const LinkMsg = ({ el }) => {
           </Typography>
         </Stack>
       </Box>
+      <MessageOptions />
     </Stack>
   );
 };
@@ -155,6 +157,7 @@ const ReplyMsg = ({ el }) => {
           </Typography>
         </Stack>
       </Box>
+      <MessageOptions />
     </Stack>
   );
 };
@@ -188,6 +191,7 @@ const MediaMsg = ({ el }) => {
           {el.message}
         </Typography>
       </Box>
+      <MessageOptions />
     </Stack>
   );
 };
@@ -241,13 +245,14 @@ const TimeLine = ({ el }) => {
 const MessageOptions = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
+  
   const handleClose = () => {
     setAnchorEl(null);
   };
-
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+    
+  };
   return (
     <>
       <DotsThreeVertical
@@ -258,8 +263,10 @@ const MessageOptions = () => {
         aria-expanded={open ? "true" : undefined}
         onClick={handleClick}
       />
+      
       <Menu
         id="demo-positioned-menu"
+        
         aria-labelledby="demo-positioned-button"
         anchorEl={anchorEl}
         open={open}
