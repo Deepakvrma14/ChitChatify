@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Avatar,
   Badge,
@@ -11,12 +12,11 @@ import {
   styled,
   Typography,
 } from "@mui/material";
-import React from "react";
 import { useTheme } from "@mui/material/styles";
 import { CaretDown, MagnifyingGlass, Phone, VideoCamera } from "phosphor-react";
 import { faker } from "@faker-js/faker";
 import { useSearchParams } from "react-router-dom";
-
+import useResponsive from "../../hooks/useResponsive";
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {
@@ -63,7 +63,7 @@ const Conversation_Menu = [
 ];
 
 const ChatHeader = () => {
-  
+  const isMobile = useResponsive("between", "md", "xs", "sm");
   const [searchParams, setSearchParams] = useSearchParams();
   const theme = useTheme();
 
@@ -118,18 +118,18 @@ const ChatHeader = () => {
             <Typography variant="caption">Online</Typography>
           </Stack>
         </Stack>
-        <Stack direction={"row"} alignItems="center" spacing={ 3}>
+        <Stack direction={"row"} alignItems="center" spacing={isMobile ? 1 : 3}>
           <IconButton>
             <VideoCamera />
           </IconButton>
           <IconButton>
             <Phone />
           </IconButton>
-          
+          {!isMobile && (
             <IconButton>
               <MagnifyingGlass />
             </IconButton>
-         
+          )}
 
           <Divider orientation="vertical" flexItem />
           <IconButton
@@ -165,7 +165,7 @@ const ChatHeader = () => {
             <Box p={1}>
               <Stack spacing={1}>
                 {Conversation_Menu.map((el) => (
-                  <MenuItem onClick={handleCloseConversationMenu} key={el.title}>
+                  <MenuItem onClick={handleCloseConversationMenu}>
                     <Stack
                       sx={{ minWidth: 100 }}
                       direction="row"

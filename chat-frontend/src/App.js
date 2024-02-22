@@ -1,7 +1,7 @@
 // routes
 import Router from "./routes";
 // theme
-import {ThemeProvider} from './context/ThemeProvider';
+import ThemeProvider from './theme';
 // components
 
 

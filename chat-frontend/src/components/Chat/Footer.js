@@ -7,7 +7,6 @@ import {
   TextField,
   Tooltip,
 } from "@mui/material";
-import React from "react";
 import {
   Camera,
   File,
@@ -19,12 +18,14 @@ import {
   User,
 } from "phosphor-react";
 import { useTheme, styled } from "@mui/material/styles";
+import React from "react";
 import { useSearchParams } from "react-router-dom";
+import useResponsive from "../../hooks/useResponsive";
 
 import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
 
-const StyledInput = styled(TextField)(() => ({
+const StyledInput = styled(TextField)(({ theme }) => ({
   "& .MuiInputBase-input": {
     paddingTop: "12px !important",
     paddingBottom: "12px !important",
@@ -83,7 +84,7 @@ const ChatInput = ({ openPicker, setOpenPicker }) => {
               }}
             >
               {Actions.map((el) => (
-                <Tooltip placement="right" key={el.title} title={el.title}>
+                <Tooltip placement="right" title={el.title}>
                   <Fab
                     onClick={() => {
                       setOpenActions(!openActions);
@@ -133,7 +134,7 @@ const ChatInput = ({ openPicker, setOpenPicker }) => {
 const Footer = () => {
   const theme = useTheme();
 
- 
+  const isMobile = useResponsive("between", "md", "xs", "sm");
 
   const [searchParams] = useSearchParams();
 
@@ -146,7 +147,7 @@ const Footer = () => {
       }}
     >
       <Box
-        p={ 2}
+        p={isMobile ? 1 : 2}
         width={"100%"}
         sx={{
           backgroundColor:
@@ -156,7 +157,7 @@ const Footer = () => {
           boxShadow: "0px 0px 2px rgba(0, 0, 0, 0.25)",
         }}
       >
-        <Stack direction="row" alignItems={"center"} spacing={ 3}>
+        <Stack direction="row" alignItems={"center"} spacing={isMobile ? 1 : 3}>
           <Stack sx={{ width: "100%" }}>
             <Box
               style={{
@@ -164,7 +165,9 @@ const Footer = () => {
                 position: "fixed",
                 display: openPicker ? "inline" : "none",
                 bottom: 81,
-                right:  searchParams.get("open") === "true"
+                right: isMobile
+                  ? 20
+                  : searchParams.get("open") === "true"
                   ? 420
                   : 100,
               }}

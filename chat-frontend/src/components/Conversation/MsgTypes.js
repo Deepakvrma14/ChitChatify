@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Stack,
   Typography,
@@ -8,7 +9,6 @@ import {
   Menu,
   MenuItem,
 } from "@mui/material";
-import React from "react";
 import { useTheme } from "@mui/material/styles";
 import { Image, DownloadSimple, DotsThreeVertical } from "phosphor-react";
 import { Message_options } from "../../data";
@@ -275,7 +275,7 @@ const MessageOptions = () => {
       >
         <Stack spacing={1} px={1}>
           {Message_options.map((el) => (
-            <MenuItem onClick={handleClick} key={el.title}>{el.title}</MenuItem>
+            <MenuItem onClick={handleClick}>{el.title}</MenuItem>
           ))}
         </Stack>
       </Menu>

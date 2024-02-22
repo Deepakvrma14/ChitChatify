@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { useMemo, useContext } from "react";
+import { useMemo } from "react";
 // @mui
 import { CssBaseline } from "@mui/material";
 import {
@@ -7,9 +7,9 @@ import {
   ThemeProvider as MUIThemeProvider,
   StyledEngineProvider,
 } from "@mui/material/styles";
-
-import { ThemeContext } from '../context/ThemeContext'; 
-
+// hooks
+import useSettings from "../hooks/useSettings.js";
+//
 import palette from "./palette";
 import typography from "./typography";
 import breakpoints from "./breakpoints";
@@ -23,7 +23,8 @@ ThemeProvider.propTypes = {
 };
 
 export default function ThemeProvider({ children }) {
-  const { themeMode } = useContext(ThemeContext);
+  const { themeMode, themeDirection } = useSettings();
+
   const isLight = themeMode === "light";
 
   const themeOptions = useMemo(
@@ -32,10 +33,11 @@ export default function ThemeProvider({ children }) {
       typography,
       breakpoints,
       shape: { borderRadius: 8 },
+      direction: themeDirection,
       shadows: isLight ? shadows.light : shadows.dark,
       customShadows: isLight ? customShadows.light : customShadows.dark,
     }),
-    [isLight]
+    [isLight, themeDirection]
   );
 
   const theme = createTheme(themeOptions);

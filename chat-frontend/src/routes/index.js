@@ -8,12 +8,18 @@ import DashboardLayout from "../layouts/dashboard";
 import { DEFAULT_PATH } from "../config";
 import LoadingScreen from "../components/customMui/LoadingScreen";
 
-const Loadable = (Component) => (props) => {
-  return (
-    <Suspense fallback={<LoadingScreen />}>
-      <Component {...props} />
-    </Suspense>
-  );
+const Loadable = (Component) => {
+  const LoadableComponent = (props) => {
+    return (
+      <Suspense fallback={<LoadingScreen />}>
+        <Component {...props} />
+      </Suspense>
+    );
+  };
+
+  LoadableComponent.displayName = `Loadable(${Component.displayName || Component.name || 'Component'})`;
+
+  return LoadableComponent;
 };
 
 export default function Router() {
