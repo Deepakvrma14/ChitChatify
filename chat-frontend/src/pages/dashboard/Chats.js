@@ -7,7 +7,7 @@ import { ChatList } from '../../data';
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
     borderRadius: 20,
-    backgroundColor: alpha(theme.palette.background.default, 1),
+    backgroundColor: alpha(theme.palette.background.paper, 1),
     marginRight: theme.spacing(2),
     marginLeft: 0,
     width: "100%"
@@ -44,7 +44,7 @@ const Chats = () => {
         sx={{
             position: "relative", 
             width: 320,
-            backgroundColor: theme.palette.mode === "light" ? "#F8FAFF" : theme.palette.background.paper,
+            backgroundColor: theme.palette.mode === "light" ? "#F8FAFF" : theme.palette.background.default,
             boxShadow: "0 0 2px rgba(0, 0, 0, 0.25)"
         }}
     >
@@ -58,7 +58,7 @@ const Chats = () => {
                     variant="h5"
                     letterSpacing={1}
                 >
-                    Chats
+                    ChitChatify
                 </Typography>
                 <IconButton>
                     <CircleDashed size={32} />
@@ -71,7 +71,7 @@ const Chats = () => {
             >
                 <Search>
                     <SearchIconWrapper>
-                        <MagnifyingGlass color="#709CE6" size={32}/>
+                        <MagnifyingGlass color={theme.palette.primary.main} size={22}/>
                     </SearchIconWrapper>
                     <StyledInputBase
                         placeholder="Search…"

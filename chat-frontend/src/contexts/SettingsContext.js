@@ -39,11 +39,6 @@ const SettingsProvider = ({ children }) => {
         ...settings, // Mode
         onToggleMode,
         
-        setColor: getColorPresets(settings.themeColorPresets),
-        colorOption: colorPresets.map((color) => ({
-          name: color.name,
-          value: color.main,
-        })),
 
       }}
     >

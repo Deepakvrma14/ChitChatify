@@ -109,20 +109,23 @@ const COMMON = {
     disabledOpacity: 0.48,
   },
 };
-
 const palette = {
   light: {
     ...COMMON,
     mode: 'light',
-    text: { primary: GREY[800], secondary: GREY[600], disabled: GREY[500] },
-    background: { paper: '#fff', default: '#fff', neutral: GREY[200] },
+    primary: { main: '#826a5c', contrastText: '#fff' }, // Updated primary color
+    secondary: { main: '#826a5c', contrastText: '#fff' }, // Sidebar color
+    background: { paper: '#f1f1f1', default: '#d0d0d0', neutral: GREY[200] }, // Darkened background color
+    text: { primary: '#141414', secondary: GREY[600], disabled: GREY[500] }, // Text color
     action: { active: GREY[600], ...COMMON.action },
   },
   dark: {
     ...COMMON,
     mode: 'dark',
-    text: { primary: '#fff', secondary: GREY[500], disabled: GREY[600] },
-    background: { paper: GREY[800], default: GREY[900], neutral: GREY[500_16] },
+    primary: { main: '#7da875', contrastText: '#fff' }, // Darkened primary color
+    secondary: { main: '#7fda77', contrastText: '#fff' }, // Shade of primary color
+    background: { paper: '#2a303c', default: '#1c212b', neutral: '#242933' }, // Background colors
+    text: { primary: '#b2ccd6', secondary: GREY[500], disabled: GREY[600] }, // Text color
     action: { active: GREY[500], ...COMMON.action },
   },
 };

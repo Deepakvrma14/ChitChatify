@@ -134,7 +134,6 @@ const ChatInput = ({ openPicker, setOpenPicker }) => {
 const Footer = () => {
   const theme = useTheme();
 
-  const isMobile = useResponsive("between", "md", "xs", "sm");
 
   const [searchParams] = useSearchParams();
 
@@ -147,7 +146,7 @@ const Footer = () => {
       }}
     >
       <Box
-        p={isMobile ? 1 : 2}
+        p={ 2}
         width={"100%"}
         sx={{
           backgroundColor:
@@ -157,7 +156,7 @@ const Footer = () => {
           boxShadow: "0px 0px 2px rgba(0, 0, 0, 0.25)",
         }}
       >
-        <Stack direction="row" alignItems={"center"} spacing={isMobile ? 1 : 3}>
+        <Stack direction="row" alignItems={"center"} spacing={ 3}>
           <Stack sx={{ width: "100%" }}>
             <Box
               style={{
@@ -165,9 +164,7 @@ const Footer = () => {
                 position: "fixed",
                 display: openPicker ? "inline" : "none",
                 bottom: 81,
-                right: isMobile
-                  ? 20
-                  : searchParams.get("open") === "true"
+                right:  searchParams.get("open") === "true"
                   ? 420
                   : 100,
               }}
