@@ -2,11 +2,13 @@ import { useState } from "react";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import { Box, Stack, IconButton, Divider, Avatar, Switch, Menu, MenuItem } from "@mui/material";
 import appimages from "../../assets/Images/AppImages";
-import { Message_options, Nav_Buttons, Profile_Menu } from "../../data";
+import { Nav_Buttons, Profile_Menu } from "../../data";
 import { faker } from "@faker-js/faker";
 import { useTheme, styled } from "@mui/material/styles";
 import useSettings from "../../hooks/useSettings";
 import AntSwitch from "../../components/customMui/AntSwitch";
+import { MdBlurOn } from "react-icons/md";
+
 
 const SideBar = () => {
   const theme = useTheme();
@@ -45,18 +47,22 @@ const SideBar = () => {
         <Stack alignItems={"center"} spacing={4}>
           <Box
             sx={{
-              backgroundColor: theme.palette.primary.main,
+              
               height: 64,
               width: 64,
-              borderRadius: 1.5,
+              borderRadius: 8.5,
+              display: 'flex',
+              justifyContent:'center',
+              alignItems:'center',
             }}
           >
-            <img
+            <MdBlurOn size={50} />
+            {/* <img
               src={appimages.images.logo}
               height="100%"
               width="100%"
               alt="chat app logo"
-            />
+            /> */}
           </Box>
           <Stack
             spacing={3}
