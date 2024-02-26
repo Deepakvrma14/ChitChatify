@@ -7,8 +7,8 @@ import { useTheme } from '@mui/material/styles';
 
 const GeneralApp = () => {
   const theme = useTheme();
-  const { sidebar } = useSelector((store) => store.app);
-console.log(sidebar);
+  const { sidebar } = useSelector((store) => store.appState);
+  
   // store->app->sidebar->open
   return (
     <Stack
@@ -23,7 +23,7 @@ console.log(sidebar);
       <Box
         sx={{
           height: "100%",
-          width: "calc(100vw - 420px)",
+          width: sidebar.open ?  "calc(100vw - 737px)" : "calc(100vw - 420px)",
           backgroundColor: theme.palette.mode === "light" ? "#F0F4FA" : theme.palette.background.paper,
         }}
       >
@@ -32,7 +32,7 @@ console.log(sidebar);
         <Conversation />
       </Box>
         {/* Contact */}
-        { 1 && <Contact/> }
+        { sidebar.open && <Contact/> }
     </Stack>
   );
 };
