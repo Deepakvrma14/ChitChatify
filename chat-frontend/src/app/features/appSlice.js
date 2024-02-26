@@ -1,17 +1,17 @@
 import {createSlice} from '@reduxjs/toolkit';
 
-import { dispatch } from '../store';
 
-const initialState = {
+export const initialState = {
     sidebar: {
-        open:false,
-        type:"CONTACT" // can also be SHARED, STARRED
+        open: false,
+        type: "CONTACT"
+      }
+    };
 
-    }
-}
 
-const slice = createSlice({
-    name:'app',
+const appSlice = createSlice({
+    
+    name: 'app' ,
     initialState,
     reducers:{
         // toggle Sidebar
@@ -24,12 +24,14 @@ const slice = createSlice({
         },
     },
 });
-export const { toggleSidebar, updateSidebarType } = slice.actions;
-export default slice.reducer;
+
 export function ToggleSidebar() {
-    return slice.actions.toggleSidebar();
+    return appSlice.actions.toggleSidebar();
 }
 
 export function UpdateSidebarType(type) {
-    return slice.actions.updateSidebarType({ type });
+    return appSlice.actions.updateSidebarType({ type });
 }
+
+export const { toggleSidebar, updateSidebarType } = appSlice.actions;
+export default appSlice.reducer;

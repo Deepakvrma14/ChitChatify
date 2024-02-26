@@ -282,7 +282,7 @@ const MessageOptions = () => {
       >
         <Stack spacing={1} px={1}>
           {Message_options.map((el) => (
-            <MenuItem onClick={handleClick}>{el.title}</MenuItem>
+            <MenuItem onClick={handleClick} key={el.title} >{el.title}</MenuItem>
           ))}
         </Stack>
       </Menu>

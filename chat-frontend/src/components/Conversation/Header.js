@@ -15,13 +15,14 @@ import {
 import { useTheme } from "@mui/material/styles";
 import { faker } from "@faker-js/faker";
 import { StyledBadge } from "../customMui/StyledBadge";
-import { useDispatch } from 'react-redux';
-import {toggleSidebar, updateSidebarType} from '../../app/features/appSlice'
+import { useDispatch, useSelector } from 'react-redux';
+import {ToggleSidebar} from '../../app/features/appSlice'
 
 const Header = () => {
   const theme = useTheme();
     const dispatch = useDispatch();
-
+  const sidebar = useSelector((state)=>state.app.sidebar);
+  console.log(sidebar);
   return (
     <Box
       p={2}
@@ -50,8 +51,10 @@ const Header = () => {
             anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
             variant="dot"
           >
-            
-            <Avatar onClick={() => dispatch(toggleSidebar())} alt={faker.name.fullName()} src={faker.image.avatar()} />
+            <button onClick={() => dispatch(ToggleSidebar())}>
+      Toggle Sidebar
+    </button>
+            <Avatar onClick={() => dispatch(ToggleSidebar())} alt={faker.name.fullName()} src={faker.image.avatar()} />
           </StyledBadge>
           <Stack spacing={0.2} direction={"column"}>
             <Typography variant="subtitle2">{faker.name.fullName()}</Typography>
