@@ -114,7 +114,7 @@ const ChatInput = ({ openPicker, setOpenPicker }) => {
           </Stack>
         ),
         endAdornment: (
-          <Stack sx={{ position: "relative" }}>
+          <Stack sx={{ position: "relative" }} >
             <InputAdornment position="start" >
               <IconButton
                 onClick={() => {
