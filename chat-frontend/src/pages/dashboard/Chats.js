@@ -8,7 +8,7 @@ import { Search, SearchIconWrapper, StyledInputBase } from './custom/CustomMater
 const Chats = () => {
 
     const theme = useTheme();
-    console.log(theme);
+    
     
   return (
     <Box 

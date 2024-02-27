@@ -1,5 +1,6 @@
 import { useSelector } from "react-redux";
 import {Contact} from "../../components/Contact";
+import { Media } from "../../components/Media";
 import Conversation from "../../components/Conversation";
 import Chats from "./Chats";
 import { Stack, Box } from '@mui/material';
@@ -8,13 +9,16 @@ import { useTheme } from '@mui/material/styles';
 const GeneralApp = () => {
   const theme = useTheme();
   const { sidebar } = useSelector((store) => store.appState);
-  
+  console.log(sidebar);
+  const type = sidebar.type;
+  console.log(type);
   // store->app->sidebar->open
   return (
     <Stack
       direction={"row"}
       sx={{
-        width: "100%"
+        width: "100%",
+        height: "100vh"
       }}
     >
       {/* Chats */}     
@@ -32,6 +36,7 @@ const GeneralApp = () => {
         <Conversation />
       </Box>
         {/* Contact */}
+        
         { sidebar.open && <Contact/> }
     </Stack>
   );

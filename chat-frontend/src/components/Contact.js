@@ -7,28 +7,21 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
+import AntSwitch from "./customMui/AntSwitch";
 import React from "react";
 import { useTheme } from "@mui/material/styles";
-import {
-  ArrowArcLeft,
-  ArrowRight,
-  CaretCircleRight,
-  CaretRight,
-  Divide,
-  Phone,
-  Star,
-  VideoCamera,
-  X,
-} from "phosphor-react";
+import { Bell, CaretRight, Flag, Phone, Prohibit, Star, Trash, VideoCamera, X } from "phosphor-react";
 import { useDispatch } from "react-redux";
 import { toggleSidebar } from "../app/features/appSlice";
 import { faker } from "@faker-js/faker";
+import { Media } from "./Media";
+
 export const Contact = () => {
   const theme = useTheme();
   const dispatch = useDispatch();
 
   return (
-    <Box sx={{ width: 320, height: "100%" }}>
+    <Box sx={{ width: 320, height: "100vh", overflowY: "auto" }}>
       <Stack sx={{ height: "100%" }}>
         <Box
           sx={{
@@ -143,7 +136,7 @@ export const Contact = () => {
                 alignItems={"center"}
                 justifyContent={"space-between"}
               >
-                <Button endIcon={<CaretRight />}  color="inherit">
+                <Button endIcon={<CaretRight />} color="inherit">
                   {faker.random.numeric()}
                 </Button>
               </Stack>
@@ -156,7 +149,7 @@ export const Contact = () => {
               p={2}
             >
               {[1, 2, 3].map((el) => (
-                <Box>
+                <Box key={el} >
                   <img
                     src={faker.image.cats()}
                     alt={faker.name.suffix()}
@@ -172,15 +165,54 @@ export const Contact = () => {
           <Stack
             direction={"row"}
             alignItems={"center"}
-            
+            justifyContent={"space-between"}
           >
-            <Button startIcon={<Star />} color="inherit" justifyContent={"space-between"}  >
-              <Typography>Starred Messages</Typography>
-              
-            </Button>
+            <Stack direction={"row"} alignItems={"center"} spacing={2}>
+              <Star />
+              <Typography variant="subtitle">Starred Messages</Typography>
+            </Stack>
+            <IconButton>
+              <CaretRight size={25} />
+            </IconButton>
+          </Stack>
+
+          {/* Starred msgsed end */}
+          <Stack
+            direction={"row"}
+            alignItems={"center"}
+            justifyContent={"space-between"}
+          >
+            <Stack direction={"row"} alignItems={"center"} spacing={2}>
+              <Bell />
+              <Typography variant="subtitle">Mute Notifications</Typography>
+            </Stack>
+            <IconButton>
+              <AntSwitch />
+            </IconButton>
+          </Stack>
+          <Divider />
+          {/* mute end */}
+          <Typography> 1 Group in common</Typography>
+          <Stack direction={"row"} spacing={2} alignItems={"center"}>
+            <Avatar src={faker.image.business()} height={64} width={64} />
+            <Stack direction={"column"} spacing={0.5}>
+              <Typography variant="article">{faker.company.name()}</Typography>
+              <Typography variant="subtitle">
+                {" "}
+                {faker.lorem.words()}{" "}
+              </Typography>
+            </Stack>
           </Stack>
           <Divider/>
-          {/* Starred msgsed end */}
+          {/* groups end */}
+          <Stack direction={"row"} alignItems={"center"} spacing={2}>
+            <Button fullWidth variant="outlined" color="inherit" startIcon={<Prohibit/>} >
+              Block
+            </Button>
+            <Button fullWidth variant="outlined" startIcon={<Trash/>} color="inherit" >
+              Delete
+            </Button>
+          </Stack>
         </Stack>
       </Stack>
     </Box>
