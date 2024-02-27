@@ -27,3 +27,4 @@ const appSlice = createSlice({
 
 export const { toggleSidebar, updateSidebarType } = appSlice.actions;
 export default appSlice.reducer;
+

@@ -10,9 +10,19 @@ import {
 import AntSwitch from "./customMui/AntSwitch";
 import React from "react";
 import { useTheme } from "@mui/material/styles";
-import { Bell, CaretRight, Flag, Phone, Prohibit, Star, Trash, VideoCamera, X } from "phosphor-react";
+import {
+  Bell,
+  CaretRight,
+  Flag,
+  Phone,
+  Prohibit,
+  Star,
+  Trash,
+  VideoCamera,
+  X,
+} from "phosphor-react";
 import { useDispatch } from "react-redux";
-import { toggleSidebar } from "../app/features/appSlice";
+import { toggleSidebar, updateSidebarType } from "../app/features/appSlice";
 import { faker } from "@faker-js/faker";
 import { Media } from "./Media";
 
@@ -36,13 +46,13 @@ export const Contact = () => {
             direction="row"
             sx={{ height: "100%", p: 2 }}
             alignItems="center"
-            justifyContent="space-between"
+            justifyContent="around"
             spacing={3}
-          >
-            <Typography variant="subtitle2">Contact Info</Typography>
-            <IconButton onClick={() => dispatch(toggleSidebar())}>
+          ><IconButton onClick={() => dispatch(toggleSidebar())}>
               <X />
             </IconButton>
+            <Typography variant="subtitle2">Contact Info</Typography>
+            
           </Stack>
         </Box>
         {/* Body */}
@@ -136,7 +146,11 @@ export const Contact = () => {
                 alignItems={"center"}
                 justifyContent={"space-between"}
               >
-                <Button endIcon={<CaretRight />} color="inherit">
+                <Button
+                  endIcon={<CaretRight />}
+                  color="inherit"
+                  onClick={() => dispatch(updateSidebarType({ type: "MEDIA" }))}
+                >
                   {faker.random.numeric()}
                 </Button>
               </Stack>
@@ -149,7 +163,7 @@ export const Contact = () => {
               p={2}
             >
               {[1, 2, 3].map((el) => (
-                <Box key={el} >
+                <Box key={el}>
                   <img
                     src={faker.image.cats()}
                     alt={faker.name.suffix()}
@@ -171,7 +185,9 @@ export const Contact = () => {
               <Star />
               <Typography variant="subtitle">Starred Messages</Typography>
             </Stack>
-            <IconButton>
+            <IconButton
+              onClick={() => dispatch(updateSidebarType({ type: "STARRED" }))}
+            >
               <CaretRight size={25} />
             </IconButton>
           </Stack>
@@ -203,13 +219,23 @@ export const Contact = () => {
               </Typography>
             </Stack>
           </Stack>
-          <Divider/>
+          <Divider />
           {/* groups end */}
           <Stack direction={"row"} alignItems={"center"} spacing={2}>
-            <Button fullWidth variant="outlined" color="inherit" startIcon={<Prohibit/>} >
+            <Button
+              fullWidth
+              variant="outlined"
+              color="inherit"
+              startIcon={<Prohibit />}
+            >
               Block
             </Button>
-            <Button fullWidth variant="outlined" startIcon={<Trash/>} color="inherit" >
+            <Button
+              fullWidth
+              variant="outlined"
+              startIcon={<Trash />}
+              color="inherit"
+            >
               Delete
             </Button>
           </Stack>

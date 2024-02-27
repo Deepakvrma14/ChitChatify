@@ -1,6 +1,7 @@
 import { useSelector } from "react-redux";
 import {Contact} from "../../components/Contact";
 import { Media } from "../../components/Media";
+import { Starred } from "../../components/Starred";
 import Conversation from "../../components/Conversation";
 import Chats from "./Chats";
 import { Stack, Box } from '@mui/material';
@@ -37,7 +38,8 @@ const GeneralApp = () => {
       </Box>
         {/* Contact */}
         
-        { sidebar.open && <Contact/> }
+        { sidebar.open && (type === 'CONTACT' ? <Contact/> : type === 'MEDIA' ? <Media/> : type=== 'STARRED' ? <Starred/> : null ) }
+
     </Stack>
   );
 };
