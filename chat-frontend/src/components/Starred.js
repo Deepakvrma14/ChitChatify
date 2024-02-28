@@ -5,7 +5,7 @@ import { updateSidebarType } from "../app/features/appSlice";
 import { CaretLeft } from "phosphor-react";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
-
+import Message from './Conversation/Message'
 import { FileDoc, FileImage, Link } from "phosphor-react";
 import { useState } from "react";
 
@@ -56,26 +56,8 @@ export const Starred = () => {
           p={3}
           spacing={3}
         >
-          <Tabs
-            value={value}
-            onChange={handleChange}
-            aria-label="icon label tabs example"
-          >
-            <Tab icon={<FileImage size={28} />} />
-            <Tab icon={<Link size={28} />} />
-            <Tab icon={<FileDoc size={28} />} />
-          </Tabs>
-
-          {(() => {
-            switch (value) {
-              case 0:
-                break;
-              case 1:
-                break;
-              default:
-                break;
-            }
-          })()}
+         
+          
         </Stack>
       </Stack>
     </Box>

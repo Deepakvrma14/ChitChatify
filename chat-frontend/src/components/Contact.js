@@ -2,18 +2,23 @@ import {
   Avatar,
   Box,
   Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
   Divider,
   IconButton,
+  Slide,
   Stack,
   Typography,
 } from "@mui/material";
 import AntSwitch from "./customMui/AntSwitch";
-import React from "react";
+import React, { useState } from "react";
 import { useTheme } from "@mui/material/styles";
 import {
   Bell,
   CaretRight,
-  Flag,
   Phone,
   Prohibit,
   Star,
@@ -25,11 +30,65 @@ import { useDispatch } from "react-redux";
 import { toggleSidebar, updateSidebarType } from "../app/features/appSlice";
 import { faker } from "@faker-js/faker";
 import { Media } from "./Media";
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="down" ref={ref} {...props} />;
+});
+
+const Block = ({open, handleClose}) =>{
+  return (
+    <Dialog
+  open={open}
+  TransitionComponent={Transition}
+  keepMounted
+  onClose={handleClose}
+  aria-describedby="alert-dialog-slide-description"
+>
+  <DialogTitle>{"Block Contact?"}</DialogTitle>
+  <DialogContent>
+    <DialogContentText id="alert-dialog-slide-description">
+      Are you sure want to block this contact?
+    </DialogContentText>
+  </DialogContent>
+  <DialogActions>
+    <Button onClick={handleClose}>No</Button>
+    <Button onClick={handleClose}>Yes</Button>
+  </DialogActions>
+</Dialog>
+  );
+}
+const Delete = ({open, handleClose}) =>{
+  return (
+    <Dialog
+  open={open}
+  TransitionComponent={Transition}
+  keepMounted
+  onClose={handleClose}
+  aria-describedby="alert-dialog-slide-description"
+>
+  <DialogTitle>{"Delete Contact?"}</DialogTitle>
+  <DialogContent>
+    <DialogContentText id="alert-dialog-slide-description">
+      Are you sure want to delete this contact?
+    </DialogContentText>
+  </DialogContent>
+  <DialogActions>
+    <Button onClick={handleClose}>No</Button>
+    <Button onClick={handleClose}>Yes</Button>
+  </DialogActions>
+</Dialog>
+  );
+}
 
 export const Contact = () => {
   const theme = useTheme();
   const dispatch = useDispatch();
+  const [opneBlock, setOpenBlock] = useState(false);
+  const [opneDelete, setOpenDelete] = useState(false);
+  const handleClose = () =>{
+    if(setOpenBlock(false));
+    if(setOpenDelete(false));
 
+  }
   return (
     <Box sx={{ width: 320, height: "100vh", overflowY: "auto" }}>
       <Stack sx={{ height: "100%" }}>
@@ -224,6 +283,7 @@ export const Contact = () => {
           <Stack direction={"row"} alignItems={"center"} spacing={2}>
             <Button
               fullWidth
+              onClick={()=>setOpenBlock(true) }
               variant="outlined"
               color="inherit"
               startIcon={<Prohibit />}
@@ -232,6 +292,7 @@ export const Contact = () => {
             </Button>
             <Button
               fullWidth
+              onClick={()=>setOpenDelete(true) }
               variant="outlined"
               startIcon={<Trash />}
               color="inherit"
@@ -241,6 +302,8 @@ export const Contact = () => {
           </Stack>
         </Stack>
       </Stack>
+      {opneBlock && <Block open={opneBlock} handleClose={handleClose} />}
+      {opneDelete && <Delete open={opneDelete} handleClose={handleClose} />}
     </Box>
   );
 };
