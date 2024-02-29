@@ -115,7 +115,7 @@ const palette = {
     mode: 'light',
     primary: { main: '#826a5c', contrastText: '#fff' }, // Updated primary color
     secondary: { main: '#826a5c', contrastText: '#fff' }, // Sidebar color
-    background: { paper: '#f1f1f1', default: '#d0d0d0', neutral: GREY[200] }, // Darkened background color
+    background: { paper: '#f1f1f1', default: '#g0g0g0', neutral: GREY[200] }, // Darkened background color
     text: { primary: '#141414', secondary: GREY[600], disabled: GREY[500] }, // Text color
     action: { active: GREY[600], ...COMMON.action },
   },

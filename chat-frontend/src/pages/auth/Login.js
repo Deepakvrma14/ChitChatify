@@ -1,10 +1,14 @@
-import { Divider, IconButton, Link, Stack, Typography } from "@mui/material";
+import { Box, Divider, IconButton, Link, Stack, Typography } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+
 import { TwitterLogo, GoogleLogo, GithubLogo } from "phosphor-react";
 import { Link as RouterLink } from "react-router-dom";
 import { LoginForm } from "../../components/auth/LoginForm";
 const login = () => {
+  const theme = useTheme();
   return (
-    <Stack spacing={2} direction={"column"}>
+    <Box >
+      <Stack spacing={2} direction={"column"}>
       {/* typography of titlke  */}
 {/* stack with name and create account */}
       <Stack direction={"column"}>
@@ -23,6 +27,11 @@ const login = () => {
       
       {/* login form */}
       <LoginForm/>
+      <Stack alignItems={"flex-end"} sx={{my:2}} >
+      <Link to="/auth/forgotPassword" component={RouterLink} variant="subtitle" underline="always">
+           Forgot Password ? 
+          </Link>
+      </Stack>
     {/* using react hook forms here for forms  */}
       {/* auth social */}
       <div>
@@ -56,6 +65,7 @@ const login = () => {
         </IconButton>
       </Stack>
     </Stack>
+    </Box>
   );
 };
 
