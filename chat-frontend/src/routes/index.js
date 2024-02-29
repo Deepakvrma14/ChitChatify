@@ -28,7 +28,7 @@ const Page404 = Loadable(lazy(() => import("../pages/Page404")));
 const Login = Loadable(lazy(() => import("../pages/auth/Login")));
 const Register = Loadable(lazy(() => import("../pages/auth/Register")));
 const ForgotPassword  = Loadable(lazy(() => import("../pages/auth/ForgotPassword")));
-
+// TODO: new-password screen to implement
 const routes = [
   {
     path: "/auth",
