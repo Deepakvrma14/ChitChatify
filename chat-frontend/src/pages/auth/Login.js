@@ -1,0 +1,62 @@
+import { Divider, IconButton, Link, Stack, Typography } from "@mui/material";
+import { TwitterLogo, GoogleLogo, GithubLogo } from "phosphor-react";
+import { Link as RouterLink } from "react-router-dom";
+import { LoginForm } from "../../components/auth/LoginForm";
+const login = () => {
+  return (
+    <Stack spacing={2} direction={"column"}>
+      {/* typography of titlke  */}
+{/* stack with name and create account */}
+      <Stack direction={"column"}>
+        <Typography sx={{ mt: 5 }} variant="h4">
+          {" "}
+          Welcome to ChitChattify, Please login{" "}
+        </Typography>
+        <Stack direction={"row"} spacing={2} sx={{ mt: 1 }}>
+          <Typography variant="body2">New user?</Typography>
+          <Link to="/auth/register" component={RouterLink} variant="subtitle">
+            Create an account here{" "}
+          </Link>
+        </Stack>
+      </Stack>
+
+      
+      {/* login form */}
+      <LoginForm/>
+    {/* using react hook forms here for forms  */}
+      {/* auth social */}
+      <div>
+        <Divider
+          sx={{
+            my: 2.5,
+            typography: "outline",
+            color: "text.disabled",
+            "&::before, ::after": {
+              borderTopStyle: "dashed",
+            },
+          }}
+        >
+          or
+        </Divider>
+      </div>
+      <Stack
+        direction={"row"}
+        spacing={1}
+        justifyContent={"center"}
+        alignItems={"center"}
+      >
+        <IconButton>
+          <GoogleLogo />
+        </IconButton>
+        <IconButton>
+          <GithubLogo />
+        </IconButton>
+        <IconButton>
+          <TwitterLogo />
+        </IconButton>
+      </Stack>
+    </Stack>
+  );
+};
+
+export default login;

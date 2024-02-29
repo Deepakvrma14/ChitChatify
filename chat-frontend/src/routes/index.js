@@ -3,7 +3,7 @@ import { Navigate, useRoutes } from "react-router-dom";
 
 // layouts
 import DashboardLayout from "../layouts/dashboard";
-
+import MainLayout from "../layouts/main";
 // config
 import { DEFAULT_PATH } from "../config";
 import LoadingScreen from "../components/customMui/LoadingScreen";
@@ -21,13 +21,23 @@ const Loadable = (Component) => {
 
   return LoadableComponent;
 };
-
 const GeneralApp = Loadable(
   lazy(() => import("../pages/dashboard/GeneralApp"))
 );
 const Page404 = Loadable(lazy(() => import("../pages/Page404")));
+const Login = Loadable(lazy(() => import("../pages/auth/Login")));
 
 const routes = [
+  {
+    path: "/auth",
+    element: <MainLayout/>,
+    children : [
+      {
+        path: "login",
+        element: <Login/>
+      },
+    ],
+  },
   {
     path: "/",
     element: <DashboardLayout />,
