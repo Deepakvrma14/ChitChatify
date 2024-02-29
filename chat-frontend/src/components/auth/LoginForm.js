@@ -1,5 +1,4 @@
 import * as React from "react";
-import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import { Button, IconButton, InputAdornment, Stack } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
@@ -43,6 +42,7 @@ export const LoginForm = () => {
           fullWidth
           label="Email"
           variant="outlined"
+          autoComplete="off"
         />
         <p> {errors.email?.message} </p>
         <TextField
