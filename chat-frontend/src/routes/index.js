@@ -27,24 +27,31 @@ const GeneralApp = Loadable(
 const Page404 = Loadable(lazy(() => import("../pages/Page404")));
 const Login = Loadable(lazy(() => import("../pages/auth/Login")));
 const Register = Loadable(lazy(() => import("../pages/auth/Register")));
-const ForgotPassword  = Loadable(lazy(() => import("../pages/auth/ForgotPassword")));
-// TODO: new-password screen to implement
+const ForgotPassword = Loadable(
+  lazy(() => import("../pages/auth/ForgotPassword"))
+);
+const NewPassword = Loadable(lazy(() => import("../pages/auth/NewPassword")));
+
 const routes = [
   {
     path: "/auth",
-    element: <MainLayout/>,
-    children : [
+    element: <MainLayout />,
+    children: [
       {
         path: "login",
-        element: <Login/>
+        element: <Login />,
       },
       {
         path: "reset-password",
-        element: <ForgotPassword/>
+        element: <ForgotPassword />,
       },
       {
         path: "register",
-        element: <Register/>
+        element: <Register />,
+      },
+      {
+        path: "new-password",
+        element: <NewPassword />,
       },
     ],
   },

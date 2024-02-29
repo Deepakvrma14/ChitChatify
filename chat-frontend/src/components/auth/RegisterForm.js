@@ -11,7 +11,7 @@ export const RegisterForm = () => {
   // yup is schema validator
   const schema = yup.object().shape({
     firstName: yup.string().required(),
-    lastName:yup.string().required(),
+    lastName: yup.string().required(),
     email: yup.string().email().required(),
     password: yup.string().min(5).required(),
   });
@@ -36,28 +36,30 @@ export const RegisterForm = () => {
   };
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <Stack direction={"column"} spacing={2}  >
-        <Stack direction={"row"} spacing={2} justifyContent={"space-between"} >
-        <TextField
-          id="outlined-basic"
-          {...register("firstName")}
-          type="text"
-          
-          label="First Name"
-          variant="outlined"
-          autoComplete="off"
-        />
-        <p> {errors.firstName?.message} </p>
-        <TextField
-          id="outlined-basic"
-          {...register("lastName")}
-          type="text"
-          
-          label="Last Name"
-          variant="outlined"
-          autoComplete="off"
-        />
-        <p> {errors.lastName?.message} </p>
+      <Stack direction={"column"} spacing={1}>
+        <Stack direction={"row"} spacing={1} justifyContent={"space-between"}  >
+          <Stack direction={"column"}>
+            <TextField
+              id="outlined-basic"
+              {...register("firstName")}
+              type="text"
+              label="First Name"
+              variant="outlined"
+              autoComplete="off"
+            />
+            <p> {errors.firstName?.message} </p>
+          </Stack>
+          <Stack direction={"column"}>
+            <TextField
+              id="outlined-basic"
+              {...register("lastName")}
+              type="text"
+              label="Last Name"
+              variant="outlined"
+              autoComplete="off"
+            />
+            <p> {errors.lastName?.message} </p>
+          </Stack>
         </Stack>
         <TextField
           id="outlined-basic"
