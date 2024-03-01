@@ -24,12 +24,11 @@ const Loadable = (Component) => {
 const GeneralApp = Loadable(
   lazy(() => import("../pages/dashboard/GeneralApp"))
 );
+const Profile  = Loadable(lazy(()=> import("../pages/dashboard/Profile")));
 const Page404 = Loadable(lazy(() => import("../pages/Page404")));
 const Login = Loadable(lazy(() => import("../pages/auth/Login")));
 const Register = Loadable(lazy(() => import("../pages/auth/Register")));
-const ForgotPassword = Loadable(
-  lazy(() => import("../pages/auth/ForgotPassword"))
-);
+const ForgotPassword = Loadable(lazy(() => import("../pages/auth/ForgotPassword")));
 const NewPassword = Loadable(lazy(() => import("../pages/auth/NewPassword")));
 
 const routes = [
@@ -70,6 +69,10 @@ const routes = [
       {
         path: "404",
         element: <Page404 />,
+      },
+      {
+        path: "profile",
+        element: <Profile/>,
       },
       {
         path: "*",
