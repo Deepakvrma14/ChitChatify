@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -19,13 +19,23 @@ const ProfileForm = () => {
     formState: { errors },
     watch,
     control,
+    setValue,
     reset,
   } = useForm({
     resolver: yupResolver(schema),
   });
 //   for avatar, we can use react Component called Dropzone but it only works client side no way to communicate with servers with it so we'll implement all from scratch
   const values = watch();
+  const handleDrop = useCallback((acceptedFile) => {
+    const file = acceptedFile[0];
+    const newFile = Object.assign(file,{
+        preview: URL.createObjectURL(file),
+    });
+    if(file){
+        setValue("avatarURL", newFile, {shouldValidate:true});
+    }
 
+  }, [setValue]);
   const onSubmit = (data) => {
     console.log(data);
     reset();
