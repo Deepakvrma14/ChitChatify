@@ -26,6 +26,9 @@ const ProfileForm = () => {
   });
 //   for avatar, we can use react Component called Dropzone but it only works client side no way to communicate with servers with it so we'll implement all from scratch
   const values = watch();
+//   to memorise a Component, we use a React.memo(component) function in either startt or at exporting default at end 
+
+//   usecallback -> function to be memorised, dependencies of that funtion
   const handleDrop = useCallback((acceptedFile) => {
     const file = acceptedFile[0];
     const newFile = Object.assign(file,{
@@ -43,6 +46,9 @@ const ProfileForm = () => {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Stack direction={"column"} spacing={2}>
+      <input type="image" onChange={event => handleDrop(event.target.files)} />
+      {values.avatarURL && <img src={values.avatarURL.preview} alt="Avatar" />}
+
         <TextField
           id="outlined-basic"
           {...register("name")}

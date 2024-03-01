@@ -122,7 +122,7 @@ const palette = {
   dark: {
     ...COMMON,
     mode: 'dark',
-    primary: { main: '#7da875', contrastText: '#fff' }, // Darkened primary color
+    primary: { main: '#7da875', contrastText: '#1c212b' }, // Darkened primary color
     secondary: { main: '#7fda77', contrastText: '#fff' }, // Shade of primary color
     background: { paper: '#2a303c', default: '#1c212b', neutral: '#242933' }, // Background colors
     text: { primary: '#b2ccd6', secondary: GREY[500], disabled: GREY[600] }, // Text color

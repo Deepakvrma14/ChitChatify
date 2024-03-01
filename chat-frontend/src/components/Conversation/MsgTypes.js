@@ -22,7 +22,7 @@ const DocMsg = ({ el }) => {
         p={1.5}
         sx={{
           backgroundColor: el.incoming
-            ? theme.palette.background.default
+            ? theme.palette.primary.contrastText
             : theme.palette.primary.main,
           borderRadius: 1.5,
           width: "max-content",
@@ -67,7 +67,7 @@ const LinkMsg = ({ el }) => {
         p={1.5}
         sx={{
           backgroundColor: el.incoming
-            ? theme.palette.background.default
+            ? theme.palette.primary.contrastText
             : theme.palette.primary.main,
           borderRadius: 1.5,
           width: "max-content",
@@ -128,7 +128,7 @@ const ReplyMsg = ({ el }) => {
         p={1.5}
         sx={{
           backgroundColor: el.incoming
-            ? theme.palette.background.default
+            ? theme.palette.primary.contrastText
             : theme.palette.primary.main,
           borderRadius: 1.5,
           width: "max-content",
@@ -171,7 +171,7 @@ const MediaMsg = ({ el }) => {
         p={1.5}
         sx={{
           backgroundColor: el.incoming
-            ? theme.palette.background.default
+            ? theme.palette.primary.contrastText
             : theme.palette.primary.main,
           borderRadius: 1.5,
           width: "max-content",
@@ -205,7 +205,7 @@ const TextMsg = ({ el }) => {
         p={1.5}
         sx={{
           backgroundColor: el.incoming
-            ? theme.palette.background.default
+            ? theme.palette.primary.contrastText
             : theme.palette.primary.main,
           borderRadius: 1.5,
           width: "max-content",
