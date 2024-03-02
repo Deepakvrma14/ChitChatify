@@ -23,7 +23,7 @@ ThemeProvider.propTypes = {
 };
 
 export default function ThemeProvider({ children }) {
-  const { themeMode} = useSettings();
+  const { themeMode } = useSettings();
 
   const isLight = themeMode === "light";
 
@@ -35,13 +35,34 @@ export default function ThemeProvider({ children }) {
       shape: { borderRadius: 8 },
       shadows: isLight ? shadows.light : shadows.dark,
       customShadows: isLight ? customShadows.light : customShadows.dark,
+      components: {
+        MuiCssBaseline: {
+          styleOverrides: {
+            '*': {
+              'scrollbar-width': 'thin',
+              'scrollbar-color': 'transparent transparent',
+            },
+            '*::-webkit-scrollbar': {
+              width: '0px',
+            },
+            '*::-webkit-scrollbar-track': {
+              background: 'transparent',
+            },
+            '*::-webkit-scrollbar-thumb': {
+              background: 'transparent',
+            },
+            '*::-webkit-scrollbar-thumb:hover': {
+              background: 'transparent',
+            },
+          },
+        },
+      },
     }),
     [isLight]
   );
 
   const theme = createTheme(themeOptions);
 
-  
   return (
     <StyledEngineProvider injectFirst>
       <MUIThemeProvider theme={theme}>

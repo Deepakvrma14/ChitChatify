@@ -10,7 +10,7 @@ const DashboardLayout = () => {
     return <Navigate to="/auth/login"/>
   }
   return (   
-    <Stack direction={"row"}>    
+    <Stack direction={"row"} overflow={"hidden"}  >    
       <SideBar />
       <Outlet />
     </Stack>   

@@ -81,6 +81,7 @@ const ChatHeader = () => {
     <Box
       p={2}
       width={"100%"}
+      
       sx={{
         backgroundColor:
           theme.palette.mode === "light" ? "#F8FAFF" : theme.palette.background,

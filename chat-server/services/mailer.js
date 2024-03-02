@@ -7,7 +7,6 @@ const password = process.env.NODEMAILER_PASSWORD;
 const sendEmail = (afrom, ato, asubject, atext, ahtml) => {
   return new Promise(async (resolve, reject) => {
     try {
-      const testAccount = await nodemailer.createTestAccount();
       const transporter = nodemailer.createTransport({
         host: "smtp.ethereal.email",
         port: 587,
