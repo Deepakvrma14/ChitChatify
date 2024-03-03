@@ -8,13 +8,14 @@ import { useTheme, styled } from "@mui/material/styles";
 import useSettings from "../../hooks/useSettings";
 import AntSwitch from "../../components/customMui/AntSwitch";
 import { MdBlurOn } from "react-icons/md";
-
+import { useDispatch } from "react-redux";
+import { LogOutUser } from "../../app/features/authSlice";
 
 const SideBar = () => {
   const theme = useTheme();
 
   const [selected, setSelected] = useState(0);
-
+  const dispatch = useDispatch();
   const { onToggleMode } = useSettings();
 
   const [anchorEl, setAnchorEl] = useState(null);
@@ -182,9 +183,13 @@ const SideBar = () => {
             
           >
             <Stack spacing={1} px={1}>
-              {Profile_Menu.map((el) => (
-                <MenuItem onClick={handleClick} key={el.title} >
-                  <Stack sx={{width:100}} direction="row" alignItems="center" justifyContent="space-between">
+              {Profile_Menu.map((el, idx) => (
+                <MenuItem onClick={handleClick} key={el.title}  >
+                  <Stack sx={{width:100}} direction="row" alignItems="center" justifyContent="space-between" onClick ={()=>{
+                    if(idx ===2){
+                      dispatch(LogOutUser());
+                    }
+                  }} >
                     <span>
                     {el.icon} {el.title}
                     </span>

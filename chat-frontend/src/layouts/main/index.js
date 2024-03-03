@@ -2,10 +2,11 @@ import { Container, Stack } from "@mui/material";
 import React from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import icon from '../../assets/Images/icon.png';
-
+import {  useSelector } from 'react-redux';
 const MainLayout = () => {
-  const isAuthenticated = true;
-  if(isAuthenticated){
+  
+  const {isLoggedIn} = useSelector((state)=> state.authState);
+  if(isLoggedIn){
     return <Navigate to="/app"/>
   }
   return (

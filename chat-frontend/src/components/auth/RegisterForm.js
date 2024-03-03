@@ -15,6 +15,12 @@ export const RegisterForm = () => {
     email: yup.string().email().required(),
     password: yup.string().min(5).required(),
   });
+  const defaultValues = {
+    firstName: "John",
+    lastName: "Doe",
+    email: "demo@tawk.com",
+    password: "demo1234",
+  };
   const {
     register,
     handleSubmit,
@@ -22,6 +28,7 @@ export const RegisterForm = () => {
     reset,
   } = useForm({
     resolver: yupResolver(schema),
+    defaultValues,
   });
   const theme = useTheme();
   const onSubmit = (data) => {

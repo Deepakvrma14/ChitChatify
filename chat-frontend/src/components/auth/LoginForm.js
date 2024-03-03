@@ -6,25 +6,46 @@ import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Eye, EyeClosed } from "phosphor-react";
+import  {useDispatch} from "react-redux";
+import { LogInUser } from "../../app/features/authSlice";
+import { LoadingButton } from "@mui/lab";
 
 export const LoginForm = () => {
+  const dispatch = useDispatch();
   // yup is schema validator
   const schema = yup.object().shape({
     email: yup.string().email().required(),
     password: yup.string().min(5).required(),
   });
+  const defaultValues = {
+    email: "demo@tawk.com",
+    password: "demo1234",
+  };
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    setError,
+    formState: { errors, isSubmitSuccessful, isSubmitting },
     reset,
   } = useForm({
     resolver: yupResolver(schema),
+    defaultValues,
   });
   const theme = useTheme();
-  const onSubmit = (data) => {
+  
+  const onSubmit =async (data) => {
+   try {
+    dispatch(LogInUser(data));
     console.log(data);
     reset();
+   } catch (error) {
+      console.error(error);
+      reset();
+      setError("After Submit",{
+        ...error,
+        message:error.message
+      })
+   }
   };
 
   const [showPassword, setShowPassword] = React.useState(false);
@@ -33,7 +54,7 @@ export const LoginForm = () => {
     setShowPassword(!showPassword);
   };
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit)}  >
       <Stack direction={"column"} spacing={2}>
         <TextField
           id="outlined-basic"
@@ -66,13 +87,16 @@ export const LoginForm = () => {
           variant="outlined"
         />
         <p> {errors.password?.message} </p>
-        <Button
-          color="primary"
-          type="submit"
-          sx={{ backgroundColor: theme.palette.background.paper }}
-        >
-          Login
-        </Button>
+        <LoadingButton
+        fullWidth
+        color="inherit"
+        size="large"
+        type="submit"
+        variant="contained"
+        loading={isSubmitSuccessful || isSubmitting}
+        sx={{ backgroundColor: theme.palette.background.paper }}
+      > Login </LoadingButton>
+       
       </Stack>
     </form>
   );

@@ -6,6 +6,7 @@ export const defaultSettings = {
   themeMode: "light",
   
 };
+export const BASE_URL = "http://localhost:3001";
 
 export const NAVBAR = {
   BASE_WIDTH: 260,
