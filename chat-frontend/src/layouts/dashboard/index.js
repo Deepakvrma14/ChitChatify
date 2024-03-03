@@ -1,23 +1,30 @@
 import React from "react";
-import { Stack } from "@mui/material";
+import { Stack, useMediaQuery, useTheme } from "@mui/material";
 import { Navigate, Outlet } from "react-router-dom";
-import {  useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import SideBar from "./SideBar";
+import MobileScreenComponent from './MobileScreenComponent.js'; 
 
 const DashboardLayout = () => {
+  const { isLoggedIn } = useSelector((state) => state.authState);
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  const isMediumScreen = useMediaQuery(theme.breakpoints.down('md'));
 
-  const {isLoggedIn} = useSelector((state)=> state.authState);
-
-  if(!isLoggedIn){
-    return <Navigate to="/auth/login"/>
+  if (!isLoggedIn) {
+    return <Navigate to="/auth/login" />
   }
-  return (   
-    <Stack direction={"row"} overflow={"hidden"}  >    
+
+  if (isSmallScreen || isMediumScreen) {
+    return <MobileScreenComponent />; // Render the mobile screen component on small screens
+  }
+
+  return (
+    <Stack direction={"row"} overflow={"hidden"}>
       <SideBar />
       <Outlet />
-    </Stack>   
+    </Stack>
   );
-  
 };
 
 export default DashboardLayout;
