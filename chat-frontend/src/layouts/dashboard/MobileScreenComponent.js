@@ -22,7 +22,7 @@ const MobileScreenComponent = () => {
         Mobile/tablet View Not Supported
       </Typography>
       <Typography variant="body1">
-        Please continue on a larger screen or desktop. We currently do not support mobile devices.
+      We are Sorry but please continue on a larger screen or desktop. We currently do not support mobile devices.  
       </Typography>
     </Box>
   );

@@ -16,7 +16,7 @@ const DashboardLayout = () => {
   }
 
   if (isSmallScreen || isMediumScreen) {
-    return <MobileScreenComponent />; // Render the mobile screen component on small screens
+    return <MobileScreenComponent />; 
   }
 
   return (

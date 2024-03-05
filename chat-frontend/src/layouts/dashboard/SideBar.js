@@ -25,7 +25,10 @@ const SideBar = () => {
     setAnchorEl(null);
   };
   const handleClick = (event) => {
+   
+
     setAnchorEl(event.currentTarget);
+    event.stopPropagation();
     
   };
   return (
@@ -165,7 +168,7 @@ const SideBar = () => {
           
           <Menu
             id="demo-positioned-menu"
-            
+              
             anchorEl={anchorEl}
             open={open}
             onClose={handleClose}
@@ -184,11 +187,13 @@ const SideBar = () => {
           >
             <Stack spacing={1} px={1}>
               {Profile_Menu.map((el, idx) => (
-                <MenuItem onClick={handleClick} key={el.title}  >
-                  <Stack sx={{width:100}} direction="row" alignItems="center" justifyContent="space-between" onClick ={()=>{
+                <MenuItem  key={el.title}  >
+                  <Stack sx={{width:100}} direction="row" alignItems="center" justifyContent="space-between" onClick ={(event)=>{
+                    event.stopPropagation();
                     if(idx ===2){
                       dispatch(LogOutUser());
                     }
+                    handleClose();
                   }} >
                     <span>
                     {el.icon} {el.title}

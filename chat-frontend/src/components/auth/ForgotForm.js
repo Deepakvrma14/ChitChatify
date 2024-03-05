@@ -1,10 +1,13 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import TextField from "@mui/material/TextField";
 import { useTheme } from "@mui/material/styles";
 import { Button, Stack } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
+import { useDispatch } from 'react-redux';
+import { forgotPassword } from '../../app/features/authSlice';
 
 const ForgotForm = () => {
   const schema = yup.object().shape({
@@ -12,17 +15,30 @@ const ForgotForm = () => {
   });
   const {
     register,
+    setError,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitSuccessful, isSubmitting },
     reset,
   } = useForm({
     resolver: yupResolver(schema),
   });
   const onSubmit = (data) => {
-    console.log(data);
-    reset();
+    try{
+      // console.log(data);
+      dispatch(forgotPassword(data));
+      reset();
+    }catch(error){
+      console.log(error);
+      setError("afterSubmit", {
+       ...error,
+       message:error.message, 
+      });
+      
+    }
   };
   const theme = useTheme();
+  
+  const dispatch = useDispatch();
 
 
   return (
@@ -38,13 +54,15 @@ const ForgotForm = () => {
           autoComplete="off"
         />
         <p> {errors.email?.message} </p>
-       <Button
-          color="primary"
-          type="submit"
-          sx={{ backgroundColor: theme.palette.background.paper }}
-        >
-          Send Request
-        </Button>
+        <LoadingButton
+        fullWidth
+        color="inherit"
+        size="large"
+        type="submit"
+        variant="contained"
+        loading={isSubmitSuccessful || isSubmitting}
+        sx={{ backgroundColor: theme.palette.background.paper }}
+      > Login </LoadingButton>
       </Stack>
     </form>
   )
