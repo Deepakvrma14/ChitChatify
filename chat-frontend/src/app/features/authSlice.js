@@ -25,22 +25,45 @@ const slice = createSlice({
 export default slice.reducer;
 
 // thunk actions : // redux does thigns sysncronously so these need to perofrmed outside store for async actions ...  to have to have async actions, we use the middlewares to perofrm these
+export function newPassword(formValues) {
+  return async (dispatch, getState) => {
+    await axios
+      .post(
+        "/auth/reset-password",
+        { ...formValues },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then(function (response) {
+        console.log("yes");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+}
 
 export function forgotPassword(formValues) {
   return async (dispatch, getState) => {
-    await axios.post(
-      "/auth/forgot-password",
-      { ...formValues },
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    ).then(function (response){
-      console.log(response.data);
-    }).catch((error) =>{
-      console.log(error.response.data.message);
-    });
+    await axios
+      .post(
+        "/auth/forgot-password",
+        { ...formValues },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then(function (response) {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.log(error.response.data.message);
+      });
   };
 }
 export function LogOutUser() {

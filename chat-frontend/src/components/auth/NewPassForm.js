@@ -6,8 +6,11 @@ import TextField from "@mui/material/TextField";
 import { useTheme } from "@mui/material/styles";
 import { Button, IconButton, InputAdornment, Stack } from "@mui/material";
 import { Eye, EyeClosed } from "phosphor-react";
+import { useDispatch } from "react-redux";
+import { newPassword } from "../../app/features/authSlice";
 
 const NewPassForm = () => {
+  const dispatch = useDispatch();
   const schema = yup.object().shape({
     password: yup.string().min(6).required(),
     confirmPassword: yup
@@ -27,7 +30,8 @@ const NewPassForm = () => {
     resolver: yupResolver(schema),
   });
   const onSubmit = (data) => {
-    console.log(data);
+    dispatch(newPassword(data));
+    // console.log(data);
     reset();
   };
   const theme = useTheme();

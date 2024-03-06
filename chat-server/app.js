@@ -1,7 +1,8 @@
 const express = require("express");
 const morgan = require("morgan");
 const routes = require("./routes/index");
-
+const dotenv = require("dotenv");
+dotenv.config({path: "./config.env"});
 const rateLimit = require("express-rate-limit");
 const helmet = require("helmet");
 
@@ -19,7 +20,7 @@ const session = require("cookie-session"); // Simple cookie-based session middle
 const app = express();
 app.use(
   cors({
-    origin: "*",
+    origin: process.env.ORIGIN,
     methods: ["GET", "PATCH", "POST", "DELETE", "PUT"],
     credentials: true,
   })
@@ -37,7 +38,7 @@ const limited = rateLimit({
   windowMS: 60 * 60 * 1000, //1hour
   message: "Too many request from this IP",
 });
-app.use("/tawk", limited);
+app.use("/auth", limited);
 app.use(
   express.urlencoded({
     extended: true,
