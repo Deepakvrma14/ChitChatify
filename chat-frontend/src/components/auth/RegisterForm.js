@@ -6,9 +6,14 @@ import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Eye, EyeClosed } from "phosphor-react";
-
+import { useDispatch } from "react-redux";
+import { registerUser } from "../../app/features/authSlice";
+import { useNavigate } from "react-router-dom";
+import { LoadingButton } from "@mui/lab";
 export const RegisterForm = () => {
   // yup is schema validator
+  const navigate=  useNavigate();
+  const dispatch = useDispatch();
   const schema = yup.object().shape({
     firstName: yup.string().required(),
     lastName: yup.string().required(),
@@ -18,13 +23,13 @@ export const RegisterForm = () => {
   const defaultValues = {
     firstName: "John",
     lastName: "Doe",
-    email: "demo@tawk.com",
+    email: "demooo@tawk.com",
     password: "demo1234",
   };
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting, isSubmitSuccessful },
     reset,
   } = useForm({
     resolver: yupResolver(schema),
@@ -32,9 +37,12 @@ export const RegisterForm = () => {
   });
   const theme = useTheme();
   const onSubmit = (data) => {
-    console.log(data);
+    // console.log(data);
+    dispatch(registerUser(data));
     reset();
+    // navigate("/auth/login");
   };
+ 
 
   const [showPassword, setShowPassword] = React.useState(false);
 
@@ -99,13 +107,17 @@ export const RegisterForm = () => {
           variant="outlined"
         />
         <p> {errors.password?.message} </p>
-        <Button
-          color="primary"
+        <LoadingButton
+          color="inherit"
           type="submit"
+          loading= { isSubmitting }
+          fullWidth
+        size="large"
+        variant="text"
           sx={{ backgroundColor: theme.palette.background.paper }}
         >
           Login
-        </Button>
+        </LoadingButton>
       </Stack>
     </form>
   );

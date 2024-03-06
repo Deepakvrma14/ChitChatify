@@ -19,12 +19,34 @@ const slice = createSlice({
       state.token = "";
     },
     forgotPassword(state, action) {},
+    register(state, action) {},
   },
 });
 
 export default slice.reducer;
 
 // thunk actions : // redux does thigns sysncronously so these need to perofrmed outside store for async actions ...  to have to have async actions, we use the middlewares to perofrm these
+
+
+export function registerUser(formValues) {
+  return async(dispatch, getState) =>{
+    await axios.post(
+      "/auth/register",
+      {...formValues},
+      {
+        headers: {
+          "Content-Type": "application/json",
+        }
+      },
+      
+    ).then((response)=>{
+        console.log(response);
+    }).catch((error)=>{
+      console.log(error);
+    });
+  }
+}
+
 export function newPassword(formValues) {
   return async (dispatch, getState) => {
     await axios
