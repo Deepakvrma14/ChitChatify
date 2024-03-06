@@ -8,11 +8,12 @@ import { Button, IconButton, InputAdornment, Stack } from "@mui/material";
 import { Eye, EyeClosed } from "phosphor-react";
 import { useDispatch } from "react-redux";
 import { newPassword } from "../../app/features/authSlice";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 const NewPassForm = () => {
   const [queryParams] = useSearchParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const schema = yup.object().shape({
     password: yup.string().min(6).required(),
     passwordConfirm: yup
@@ -40,6 +41,8 @@ const NewPassForm = () => {
     dispatch(newPassword({...data, resetToken:queryParams.get("token")} ));
     // console.log(data);
     reset();
+    navigate("/auth/login");
+
   };
   const theme = useTheme();
   const [showPassword, setShowPassword] = React.useState(false);

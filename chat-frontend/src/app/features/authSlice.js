@@ -38,7 +38,7 @@ export function newPassword(formValues) {
         }
       )
       .then(function (response) {
-        console.log("yes");
+        console.log(response);
       })
       .catch((error) => {
         console.log(formValues);
@@ -62,7 +62,7 @@ export function forgotPassword(formValues) {
         console.log(response.data);
       })
       .catch((error) => {
-        console.log(error.response.data.message);
+        console.log(error);
       });
   };
 }

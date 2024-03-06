@@ -8,8 +8,10 @@ import { Button, Stack } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import { useDispatch } from 'react-redux';
 import { forgotPassword } from '../../app/features/authSlice';
+import { useNavigate } from 'react-router-dom';
 
 const ForgotForm = () => {
+  const navigate = useNavigate();
   const schema = yup.object().shape({
     email: yup.string().email().required(),
   });
@@ -29,8 +31,12 @@ const ForgotForm = () => {
   const onSubmit = (data) => {
     try{
       // console.log(data);
+      
       dispatch(forgotPassword(data));
       reset();
+      // todo snacbar popup
+      navigate("/auth/login");
+
     }catch(error){
       console.log(error);
       setError("afterSubmit", {
@@ -46,6 +52,7 @@ const ForgotForm = () => {
 
 
   return (
+    
     <form onSubmit={handleSubmit(onSubmit)}>
       <Stack direction={"column"} spacing={2}>
         <TextField
@@ -64,10 +71,11 @@ const ForgotForm = () => {
         size="large"
         type="submit"
         variant="contained"
-        loading={isSubmitSuccessful || isSubmitting}
+        loading={isSubmitting || isSubmitSuccessful}
         sx={{ backgroundColor: theme.palette.background.paper }}
-      > Login </LoadingButton>
+      > Send Mail </LoadingButton>
       </Stack>
+      
     </form>
   )
 }

@@ -6,6 +6,7 @@ const crypto = require("crypto");
 const { promisify } = require("util");
 const sendEmail = require("../services/mailer");
 const otpEmailerHTMLOutput = require("../email_templates/otpEmailerHTMLOutput");
+const newPasswordHTML = require("../email_templates/newPasswordHTML");
 
 const signToken = (userId) => jwt.sign({ userId }, process.env.JWT_SECRET);
 
@@ -74,14 +75,16 @@ exports.sendOTP = async (req, res, next) => {
   } catch (err) {
     console.log("User did not save: ", err);
   }
-  sendEmail("deepak@gmail.com",
-  "temp@gmail.com",
-  "testing",
-  "text",
-  `${otpEmailerHTMLOutput(user.firstName,new_otp)}`);
+  sendEmail(
+    "deepak@gmail.com",
+    "temp@gmail.com",
+    "testing",
+    "text",
+    `${otpEmailerHTMLOutput(user.firstName, new_otp)}`
+  );
   return res.status(200).json({
-    status:"success",
-    message:"OTP sent successfully"
+    status: "success",
+    message: "OTP sent successfully",
   });
 
   // //   TODO SEND Mail
@@ -239,21 +242,22 @@ exports.forgotPassword = async (req, res, next) => {
     // TODO => email to user with reset url
     const resetURL = `http://localhost:3000/auth/new-password/?token=${resetToken}`;
 
-    sendEmail("deepak@gmail.com",
-  "temp@gmail.com",
-  "testing",
-  "text",
-  resetURL);
-  return res.status(200).json({
-    status:"success",
-    message:"OTP sent successfully"
-  });
-
+    sendEmail("deepak@gmail.com"
+    , "temp@gmail.com",
+     "testing",
+      "text",
+      `${newPasswordHTML(user.firstName, resetURL)}`
+      );
     return res.status(200).json({
       status: "success",
       message: "Reset Password link sent to email",
-      resetToken,
     });
+
+    // return res.status(200).json({
+    //   status: "success",
+    //   message: "",
+    //   resetToken,
+    // });
   } catch (error) {
     user.createPasswordResetToken = undefined;
     user.passwordResetExpires = undefined;
@@ -278,14 +282,13 @@ exports.resetPassword = async (req, res, next) => {
     passwordResetToken: hashedToken,
     passwordResetExpires: { $gt: Date.now() },
   });
-  
+
   // 2) If token has expired or submission is out of time window
   if (!user) {
     return res.status(400).json({
       status: "error",
       message: "Token is invalid or expired.",
     });
-
   }
 
   // 3) Update users password and set resetToken &  to undefined
@@ -299,7 +302,6 @@ exports.resetPassword = async (req, res, next) => {
   // 4) Log in the user and send new JWT
 
   // TODO => send an email to user informing about password
-
 
   const token = signToken(user._id);
 
