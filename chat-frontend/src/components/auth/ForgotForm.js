@@ -13,6 +13,9 @@ const ForgotForm = () => {
   const schema = yup.object().shape({
     email: yup.string().email().required(),
   });
+  const defaultValues = {
+    email: "demo@tawk.com",
+  };
   const {
     register,
     setError,
@@ -21,6 +24,7 @@ const ForgotForm = () => {
     reset,
   } = useForm({
     resolver: yupResolver(schema),
+    defaultValues,
   });
   const onSubmit = (data) => {
     try{

@@ -8,12 +8,14 @@ import { Button, IconButton, InputAdornment, Stack } from "@mui/material";
 import { Eye, EyeClosed } from "phosphor-react";
 import { useDispatch } from "react-redux";
 import { newPassword } from "../../app/features/authSlice";
+import { useSearchParams } from "react-router-dom";
 
 const NewPassForm = () => {
+  const [queryParams] = useSearchParams();
   const dispatch = useDispatch();
   const schema = yup.object().shape({
     password: yup.string().min(6).required(),
-    confirmPassword: yup
+    passwordConfirm: yup
       .string()
       .oneOf(
         [yup.ref("password"), null],
@@ -21,6 +23,10 @@ const NewPassForm = () => {
       )
       .required(),
   });
+  const defaultValues = {
+    password: "adsdfasdf",
+    passwordConfirm: "adsdfasdf",
+  }
   const {
     register,
     handleSubmit,
@@ -28,9 +34,10 @@ const NewPassForm = () => {
     reset,
   } = useForm({
     resolver: yupResolver(schema),
+    defaultValues,
   });
   const onSubmit = (data) => {
-    dispatch(newPassword(data));
+    dispatch(newPassword({...data, resetToken:queryParams.get("token")} ));
     // console.log(data);
     reset();
   };
@@ -51,7 +58,7 @@ const NewPassForm = () => {
         <p> {errors.password?.message} </p>
         <TextField
           id="outlined-basic"
-          {...register("confirmPassword")}
+          {...register("passwordConfirm")}
           type={showPassword ? "text" : "password"}
           fullWidth
           InputProps={{
@@ -69,7 +76,7 @@ const NewPassForm = () => {
           variant="outlined"
           autoComplete="off"
         />
-        <p> {errors.confirmPassword?.message} </p>
+        <p> {errors.passwordConfirm?.message} </p>
         <Button
           color="primary"
           type="submit"

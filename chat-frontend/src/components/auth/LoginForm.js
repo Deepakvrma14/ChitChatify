@@ -19,7 +19,7 @@ export const LoginForm = () => {
   });
   const defaultValues = {
     email: "demo@tawk.com",
-    password: "demo1234",
+    password: "asdfasdf",
   };
   const {
     register,

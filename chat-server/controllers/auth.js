@@ -227,7 +227,6 @@ exports.forgotPassword = async (req, res, next) => {
       status: "error",
       message: "There is no user with this email address.",
     });
-    return;
   }
 
   // 2 ) Generate a random reset token
@@ -238,6 +237,17 @@ exports.forgotPassword = async (req, res, next) => {
   console.log(resetToken);
   try {
     // TODO => email to user with reset url
+    const resetURL = `http://localhost:3000/auth/new-password/?token=${resetToken}`;
+
+    sendEmail("deepak@gmail.com",
+  "temp@gmail.com",
+  "testing",
+  "text",
+  resetURL);
+  return res.status(200).json({
+    status:"success",
+    message:"OTP sent successfully"
+  });
 
     return res.status(200).json({
       status: "success",
@@ -261,14 +271,14 @@ exports.resetPassword = async (req, res, next) => {
   // 1) Get the user based on token
   const hashedToken = crypto
     .createHash("sha256")
-    .update(req.body. resetToken)
+    .update(req.body.resetToken)
     .digest("hex");
 
   const user = await User.findOne({
     passwordResetToken: hashedToken,
     passwordResetExpires: { $gt: Date.now() },
   });
-
+  
   // 2) If token has expired or submission is out of time window
   if (!user) {
     return res.status(400).json({
@@ -289,6 +299,8 @@ exports.resetPassword = async (req, res, next) => {
   // 4) Log in the user and send new JWT
 
   // TODO => send an email to user informing about password
+
+
   const token = signToken(user._id);
 
   return res.status(200).json({

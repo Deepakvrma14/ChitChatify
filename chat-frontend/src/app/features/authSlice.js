@@ -41,7 +41,7 @@ export function newPassword(formValues) {
         console.log("yes");
       })
       .catch((error) => {
-        console.log(error);
+        console.log(formValues);
       });
   };
 }

@@ -20,7 +20,7 @@ const session = require("cookie-session"); // Simple cookie-based session middle
 const app = express();
 app.use(
   cors({
-    origin: process.env.ORIGIN,
+    origin: "http://localhost:3000", 
     methods: ["GET", "PATCH", "POST", "DELETE", "PUT"],
     credentials: true,
   })
