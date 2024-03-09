@@ -30,6 +30,8 @@ const Login = Loadable(lazy(() => import("../pages/auth/Login")));
 const Register = Loadable(lazy(() => import("../pages/auth/Register")));
 const ForgotPassword = Loadable(lazy(() => import("../pages/auth/ForgotPassword")));
 const NewPassword = Loadable(lazy(() => import("../pages/auth/NewPassword")));
+const VerifyOtp = Loadable(lazy(()=>import("../pages/auth/VerifyOtp") ));
+
 
 const routes = [
   {
@@ -52,6 +54,10 @@ const routes = [
         path: "new-password",
         element: <NewPassword />,
       },
+      {
+        path : "verify-otp",
+        element: <VerifyOtp/>
+      }
     ],
   },
   {

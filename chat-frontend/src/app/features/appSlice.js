@@ -2,7 +2,7 @@ import {createSlice} from '@reduxjs/toolkit';
 
 const defaultState= {
     sidebar: {
-        open:true,
+        open:false,
         type: 'CONTACT'
     },
 };

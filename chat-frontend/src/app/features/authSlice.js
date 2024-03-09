@@ -41,6 +41,10 @@ export function registerUser(formValues) {
       
     ).then((response)=>{
         console.log(response);
+        dispatch(slice.actions.logIn({
+          isLoggedIn: true,
+          token: response.data.token,
+        }))
     }).catch((error)=>{
       console.log(error);
     });
@@ -61,6 +65,10 @@ export function newPassword(formValues) {
       )
       .then(function (response) {
         console.log(response);
+        dispatch(slice.actions.logIn({
+          isLoggedIn:true,
+          token: response.data.token,
+        }))
       })
       .catch((error) => {
         console.log(formValues);

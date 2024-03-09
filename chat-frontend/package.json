@@ -20,6 +20,7 @@
     "axios": "^1.6.7",
     "emoji-mart": "^5.5.2",
     "framer-motion": "^7.5.3",
+    "mui-one-time-password-input": "^2.0.2",
     "phosphor-icons": "^1.4.2",
     "phosphor-react": "^1.4.1",
     "prop-types": "^15.8.1",
