@@ -7,7 +7,8 @@ import { useTheme } from "@mui/material/styles";
 
 const VerifyOtp = () => {
   const theme = useTheme();
-  const location = useLocation();
+  const params = new URLSearchParams(window.location.search);
+  const email = params.get('email');
   return (
     <Container maxWidth="sm">
       <Box sx={{ marginTop: 8, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -17,11 +18,11 @@ const VerifyOtp = () => {
               
             </Stack>
             <Typography variant="body1">
-              We have sent a 6-digit OTP to your email ({location.state}). Please enter the OTP below to verify your email address.
+              We have sent a 6-digit OTP to your email ({email}). Please enter the OTP below to verify your email address.
             </Typography>
             <Divider />
             {/* Form */}
-          <VerifyOtpForm email= {location.state} />
+          <VerifyOtpForm email= {email} />
           </Stack>
           
           

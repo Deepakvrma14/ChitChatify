@@ -38,6 +38,7 @@ exports.register = async (req, res, next) => {
       validateModelOnly: true,
     });
     req.userId = existing_user._id;
+    
     return res.status(200).json({
       status:"success",
       message:"Email id is already registered, check email for verifying this mail."

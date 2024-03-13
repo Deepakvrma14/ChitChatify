@@ -38,10 +38,16 @@ export const RegisterForm = () => {
   const theme = useTheme();
   const onSubmit = (data) => {
     // console.log(data);
-    dispatch(registerUser(data));
-    reset();
     const email = data.email;
-    navigate("/auth/verify-otp", {state:email });
+    try {
+      dispatch(registerUser(data));
+      
+      
+      
+    } catch (error) {
+      console.log(error);
+    }
+    // navigate("/auth/verify-otp", {state:email });
   };
  
 

@@ -63,7 +63,9 @@ export function registerUser(formValues) {
       
     ).then((response)=>{
         console.log(response);
+        const email = encodeURIComponent(formValues.email);
         
+        window.location.href = `/auth/verify-otp?email=${email}`;
     }).catch((error)=>{
       console.log(error);
     });
