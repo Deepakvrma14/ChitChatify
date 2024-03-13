@@ -56,6 +56,19 @@ export default function ThemeProvider({ children }) {
             },
           },
         },
+        MuiInput: {
+          styleOverrides: {
+            input: {
+              "&[type=number]": {
+                "-moz-appearance": "textfield",
+              },
+              "&::-webkit-outer-spin-button, &::-webkit-inner-spin-button": {
+                "-webkit-appearance": "none",
+                margin: 0,
+              },
+            },
+          },
+        },
       },
     }),
     [isLight]

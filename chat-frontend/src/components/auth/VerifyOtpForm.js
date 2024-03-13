@@ -1,75 +1,79 @@
-// todo create a verify otp frontend, connect it with backend and prtect the backend routes for it
-
-import React, { useState } from "react";
-import * as yup from "yup";
-import { useForm } from "react-hook-form";
+import React, { useRef } from "react";
+import { useForm, Controller } from "react-hook-form";
+import { TextField, Button, Stack} from "@mui/material";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { LoadingButton } from "@mui/lab";
-import { Stack, TextField} from "@mui/material";
-import {useTheme } from "@mui/material/styles";
-const VerifyOtpForm = () => {
-  const schema = yup.object().shape({
-    email: yup.string().required().email(),
-    otp: yup
-      .string()
-      .required(6)
-      .min(6, "Otp should be of min 6 length")
-      .max(6, "Otp must be less than 6 length")
-      .matches("/^[0-9]+$/", "OTP must be digit only")
-      
-  });
-  const { register, handleSubmit, formState: {errors, isSubmitting}, reset } = useForm({
+import * as yup from "yup";
+import { useTheme } from '@mui/material/styles';
+import { useDispatch } from "react-redux";
+import { verifyOtp } from "../../app/features/authSlice";
+
+const schema = yup.object().shape({
+  code1: yup.string().required().length(1),
+  code2: yup.string().required().length(1),
+  code3: yup.string().required().length(1),
+  code4: yup.string().required().length(1),
+  code5: yup.string().required().length(1),
+  code6: yup.string().required().length(1),
+});
+
+const VerifyOtpForm = ({email}) => {
+  const { handleSubmit, control, formState: { errors }, reset } = useForm({
     resolver: yupResolver(schema),
   });
-  const onSubmit= (data) =>{
-    console.log(data);
-    reset();
+  const dispatch = useDispatch();
+  const refs = useRef([]);
+  const onSubmit =async (data) => {
+    try{
 
-  }
-  const theme = useTheme();
+      const otp = Object.values(data).join('');
+      
+      dispatch(verifyOtp({email, otp}))
+    reset()
+    }catch(error){
+      console.log(error)
+    }
+  };
 
+  const theme=  useTheme();
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <Stack direction={"column"} spacing={1}>
-        <Stack direction={"row"} spacing={1} justifyContent={"space-between"}  >
-          <Stack direction={"column"}>
-            <TextField
-              id="outlined-basic"
-              {...register("otp")}
-              type="text"
-              label="OTP"
-              variant="outlined"
-              autoComplete="off"
+      <Stack direction={"column"} spacing={4}>
+        <Stack direction={"row"} spacing={3}>
+          {Array.from({ length: 6 }, (_, i) => (
+            <Controller
+              key={i}
+              name={`code${i + 1}`}
+              control={control}
+              defaultValue=""
+              
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  inputProps={{ maxLength: 1 }}
+                  error={Boolean(errors[`code${i + 1}`])}
+
+                 
+                  inputRef={ref => refs.current[i] = ref}
+                  onInput={({ target }) => {
+                    
+                    if (target.value) {
+                      const nextInput = refs.current[i + 1];
+                      if (nextInput) {
+                        nextInput.focus();
+                      }
+                    }
+                  }}
+                  autoFocus={i ===0}
+                />
+              )}
             />
-            <p> {errors.otp?.message} </p>
-          </Stack>
-          
+          ))}
         </Stack>
-        <TextField
-          id="outlined-basic"
-          {...register("email")}
-          type="text"
-          fullWidth
-          label="Email"
-          variant="outlined"
-          autoComplete="off"
-        />
-        <p> {errors.email?.message} </p>
-       <LoadingButton
-          color="inherit"
-          type="submit"
-          loading= { isSubmitting }
-          fullWidth
-        size="large"
-        variant="text"
-          sx={{ backgroundColor: theme.palette.background.paper }}
-        >
-          Login
-        </LoadingButton>
+        <Button type="submit" color="inherit" sx={{bgcolor:theme.palette.background.paper}} >Submit OTP</Button>
+        
       </Stack>
     </form>
-
-  );  
+  );
 };
 
 export default VerifyOtpForm;

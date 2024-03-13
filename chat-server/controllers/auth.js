@@ -66,7 +66,7 @@ exports.sendOTP = async (req, res, next) => {
 
   console.log(new_otp);
 
-  const otp_expiry_time = Date.now() + 10 * 60 * 1000; // 10 minutes after OTP
+  const otp_expiry_time = Date.now() + 10 * 60 * 1000; 
 
   const user = await User.findByIdAndUpdate(userId, {
     otp_expiry_time: otp_expiry_time,
@@ -110,7 +110,9 @@ exports.sendOTP = async (req, res, next) => {
 };
 
 exports.verifyOTP = async (req, res, next) => {
-  // verify OTP and update user record accordingly
+  
+  // regitser -> verifyotp(backend) mail for otp -> redirect to verifyotp frontend -> mail shouyld be here only  
+
   const { email, otp } = req.body;
 
   const user = await User.findOne({

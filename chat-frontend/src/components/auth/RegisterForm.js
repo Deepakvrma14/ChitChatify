@@ -40,7 +40,8 @@ export const RegisterForm = () => {
     // console.log(data);
     dispatch(registerUser(data));
     reset();
-    // navigate("/auth/login");
+    const email = data.email;
+    navigate("/auth/verify-otp", {state:email });
   };
  
 
