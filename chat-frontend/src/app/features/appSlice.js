@@ -5,6 +5,11 @@ const defaultState= {
         open:false,
         type: 'CONTACT'
     },
+    snackbar: {
+        open:null,
+        message: null,
+        severity:null,
+    }
 };
 const appSlice = createSlice({
     
