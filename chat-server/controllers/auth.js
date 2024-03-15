@@ -11,7 +11,39 @@ const newPasswordHTML = require("../email_templates/newPasswordHTML");
 const signToken = (userId) => jwt.sign({ userId }, process.env.JWT_SECRET);
 
 // Signup -> register -> sendOTP -> verifyOTP
+const resendOTP = async(req, res) =>{
+  const { userId } = req;
 
+  const new_otp = otpGenerator.generate(6, {
+    lowerCaseAlphabets: false,
+    upperCaseAlphabets: false,
+    specialChars: false,
+  });
+
+  // console.log(new_otp);
+
+  const otp_expiry_time = Date.now() + 10 * 60 * 1000;
+
+  const user = await User.findByIdAndUpdate(userId, {
+    otp_expiry_time: otp_expiry_time,
+  });
+
+  user.otp = new_otp.toString();
+
+  try {
+    await user.save({ new: true, validateModifiedOnly: true });
+  } catch (err) {
+    console.log("User did not save: ", err);
+  }
+  sendEmail(
+    "deepak@gmail.com",
+    "temp@gmail.com",
+    "testing",
+    "text",
+    `${otpEmailerHTMLOutput(user.firstName, new_otp)}`
+  );
+  
+}
 // Register new user
 exports.register = async (req, res, next) => {
   const { firstName, lastName, email, password } = req.body;
@@ -32,27 +64,30 @@ exports.register = async (req, res, next) => {
       status: "error",
       message: "Email is already in use. Please log in.",
     });
-  } else if (existing_user) {
-    await User.findOneAndUpdate({ email: email }, filteredBody, {
-      new: true,
-      validateModelOnly: true,
-    });
-    req.userId = existing_user._id;
-    
-    return res.status(200).json({
-      status:"success",
-      message:"Email id is already registered, check email for verifying this mail."
-    });
-    // next();
-  } else {
+  } else if (!existing_user) {
     console.log("New user");
-
+    
     // if user record is not available in DB
     const new_user = await User.create(filteredBody);
 
     // generate OTP and send email to user
     req.userId = new_user._id;
     next();
+
+    
+  } else {
+    await User.findOneAndUpdate({ email: email }, filteredBody, {
+      new: true,
+      validateModelOnly: true,
+    });
+    req.userId = existing_user._id;
+    // next();
+    await resendOTP(req, res);
+    return res.status(200).json({
+      status: "success",
+      message:
+        "Email id is already registered, check email for verifying this mail. You'll be redirected to verify page in 3 seconds",
+    });
   }
 };
 
@@ -67,7 +102,7 @@ exports.sendOTP = async (req, res, next) => {
 
   console.log(new_otp);
 
-  const otp_expiry_time = Date.now() + 10 * 60 * 1000; 
+  const otp_expiry_time = Date.now() + 10 * 60 * 1000;
 
   const user = await User.findByIdAndUpdate(userId, {
     otp_expiry_time: otp_expiry_time,
@@ -111,8 +146,7 @@ exports.sendOTP = async (req, res, next) => {
 };
 
 exports.verifyOTP = async (req, res, next) => {
-  
-  // regitser -> verifyotp(backend) mail for otp -> redirect to verifyotp frontend -> mail shouyld be here only  
+  // regitser -> verifyotp(backend) mail for otp -> redirect to verifyotp frontend -> mail shouyld be here only
 
   const { email, otp } = req.body;
 
@@ -249,12 +283,13 @@ exports.forgotPassword = async (req, res, next) => {
     // TODO => email to user with reset url
     const resetURL = `http://localhost:3000/auth/new-password/?token=${resetToken}`;
 
-    sendEmail("deepak@gmail.com"
-    , "temp@gmail.com",
-     "testing",
+    sendEmail(
+      "deepak@gmail.com",
+      "temp@gmail.com",
+      "testing",
       "text",
       `${newPasswordHTML(user.firstName, resetURL)}`
-      );
+    );
     return res.status(200).json({
       status: "success",
       message: "Reset Password link sent to email",

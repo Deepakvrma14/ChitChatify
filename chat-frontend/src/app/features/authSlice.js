@@ -1,5 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "../../utils/axios";
+import { showSnackbar } from "./appSlice";
+import { useNavigate } from "react-router-dom";
 const initialState = {
   isLoggedIn: false,
   token: "",
@@ -27,49 +29,74 @@ export default slice.reducer;
 
 // thunk actions : // redux does thigns sysncronously so these need to perofrmed outside store for async actions ...  to have to have async actions, we use the middlewares to perofrm these
 
-export function verifyOtp(formValues){
-  return async(dispatch, getState) => {
-    await axios.post(
-      "/auth/verify-otp",
-      {...formValues},
-      {
-        headers:{
-          "Content-Type": "application/json",
+export function verifyOtp(formValues) {
+  return async (dispatch, getState) => {
+    await axios
+      .post(
+        "/auth/verify-otp",
+        { ...formValues },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
         }
-      }
-    ).then((response)=>{
-      console.log(response);
-      dispatch(slice.actions.logIn({
-        isLoggedIn:true,
-        token: response.data.token,
-      }));
-    }).catch((error) =>{
-
-      // console.log(formValues);
-      console.log(error);
-    });
-  }
+      )
+      .then((response) => {
+        console.log(response);
+        dispatch(
+          slice.actions.logIn({
+            isLoggedIn: true,
+            token: response.data.token,
+          })
+        );
+        dispatch(
+          showSnackbar({ severity: "success", message: response.data.message })
+        );
+      })
+      .catch((error) => {
+        // console.log(formValues);
+        // console.log(error);
+        {error.response ? (
+          dispatch(showSnackbar({ severity: "warning", message: error.response.data.message }))
+        ): (
+          dispatch(showSnackbar({ severity: "warning", message: error.message }))
+        )}
+      });
+  };
 }
 export function registerUser(formValues) {
-  return async(dispatch, getState) =>{
-    await axios.post(
-      "/auth/register",
-      {...formValues},
-      {
-        headers: {
-          "Content-Type": "application/json",
+  return async (dispatch, getState) => {
+    await axios
+      .post(
+        "/auth/register",
+        { ...formValues },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
         }
-      },
-      
-    ).then((response)=>{
-        console.log(response);
-        const email = encodeURIComponent(formValues.email);
+      )
+      .then((response) => {
+        // console.log(response);
+        dispatch(
+          showSnackbar({ severity: "success", message: response.data.message })
+        );
         
+        const email = encodeURIComponent(formValues.email);
+
+       setTimeout(()=>{
         window.location.href = `/auth/verify-otp?email=${email}`;
-    }).catch((error)=>{
-      console.log(error);
-    });
-  }
+       }, 3000);
+      })
+      .catch((error) => {
+        console.log(error);
+        {error.response ? (
+          dispatch(showSnackbar({ severity: "warning", message: error.response.data.message }))
+        ): (
+          dispatch(showSnackbar({ severity: "warning", message: error.message }))
+        )}
+      });
+  };
 }
 
 export function newPassword(formValues) {
@@ -86,13 +113,23 @@ export function newPassword(formValues) {
       )
       .then(function (response) {
         console.log(response);
-        dispatch(slice.actions.logIn({
-          isLoggedIn:true,
-          token: response.data.token,
-        }))
+        dispatch(
+          slice.actions.logIn({
+            isLoggedIn: true,
+            token: response.data.token,
+          })
+        );
+        dispatch(
+          showSnackbar({ severity: "success", message: response.data.message })
+        );
       })
       .catch((error) => {
-        console.log(error);
+        // console.log(error);
+        {error.response ? (
+          dispatch(showSnackbar({ severity: "warning", message: error.response.data.message }))
+        ): (
+          dispatch(showSnackbar({ severity: "warning", message: error.message }))
+        )}
       });
   };
 }
@@ -110,10 +147,18 @@ export function forgotPassword(formValues) {
         }
       )
       .then(function (response) {
-        console.log(response.data);
+        // console.log(response.data);
+        dispatch(
+          showSnackbar({ severity: "success", message: response.data.message })
+        );
       })
       .catch((error) => {
-        console.log(error);
+        // console.log(error);
+        {error.response ? (
+          dispatch(showSnackbar({ severity: "warning", message: error.response.data.message }))
+        ): (
+          dispatch(showSnackbar({ severity: "warning", message: error.message }))
+        )}
       });
   };
 }
@@ -146,11 +191,18 @@ export function LogInUser(formValues) {
             token: response.data.token,
           })
         );
-
-        console.log(response.data.token);
+        dispatch(
+          showSnackbar({ severity: "success", message: response.data.message })
+        );
+        // console.log(response.data.token);
       })
       .catch(function (error) {
-        console.log(error);
+        // console.log(error);
+        {error.response ? (
+          dispatch(showSnackbar({ severity: "warning", message: error.response.data.message }))
+        ): (
+          dispatch(showSnackbar({ severity: "warning", message: error.message }))
+        )}
       });
   };
 }

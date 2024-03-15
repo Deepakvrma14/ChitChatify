@@ -10,6 +10,8 @@ import { useDispatch } from "react-redux";
 import { registerUser } from "../../app/features/authSlice";
 import { useNavigate } from "react-router-dom";
 import { LoadingButton } from "@mui/lab";
+
+
 export const RegisterForm = () => {
   // yup is schema validator
   const navigate=  useNavigate();
@@ -38,6 +40,7 @@ export const RegisterForm = () => {
   const theme = useTheme();
   const onSubmit = (data) => {
     // console.log(data);
+
     const email = data.email;
     try {
       dispatch(registerUser(data));

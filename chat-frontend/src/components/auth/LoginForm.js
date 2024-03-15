@@ -9,6 +9,7 @@ import { Eye, EyeClosed } from "phosphor-react";
 import  {useDispatch} from "react-redux";
 import { LogInUser } from "../../app/features/authSlice";
 import { LoadingButton } from "@mui/lab";
+import { showSnackbar } from "../../app/features/appSlice";
 
 export const LoginForm = () => {
   const dispatch = useDispatch();
@@ -37,6 +38,7 @@ export const LoginForm = () => {
    try {
     dispatch(LogInUser(data));
     console.log(data);
+    // dispatch(showSnackbar({severity: "success", message:}))
     reset();
    } catch (error) {
       console.error(error);
@@ -93,7 +95,7 @@ export const LoginForm = () => {
         size="large"
         type="submit"
         variant="contained"
-        loading={isSubmitSuccessful || isSubmitting}
+        loading={ isSubmitting}
         sx={{ backgroundColor: theme.palette.background.paper }}
       > Login </LoadingButton>
        
