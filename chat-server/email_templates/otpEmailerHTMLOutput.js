@@ -136,7 +136,7 @@ const otpEmailerHTMLOutput= (name, otp) => {
                                 <tr>
                                   <td style="padding-right: 0px;padding-left: 0px;" align="center">
                                     <a  target="_blank">
-                                      <img align="center" border="0" src="../assets/logo.ico" alt="Do not share this with anyone" title="Do not share this with anyone" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: inline-block !important;border: none;height: auto;float: none;width: 19%;max-width: 106.4px;"
+                                      <img align="center" border="0" src="https://i.postimg.cc/4dK20Jy7/Screenshot-from-2024-02-22-20-57-30-removebg-preview-2.png" alt="Do not share this with anyone" title="Do not share this with anyone" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: inline-block !important;border: none;height: auto;float: none;width: 19%;max-width: 106.4px;"
                                         width="106.4" />
                                     </a>
                                   </td>

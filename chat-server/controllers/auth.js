@@ -36,8 +36,7 @@ const resendOTP = async(req, res) =>{
     console.log("User did not save: ", err);
   }
   sendEmail(
-    "deepak@gmail.com",
-    "temp@gmail.com",
+    `${req.body.email}`,
     "testing",
     "text",
     `${otpEmailerHTMLOutput(user.firstName, new_otp)}`
@@ -116,8 +115,7 @@ exports.sendOTP = async (req, res, next) => {
     console.log("User did not save: ", err);
   }
   sendEmail(
-    "deepak@gmail.com",
-    "temp@gmail.com",
+    `${req.body.email}`,
     "testing",
     "text",
     `${otpEmailerHTMLOutput(user.firstName, new_otp)}`
@@ -284,8 +282,7 @@ exports.forgotPassword = async (req, res, next) => {
     const resetURL = `http://localhost:3000/auth/new-password/?token=${resetToken}`;
 
     sendEmail(
-      "deepak@gmail.com",
-      "temp@gmail.com",
+      `${req.body.email}`,
       "testing",
       "text",
       `${newPasswordHTML(user.firstName, resetURL)}`
