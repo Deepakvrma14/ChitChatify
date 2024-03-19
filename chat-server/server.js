@@ -16,7 +16,7 @@ const port = process.env.PORT || 3001;
 
 const io  = new Server(server, {
   cors: {
-    origin:"http://localhost:3001",
+    origin:"http://localhost:3000" ||"http://localhost:3001" ,
     methods: ["GET", "POST"],
     credentials:true,
   }
@@ -33,14 +33,24 @@ mongoose
   });
 
 
-io.on("connection", async (socket) =>{
-  console.log("USER CONNECTED");
-  console.log(socket.id);
-})
 
 server.listen(port, () => {
   console.log(`Listening on port ${port}`);
 });
+
+
+io.on("connection", async (socket) =>{
+  // console.log("USER CONNECTED");
+  // console.log(socket.id);
+  socket.emit("welcome", `welome to the server ${socket.id}`);
+
+  // boradcast, not forward msg to own but to all others 
+  // emit, forward to itself
+
+  socket.broadcast.emit("all", ` ${socket.id} joined the server `);
+
+
+})
 process.on("unhandeledRejection", (err) => {
   console.log(err);
   server.close(() => {

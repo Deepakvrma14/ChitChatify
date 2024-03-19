@@ -7,11 +7,20 @@ import ThemeProvider from "./theme";
 import { useDispatch, useSelector } from "react-redux";
 import { closeSnackbar } from "./app/features/appSlice";
 import {io} from "socket.io-client";
+import { useEffect } from "react";
 // components
 
 function App() {
   const dispatch = useDispatch();
   const socket = io("http://localhost:3001");
+  useEffect(()=>{
+    socket.on("connect", ()=>{
+      console.log(`user ${socket.id} is connected`);
+      socket.on("welcome", (msg)=>{console.log(msg)});
+      socket.on("all", (msg)=> console.log(msg));
+    })
+  }, [])
+
   const { open, severity, message } = useSelector(
     (state) => state.appState.snackbar
   );
