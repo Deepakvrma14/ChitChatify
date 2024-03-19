@@ -6,10 +6,12 @@ import Router from "./routes";
 import ThemeProvider from "./theme";
 import { useDispatch, useSelector } from "react-redux";
 import { closeSnackbar } from "./app/features/appSlice";
+import {io} from "socket.io-client";
 // components
 
 function App() {
   const dispatch = useDispatch();
+  const socket = io("http://localhost:3001");
   const { open, severity, message } = useSelector(
     (state) => state.appState.snackbar
   );
