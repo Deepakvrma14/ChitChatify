@@ -12,20 +12,21 @@ import { useEffect } from "react";
 
 function App() {
   const dispatch = useDispatch();
-  const socket = io("http://localhost:3001");
-  useEffect(() => {
-    socket.on("connect", () => {
-      console.log(`user ${socket.id} is connected`);
+  // todo: remove below code as below code is part of code used while learning sockets 
+  // const socket = io("http://localhost:3001");
+  // useEffect(() => {
+  //   socket.on("connect", () => {
+  //     console.log(`user ${socket.id} is connected`);
       
-    });
-    socket.on("welcome", (msg) => {
-      console.log(msg);
-    });
-    socket.on("all", (msg) => console.log(msg));
-    return () => {
-      socket.disconnect();
-    };
-  }, []);
+  //   });
+  //   socket.on("welcome", (msg) => {
+  //     console.log(msg);
+  //   });
+  //   socket.on("all", (msg) => console.log(msg));
+  //   return () => {
+  //     socket.disconnect();
+  //   };
+  // }, []);
 
   const { open, severity, message } = useSelector(
     (state) => state.appState.snackbar

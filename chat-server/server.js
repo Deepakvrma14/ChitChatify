@@ -3,8 +3,9 @@ dotenv.config({ path: "./config.env" });
 const app = require("./app");
 const http = require("http");
 const mongoose = require("mongoose");
-const {Server} = require("socket.io");
+const { Server } = require("socket.io");
 
+const User = require("./models/user");
 process.on("uncaughtException", (err) => {
   console.log(err);
   process.exit(1);
@@ -14,12 +15,12 @@ const server = http.createServer(app);
 
 const port = process.env.PORT || 3001;
 
-const io  = new Server(server, {
+const io = new Server(server, {
   cors: {
-    origin:"http://localhost:3000" ||"http://localhost:3001" ,
+    origin: "http://localhost:3000" || "http://localhost:3001",
     methods: ["GET", "POST"],
-    credentials:true,
-  }
+    credentials: true,
+  },
 });
 
 const DB = process.env.DBURI;
@@ -32,28 +33,45 @@ mongoose
     console.log(err);
   });
 
-
-
 server.listen(port, () => {
   console.log(`Listening on port ${port}`);
 });
 
+// integrating socket connection in out chat app
 
-io.on("connection", async (socket) =>{
-  console.log("USER CONNECTED", socket.id);
-  
-  socket.emit("welcome", `welome to the server ${socket.id}`);
+io.on("connection", async (socket) => {
+  const user_id = socket.handshake.query("user_id");
+  const socket_id = socket.id;
+  console.log(`user connected ${socket_id}`);
 
-  // boradcast, not forward msg to own but to all others 
-  // emit, forward to itself
+  if (user_id) {
+    await User.findByIdAndUpdate(user_id, { socket_id });
+  }
+  socket.on("friend_request", async (data) => {
+    console.log(data.to);
 
-  socket.broadcast.emit("all", ` ${socket.id} joined the server `);
-  socket.on("disconnect", ()=>{
-    console.log(`user ${socket.id} disconnected`);
+    const to = await User.findById(data.to);
+// todo: create a friend request ... also make the code protected such as testing if user is currently logged in or not etc
+
+    io.to(to.socket_id).emit("new_friend_request", {});
   });
+});
 
+// todo: below code is part of learning of socket, remove it later
+// io.on("connection", async (socket) =>{
+//   console.log("USER CONNECTED", socket.id);
 
-})
+//   socket.emit("welcome", `welome to the server ${socket.id}`);
+
+//   // boradcast, not forward msg to own but to all others
+//   // emit, forward to itself
+
+//   socket.broadcast.emit("all", ` ${socket.id} joined the server `);
+//   socket.on("disconnect", ()=>{
+//     console.log(`user ${socket.id} disconnected`);
+//   });
+
+// })
 process.on("unhandeledRejection", (err) => {
   console.log(err);
   server.close(() => {

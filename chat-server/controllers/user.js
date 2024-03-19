@@ -16,3 +16,8 @@ exports.updateMe = async (req, res, next) => {
     });
 
 }
+exports.getUsers = async(req, res, next) =>{
+    const all_users = await User.find({
+        verified:true
+    }).select("firstName lastName _id");
+}
