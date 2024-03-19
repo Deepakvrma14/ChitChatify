@@ -40,14 +40,17 @@ server.listen(port, () => {
 
 
 io.on("connection", async (socket) =>{
-  // console.log("USER CONNECTED");
-  // console.log(socket.id);
+  console.log("USER CONNECTED", socket.id);
+  
   socket.emit("welcome", `welome to the server ${socket.id}`);
 
   // boradcast, not forward msg to own but to all others 
   // emit, forward to itself
 
   socket.broadcast.emit("all", ` ${socket.id} joined the server `);
+  socket.on("disconnect", ()=>{
+    console.log(`user ${socket.id} disconnected`);
+  });
 
 
 })
