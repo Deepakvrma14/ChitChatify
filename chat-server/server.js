@@ -37,7 +37,24 @@ server.listen(port, () => {
   console.log(`Listening on port ${port}`);
 });
 
+io.on("connection", async (socket) => {
+  // using this we'll query our db and find this user's id
+  const user_id = socket.handshake.query("user_id");
+  // evry connection id for evry new connection
+  const socket_id = socket.id;
 
+  if (user_id) {
+    User.findByIdAndUpdate(user_id, { socket_id });
+  }
+  socket.on("friend_req", async (data) => {
+    console.log(data.to);
+    // {to: receipoent id }
+    const to = User.findById(data.to);
+    io.to(data.to).emit("new_friend_request", {
+      //
+    });
+  });
+});
 
 // todo: below code is part of learning of socket, remove it later
 // io.on("connection", async (socket) => {
@@ -48,7 +65,7 @@ server.listen(port, () => {
 //   // boradcast, not forward msg to own but to all others
 //   // emit, forward to itself
 
-//   socket.broadcast.emit("exceptSelf", `User ${socket.id} joined the server`); 
+//   socket.broadcast.emit("exceptSelf", `User ${socket.id} joined the server`);
 //   socket.on("disconnect", () => {
 //     console.log(`user ${socket.id} disconnected`);
 //   });
