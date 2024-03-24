@@ -39,39 +39,38 @@ server.listen(port, () => {
 
 // integrating socket connection in out chat app
 
-io.on("connection", async (socket) => {
-  const user_id = socket.handshake.query("user_id");
-  const socket_id = socket.id;
-  console.log(`user connected ${socket_id}`);
+// io.on("connection", async (socket) => {
+//   const user_id = socket.handshake.query("user_id");
+//   const socket_id = socket.id;
+//   console.log(`user connected ${socket_id}`);
 
-  if (user_id) {
-    await User.findByIdAndUpdate(user_id, { socket_id });
-  }
-  socket.on("friend_request", async (data) => {
-    console.log(data.to);
+//   if (user_id) {
+//     await User.findByIdAndUpdate(user_id, { socket_id });
+//   }
+//   socket.on("friend_request", async (data) => {
+//     console.log(data.to);
 
-    const to = await User.findById(data.to);
-// todo: create a friend request ... also make the code protected such as testing if user is currently logged in or not etc
+//     const to = await User.findById(data.to);
+// // todo: create a friend request ... also make the code protected such as testing if user is currently logged in or not etc
 
-    io.to(to.socket_id).emit("new_friend_request", {});
-  });
-});
+//     io.to(to.socket_id).emit("new_friend_request", {});
+//   });
+// });
 
 // todo: below code is part of learning of socket, remove it later
-// io.on("connection", async (socket) =>{
-//   console.log("USER CONNECTED", socket.id);
+io.on("connection", async (socket) => {
+  // console.log("USER CONNECTED", socket.id);
+  console.log(socket);
+  socket.emit("welcome", `welome to the server ${socket.id}`);
 
-//   socket.emit("welcome", `welome to the server ${socket.id}`);
+  // boradcast, not forward msg to own but to all others
+  // emit, forward to itself
 
-//   // boradcast, not forward msg to own but to all others
-//   // emit, forward to itself
-
-//   socket.broadcast.emit("all", ` ${socket.id} joined the server `);
-//   socket.on("disconnect", ()=>{
-//     console.log(`user ${socket.id} disconnected`);
-//   });
-
-// })
+  socket.broadcast.emit("exceptSelf", `User ${socket.id} joined the server`); 
+  socket.on("disconnect", () => {
+    console.log(`user ${socket.id} disconnected`);
+  });
+});
 process.on("unhandeledRejection", (err) => {
   console.log(err);
   server.close(() => {
