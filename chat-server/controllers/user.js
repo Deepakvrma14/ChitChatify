@@ -36,9 +36,20 @@ exports.getUsers = async (req, res, next) => {
     //   to check if the user we got and user from the request are same 
       user._id.toString() != req.user._id.toString()
   );
-  res.state(200).json({
+  res.status(200).json({
     status:"success",
     data:remaining_users,
     message:"Remaining users found successfully"
   })
 };
+//  TODO: Create one to get friend reqyuests 
+exports.getFriends = async(req, res, next) =>{
+  // user id from the protected router middlewarte that will be running before this 
+  const friends = await User.findById(req.user._id).populate("friends","_id firstName lastName");
+
+  res.status(200).json({
+    status:"success",
+    data: friends,
+    messgae: "Friends list fetch from DB successfully"
+  })
+}
