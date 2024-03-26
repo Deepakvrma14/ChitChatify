@@ -1,6 +1,6 @@
 const User = require("../models/user");
 const filterObj = require("../utils/filterObj");
-
+const friendRequest = require("../models/friendRequest");
 exports.updateMe = async (req, res, next) => {
   const { user } = req;
 
@@ -33,23 +33,39 @@ exports.getUsers = async (req, res, next) => {
   const remaining_users = all_users.filter(
     (user) =>
       !this_user.friends.include(user._id) &&
-    //   to check if the user we got and user from the request are same 
+      //   to check if the user we got and user from the request are same
       user._id.toString() != req.user._id.toString()
   );
   res.status(200).json({
-    status:"success",
-    data:remaining_users,
-    message:"Remaining users found successfully"
-  })
+    status: "success",
+    data: remaining_users,
+    message: "Remaining users found successfully",
+  });
 };
-//  TODO: Create one to get friend reqyuests 
-exports.getFriends = async(req, res, next) =>{
-  // user id from the protected router middlewarte that will be running before this 
-  const friends = await User.findById(req.user._id).populate("friends","_id firstName lastName");
+//  TODO: Create one to get friend reqyuests
+exports.getRequest = async (req, res, next) => {
+  // it'll search for the requests on db where am a receiver and popultate and get me fields who sent me requests
+  const requests = await friendRequest
+    .find({ receiver: req.user._id })
+    .populate("sender", "_id firstName lastName");
+
+    res.status(200).json({
+      status: "success",
+      data: friends,
+      message: "Friends Request fetch from DB successfully",
+    });
+};
+
+exports.getFriends = async (req, res, next) => {
+  // user id from the protected router middlewarte that will be running before this
+  const friends = await User.findById(req.user._id).populate(
+    "friends",
+    "_id firstName lastName"
+  );
 
   res.status(200).json({
-    status:"success",
+    status: "success",
     data: friends,
-    messgae: "Friends list fetch from DB successfully"
-  })
-}
+    message: "Friends list fetch from DB successfully",
+  });
+};
