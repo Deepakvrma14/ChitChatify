@@ -1,14 +1,14 @@
 import { Dialog, DialogContent, Stack, Tab, Tabs } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { FetchFriends, FetchUsers } from "../../app/features/appSlice";
+import { FetchFriends, FetchRequests, FetchUsers } from "../../app/features/appSlice";
 
 const Friends = ({ open, handleClose }) => {
   const [value, setValue] = useState(0);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  const userList = () => {
+  const UserList = () => {
     const dispatch = useDispatch();
     useEffect(() => {
       dispatch(FetchUsers());
@@ -25,7 +25,7 @@ const Friends = ({ open, handleClose }) => {
     );
     //
   };
-  const freindsList = () => {
+  const FriendsList = () => {
     const dispatch = useDispatch();
     useEffect(() => {
       dispatch(FetchFriends());
@@ -34,6 +34,20 @@ const Friends = ({ open, handleClose }) => {
     return (
       <>
         {friends.map((el, idx) => {
+          return <></>;
+        })}
+      </>
+    );
+  };
+  const FriendsRequests = () => {
+    const dispatch = useDispatch();
+    useEffect(() => {
+      dispatch(FetchRequests());
+    }, []);
+    const { friendRequests } = useSelector((state) => state.appState);
+    return (
+      <>
+        {friendRequests.map((el, idx) => {
           return <></>;
         })}
       </>
@@ -62,11 +76,12 @@ const Friends = ({ open, handleClose }) => {
             {(() => {
               switch (value) {
                 case 0: // dispolay all users
-                  break;
+                return <UserList/>
+                  
                 case 1: // display all friends
-                  break;
+                return <FriendsList/>
                 case 2: // display all pending requests
-                  break;
+                return <FriendsRequests/>
                 default:
                   break;
               }

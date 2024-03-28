@@ -6,6 +6,7 @@ const mongoose = require("mongoose");
 const { Server } = require("socket.io");
 
 const User = require("./models/user");
+const friendRequest = require("./models/friendRequest");
 process.on("uncaughtException", (err) => {
   console.log(err);
   process.exit(1);
@@ -39,37 +40,63 @@ server.listen(port, () => {
 
 io.on("connection", async (socket) => {
   // using this we'll query our db and find this user's id
-  const user_id = socket.handshake.query.user_id;
+  // const user_id = socket.handshake.query["user_id"];
+  console.log(JSON.stringify(socket.handshake.query));
   // evry connection id for evry new connection
   const socket_id = socket.id;
 
-  if (user_id) {
+  if (Boolean(user_id)) {
     User.findByIdAndUpdate(user_id, { socket_id });
   }
+
   socket.on("friend_req", async (data) => {
     console.log(data.to);
     // {to: receipoent id }
-    const to = User.findById(data.to);
-    io.to(data.to).emit("new_friend_request", {
-      //
+
+    // data:{ to , from}
+    const to_user = User.findById(data.to).select("socket_id");
+    const from_user = User.findById(data.from).select("socket_id");
+
+    await friendRequest.create({
+      sender: data.from,
+      receiver: data.to,
+    });
+    // new friendRequest emit
+    io.to(to_user.socket_id).emit("new_friend_request", {
+      message: "New friend request received",
+    });
+
+    // reuqest sending emit event
+    it.to(from_user.socket_id).emit("request_sent", {
+      message: "Request sent successfully",
+    });
+  });
+
+  socket.on("accept_friend", async (data) => {
+    const req_doc = await friendRequest.findById(data.request_id);
+    console.log(`data is ${data} and request id is ${req_doc}`);
+    const sender = await User.findById(req_doc.sender);
+    const receiver = await User.findById(req_doc.receiver);
+
+    sender.friends.push(req_doc.receiver);
+    receiver.friends.push(req_doc.sender);
+
+    await receiver.save({ new: true, validateModifiedOnly: true });
+    await sender.save({ new: true, validateModifiedOnly: true });
+
+    // detlete the friend request if it's accepted
+    await friendRequest.findByIdAndDelete(data.request_id);
+
+    // update the users about the acceptance of the id
+    io.to(sender.socket_id).emit("request_accepted", {
+      message: "Request accepted successfully",
+    });
+    io.to(receiver.socket_id).emit("request_accepted", {
+      message: "Request accepted successfully ",
     });
   });
 });
 
-// todo: below code is part of learning of socket, remove it later
-// io.on("connection", async (socket) => {
-//   // console.log("USER CONNECTED", socket.id);
-//   console.log(socket);
-//   socket.emit("welcome", `welome to the server ${socket.id}`);
-
-//   // boradcast, not forward msg to own but to all others
-//   // emit, forward to itself
-
-//   socket.broadcast.emit("exceptSelf", `User ${socket.id} joined the server`);
-//   socket.on("disconnect", () => {
-//     console.log(`user ${socket.id} disconnected`);
-//   });
-// });
 process.on("unhandeledRejection", (err) => {
   console.log(err);
   server.close(() => {

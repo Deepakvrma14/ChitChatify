@@ -58,14 +58,14 @@ exports.getRequest = async (req, res, next) => {
 
 exports.getFriends = async (req, res, next) => {
   // user id from the protected router middlewarte that will be running before this
-  const friends = await User.findById(req.user._id).populate(
+  const this_user = await User.findById(req.user._id).populate(
     "friends",
     "_id firstName lastName"
   );
 
   res.status(200).json({
     status: "success",
-    data: friends,
+    data: this_user.friends,
     message: "Friends list fetch from DB successfully",
   });
 };
