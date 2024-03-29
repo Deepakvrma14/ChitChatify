@@ -19,7 +19,7 @@ const MobileScreenComponent = () => {
     >
       <PhoneAndroidIcon style={{ fontSize: 100, color: theme.palette.primary.main }} />
       <Typography variant="h4" gutterBottom>
-        Mobile/tablet View Not Supported
+        Mobile/tablet View Not Supported yet
       </Typography>
       <Typography variant="body1">
       We are Sorry but please continue on a larger screen or desktop. We currently do not support mobile devices.  

@@ -49,6 +49,7 @@ export function verifyOtp(formValues) {
             token: response.data.token,
           })
         );
+        window.localStorage.setItem("user_id", response.data.user_id);
         dispatch(
           showSnackbar({ severity: "success", message: response.data.message })
         );
@@ -56,11 +57,18 @@ export function verifyOtp(formValues) {
       .catch((error) => {
         // console.log(formValues);
         // console.log(error);
-        {error.response ? (
-          dispatch(showSnackbar({ severity: "warning", message: error.response.data.message }))
-        ): (
-          dispatch(showSnackbar({ severity: "warning", message: error.message }))
-        )}
+        {
+          error.response
+            ? dispatch(
+                showSnackbar({
+                  severity: "warning",
+                  message: error.response.data.message,
+                })
+              )
+            : dispatch(
+                showSnackbar({ severity: "warning", message: error.message })
+              );
+        }
       });
   };
 }
@@ -81,20 +89,27 @@ export function registerUser(formValues) {
         dispatch(
           showSnackbar({ severity: "success", message: response.data.message })
         );
-        
+
         const email = encodeURIComponent(formValues.email);
 
-       setTimeout(()=>{
-        window.location.href = `/auth/verify-otp?email=${email}`;
-       }, 3000);    
+        setTimeout(() => {
+          window.location.href = `/auth/verify-otp?email=${email}`;
+        }, 3000);
       })
       .catch((error) => {
         console.log(error);
-        {error.response ? (
-          dispatch(showSnackbar({ severity: "warning", message: error.response.data.message }))
-        ): (
-          dispatch(showSnackbar({ severity: "warning", message: error.message }))
-        )}
+        {
+          error.response
+            ? dispatch(
+                showSnackbar({
+                  severity: "warning",
+                  message: error.response.data.message,
+                })
+              )
+            : dispatch(
+                showSnackbar({ severity: "warning", message: error.message })
+              );
+        }
       });
   };
 }
@@ -125,11 +140,18 @@ export function newPassword(formValues) {
       })
       .catch((error) => {
         // console.log(error);
-        {error.response ? (
-          dispatch(showSnackbar({ severity: "warning", message: error.response.data.message }))
-        ): (
-          dispatch(showSnackbar({ severity: "warning", message: error.message }))
-        )}
+        {
+          error.response
+            ? dispatch(
+                showSnackbar({
+                  severity: "warning",
+                  message: error.response.data.message,
+                })
+              )
+            : dispatch(
+                showSnackbar({ severity: "warning", message: error.message })
+              );
+        }
       });
   };
 }
@@ -154,16 +176,24 @@ export function forgotPassword(formValues) {
       })
       .catch((error) => {
         // console.log(error);
-        {error.response ? (
-          dispatch(showSnackbar({ severity: "warning", message: error.response.data.message }))
-        ): (
-          dispatch(showSnackbar({ severity: "warning", message: error.message }))
-        )}
+        {
+          error.response
+            ? dispatch(
+                showSnackbar({
+                  severity: "warning",
+                  message: error.response.data.message,
+                })
+              )
+            : dispatch(
+                showSnackbar({ severity: "warning", message: error.message })
+              );
+        }
       });
   };
 }
 export function LogOutUser() {
   return async (dispatch, getState) => {
+    window.localStorage.removeItem("user_id");
     dispatch(slice.actions.logOut());
     console.log("logout");
   };
@@ -191,6 +221,7 @@ export function LogInUser(formValues) {
             token: response.data.token,
           })
         );
+        window.localStorage.setItem("user_id", response.data.user_id);
         dispatch(
           showSnackbar({ severity: "success", message: response.data.message })
         );
@@ -198,11 +229,18 @@ export function LogInUser(formValues) {
       })
       .catch(function (error) {
         // console.log(error);
-        {error.response ? (
-          dispatch(showSnackbar({ severity: "warning", message: error.response.data.message }))
-        ): (
-          dispatch(showSnackbar({ severity: "warning", message: error.message }))
-        )}
+        {
+          error.response
+            ? dispatch(
+                showSnackbar({
+                  severity: "warning",
+                  message: error.response.data.message,
+                })
+              )
+            : dispatch(
+                showSnackbar({ severity: "warning", message: error.message })
+              );
+        }
       });
   };
 }

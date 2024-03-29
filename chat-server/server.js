@@ -40,7 +40,8 @@ server.listen(port, () => {
 
 io.on("connection", async (socket) => {
   // using this we'll query our db and find this user's id
-  // const user_id = socket.handshake.query["user_id"];
+
+  const user_id = socket.handshake.query["user_id"];
   console.log(JSON.stringify(socket.handshake.query));
   // evry connection id for evry new connection
   const socket_id = socket.id;
@@ -93,6 +94,11 @@ io.on("connection", async (socket) => {
     });
     io.to(receiver.socket_id).emit("request_accepted", {
       message: "Request accepted successfully ",
+    });
+
+    socket.on("end", function () {
+      console.log("disconnecting this connection");
+      socket.disconnect(0);
     });
   });
 });
