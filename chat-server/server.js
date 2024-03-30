@@ -47,7 +47,7 @@ io.on("connection", async (socket) => {
   const socket_id = socket.id;
 
   if (Boolean(user_id)) {
-    User.findByIdAndUpdate(user_id, { socket_id });
+    User.findByIdAndUpdate(user_id, { socket_id, status: "Online" });
   }
 
   socket.on("friend_req", async (data) => {
@@ -96,14 +96,17 @@ io.on("connection", async (socket) => {
       message: "Request accepted successfully ",
     });
 
-    socket.on("end", function () {
+    socket.on("end", async (data) => {
+      if (data.user_id) {
+        await User.findByIdAndUpdate(data.user_id, { status: "Offline" });
+      }
       console.log("disconnecting this connection");
       socket.disconnect(0);
     });
   });
 });
 
-process.on("unhandeledRejection", (err) => {
+process.on("unhandledRejection", (err) => {
   console.log(err);
   server.close(() => {
     process.exit(1);
