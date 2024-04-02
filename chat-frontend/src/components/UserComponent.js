@@ -1,4 +1,11 @@
-import { Avatar, Box, Button, IconButton, Stack, Typography } from "@mui/material";
+import {
+  Avatar,
+  Box,
+  Button,
+  IconButton,
+  Stack,
+  Typography,
+} from "@mui/material";
 import { styled, useTheme } from "@mui/material/styles";
 import React from "react";
 import { StyledBadge } from "./customMui/StyledBadge";
@@ -106,42 +113,44 @@ const FriendRequestComponent = ({
 };
 
 const FriendsComponent = ({ firstName, lastName, img, online, _id }) => {
-    const theme = useTheme();
-    const name = `${firstName} ${lastName}`;
-    return (
-      <StyledChatBox
-        sx={{
-          width: "100%",
-          borderRadius: 1,
-          backgroundColor: theme.palette.background.paper,
-        }}
+  const theme = useTheme();
+  const name = `${firstName} ${lastName}`;
+  return (
+    <StyledChatBox
+      sx={{
+        width: "100%",
+        borderRadius: 1,
+        backgroundColor: theme.palette.background.paper,
+      }}
+    >
+      <Stack
+        direction={"row"}
+        alignItems={"center"}
+        justifyContent={"space-between"}
       >
-        <Stack
-          direction={"row"}
-          alignItems={"center"}
-          justifyContent={"space-between"}
-        >
-          <Stack direction={"row"} alignItems={"center"} spacing={2}>
-            {online ? (
-              <StyledBadge
-                overlap="circular"
-                anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-                variant="dot"
-              >
-                <Avatar src={img} alt={name} />
-              </StyledBadge>
-            ) : (
+        <Stack direction={"row"} alignItems={"center"} spacing={2}>
+          {online ? (
+            <StyledBadge
+              overlap="circular"
+              anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+              variant="dot"
+            >
               <Avatar src={img} alt={name} />
-            )}
-            <Typography variant="subtitle2">{name}</Typography>
-          </Stack>
-          <IconButton onClick={()=>{
-            //  TODO create link to open individual chat from here 
-          }} >
-            <Chat/>
-          </IconButton>
+            </StyledBadge>
+          ) : (
+            <Avatar src={img} alt={name} />
+          )}
+          <Typography variant="subtitle2">{name}</Typography>
         </Stack>
-      </StyledChatBox>
-    );
-  };
+        <IconButton
+          onClick={() => {
+            //  TODO create link to open individual chat from here
+          }}
+        >
+          <Chat />
+        </IconButton>
+      </Stack>
+    </StyledChatBox>
+  );
+};
 export { UserComponent, FriendRequestComponent, FriendsComponent };

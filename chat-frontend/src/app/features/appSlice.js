@@ -14,6 +14,8 @@ const defaultState = {
   users: [],
   friends: [],
   friendRequests: [],
+  chat_type: null, //Group chat, indiviual chat or none
+  room_id: null, // to sleect one chat or group to start one to one convo
 };
 const appSlice = createSlice({
   name: "app",
@@ -45,6 +47,10 @@ const appSlice = createSlice({
     updateFriendRequests(state, action) {
       state.friendRequests = action.payload.requests;
     },
+    selectConversation(state, action) {
+      (state.chat_type = "individual"),
+        (state.room_id = action.payload.room_id);
+    },
   },
 });
 
@@ -59,7 +65,11 @@ export function showSnackbar({ severity, message }) {
     }, 4000);
   };
 }
-
+export const SelectConversation = ({ room_id }) => {
+  return (dispatch, getState) => {
+    dispatch(appSlice.actions.selectConversation(room_id));
+  };
+};
 export const closeSnackbar = () => async (dispatch, getState) => {
   dispatch(appSlice.actions.closeSnackbar());
 };

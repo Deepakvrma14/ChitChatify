@@ -4,12 +4,15 @@ import { Media } from "../../components/Media";
 import { Starred } from "../../components/Starred";
 import Conversation from "../../components/Conversation";
 import Chats from "./Chats";
-import { Stack, Box } from '@mui/material';
+import { Stack, Box, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
+import { ChatsTeardrop } from "phosphor-react";
+import NoChat from "../../assets/Illustration/NoChat";
+
 
 const GeneralApp = () => {
   const theme = useTheme();
-  const { sidebar } = useSelector((store) => store.appState);
+  const { sidebar, chat_type, room_id } = useSelector((store) => store.appState);
   console.log(sidebar);
   const type = sidebar.type;
   console.log(type);
@@ -34,7 +37,15 @@ const GeneralApp = () => {
       >
 
         {/* Conversation */}
-        <Conversation />
+        {chat_type === "individual" && room_id !== null ? <Conversation/> : 
+          <Stack sx={{height:"100%", width:"100%"}}  alignItems={"center"} justifyContent={"center"} spacing={3} direction={"column"}>
+            <NoChat/>
+            {/* <ChatsTeardrop size={52} /> */}
+            <Typography variant="subtitle2" >
+              select a conversation or start a new one
+            </Typography>
+          </Stack>
+         }
       </Box>
         {/* Contact */}
         
