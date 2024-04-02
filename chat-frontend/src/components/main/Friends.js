@@ -1,7 +1,16 @@
 import { Dialog, DialogContent, Stack, Tab, Tabs } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { FetchFriends, FetchRequests, FetchUsers } from "../../app/features/appSlice";
+import {
+  FetchFriends,
+  FetchRequests,
+  FetchUsers,
+} from "../../app/features/appSlice";
+import {
+  FriendRequestComponent,
+  FriendsComponent,
+  UserComponent,
+} from "../UserComponent";
 
 const Friends = ({ open, handleClose }) => {
   const [value, setValue] = useState(0);
@@ -19,7 +28,11 @@ const Friends = ({ open, handleClose }) => {
       <>
         {users.map((el, idx) => {
           // render the fragment or component to show users
-          return <></>;
+          return (
+            <>
+              <UserComponent key={el._id} {...el} />
+            </>
+          );
         })}
       </>
     );
@@ -34,7 +47,11 @@ const Friends = ({ open, handleClose }) => {
     return (
       <>
         {friends.map((el, idx) => {
-          return <></>;
+          return (
+            <>
+              <FriendsComponent key={el._id} {...el} />
+            </>
+          );
         })}
       </>
     );
@@ -48,7 +65,8 @@ const Friends = ({ open, handleClose }) => {
     return (
       <>
         {friendRequests.map((el, idx) => {
-          return <></>;
+          // el => {_id, sender: {firstName, lastName, _id, image etc}}
+          return <FriendRequestComponent key={el._id} {...el} id={el._id} />;
         })}
       </>
     );
@@ -76,12 +94,12 @@ const Friends = ({ open, handleClose }) => {
             {(() => {
               switch (value) {
                 case 0: // dispolay all users
-                return <UserList/>
-                  
+                  return <UserList />;
+
                 case 1: // display all friends
-                return <FriendsList/>
+                  return <FriendsList />;
                 case 2: // display all pending requests
-                return <FriendsRequests/>
+                  return <FriendsRequests />;
                 default:
                   break;
               }
