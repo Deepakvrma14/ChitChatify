@@ -32,7 +32,7 @@ exports.getUsers = async (req, res, next) => {
   //    condition to filter out and get only the users who arent friends yet
   const remaining_users = all_users.filter(
     (user) =>
-      !this_user.friends.include(user._id) &&
+      !this_user.friends.includes(user._id) &&
       //   to check if the user we got and user from the request are same
       user._id.toString() != req.user._id.toString()
   );
@@ -51,7 +51,7 @@ exports.getRequest = async (req, res, next) => {
 
     res.status(200).json({
       status: "success",
-      data: friends,
+      data: requests.friends,
       message: "Friends Request fetch from DB successfully",
     });
 };

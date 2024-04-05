@@ -4,6 +4,8 @@ let socket;
 
 const connectSocket = (user_id) => {
   socket = io("http://localhost:3001", {
+    withCredentials: true,
+    
     query: `user_id=${user_id}`,
   });
 };

@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import axios from "../../utils/axios";
 
 const defaultState = {
+  loading: false,
   sidebar: {
     open: false,
     type: "CONTACT",
@@ -21,6 +22,9 @@ const appSlice = createSlice({
   name: "app",
   initialState: defaultState,
   reducers: {
+    setLoading(state, action) {
+      state.loading = action.payload;
+    },
     // toggle Sidebar
     toggleSidebar(state) {
       state.sidebar.open = !state.sidebar.open;
@@ -79,10 +83,11 @@ export const FetchUsers = () => {
       .get("/user/get-users", {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${getState().auth.token}`,
+          Authorization: `Bearer ${getState().authState.token}`,
         },
       })
       .then((response) => {
+        // console.log(getState);
         console.log(response);
         dispatch(appSlice.actions.updateUsers({ users: response.data.data }));
       })
@@ -98,7 +103,7 @@ export const FetchFriends = () => {
       .get("/user/get-friends", {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${getState().auth.token}`,
+          Authorization: `Bearer ${getState().authState.token}`,
         },
       })
       .then((response) => {
@@ -115,11 +120,12 @@ export const FetchFriends = () => {
 
 export const FetchRequests = () => {
   return async (dispatch, getState) => {
+    dispatch(appSlice.actions.setLoading(true));
     await axios
       .get("/user/get-friend-requests", {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${getState().auth.token}`,
+          Authorization: `Bearer ${getState().authState.token}`,
         },
       })
       .then((response) => {
@@ -132,6 +138,9 @@ export const FetchRequests = () => {
       })
       .catch((error) => {
         console.log(error);
+      }).finally(()=>{
+        dispatch(appSlice.actions.setLoading(false));
+
       });
   };
 };

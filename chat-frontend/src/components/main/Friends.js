@@ -12,65 +12,71 @@ import {
   UserComponent,
 } from "../UserComponent";
 
+const UserList = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(FetchUsers());
+  }, []);
+
+  const { users } = useSelector((state) => state.appState);
+  return (
+    <>
+      {users.map((el, idx) => {
+        // render the fragment or component to show users
+        return (
+          <>
+            <UserComponent key={el._id} {...el} />
+          </>
+        );
+      })}
+    </>
+  );
+  //
+};
+
+const FriendsList = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(FetchFriends());
+  }, []);
+  const { friends } = useSelector((state) => state.appState);
+  return (
+    <>
+      {friends.map((el, idx) => {
+        return (
+          <>
+            <FriendsComponent key={el._id} {...el} />
+          </>
+        );
+      })}
+    </>
+  );
+};
+const FriendsRequests = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(FetchRequests());
+  }, []);
+  const { friendRequests, loading } = useSelector((state) => state.appState);
+  return (
+    <>
+      {loading ? (
+        <p> Loading ... </p>
+      ) : (
+        friendRequests && friendRequests.map((el, idx) => {
+          // el => {_id, sender: {firstName, lastName, _id, image etc}}
+          return <FriendRequestComponent key={el._id} {...el} id={el._id} />;
+        })
+      )}
+    </>
+  );
+};
 const Friends = ({ open, handleClose }) => {
   const [value, setValue] = useState(0);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  const UserList = () => {
-    const dispatch = useDispatch();
-    useEffect(() => {
-      dispatch(FetchUsers());
-    }, []);
 
-    const { users } = useSelector((state) => state.appState);
-    return (
-      <>
-        {users.map((el, idx) => {
-          // render the fragment or component to show users
-          return (
-            <>
-              <UserComponent key={el._id} {...el} />
-            </>
-          );
-        })}
-      </>
-    );
-    //
-  };
-  const FriendsList = () => {
-    const dispatch = useDispatch();
-    useEffect(() => {
-      dispatch(FetchFriends());
-    }, []);
-    const { friends } = useSelector((state) => state.appState);
-    return (
-      <>
-        {friends.map((el, idx) => {
-          return (
-            <>
-              <FriendsComponent key={el._id} {...el} />
-            </>
-          );
-        })}
-      </>
-    );
-  };
-  const FriendsRequests = () => {
-    const dispatch = useDispatch();
-    useEffect(() => {
-      dispatch(FetchRequests());
-    }, []);
-    const { friendRequests } = useSelector((state) => state.appState);
-    return (
-      <>
-        {friendRequests.map((el, idx) => {
-          // el => {_id, sender: {firstName, lastName, _id, image etc}}
-          return <FriendRequestComponent key={el._id} {...el} id={el._id} />;
-        })}
-      </>
-    );
-  };
   return (
     <Dialog
       fullWidth
@@ -100,8 +106,6 @@ const Friends = ({ open, handleClose }) => {
                   return <FriendsList />;
                 case 2: // display all pending requests
                   return <FriendsRequests />;
-                default:
-                  break;
               }
             })()}
           </Stack>

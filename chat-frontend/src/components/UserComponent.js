@@ -24,6 +24,7 @@ const UserComponent = ({ firstName, lastName, img, online, _id }) => {
     <StyledChatBox
       sx={{
         width: "100%",
+        
         borderRadius: 1,
         backgroundColor: theme.palette.background.paper,
       }}
@@ -32,15 +33,16 @@ const UserComponent = ({ firstName, lastName, img, online, _id }) => {
         direction={"row"}
         alignItems={"center"}
         justifyContent={"space-between"}
+        p={2}
       >
-        <Stack direction={"row"} alignItems={"center"} spacing={2}>
+        <Stack direction={"row"} alignItems={"center"} spacing={2}  >
           {online ? (
             <StyledBadge
               overlap="circular"
               anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
               variant="dot"
             >
-              <Avatar src={img} alt={name} />
+              <Avatar src={img} alt={name}  />
             </StyledBadge>
           ) : (
             <Avatar src={img} alt={name} />
@@ -48,13 +50,14 @@ const UserComponent = ({ firstName, lastName, img, online, _id }) => {
           <Typography variant="subtitle2">{name}</Typography>
         </Stack>
         <Button
+          
           onClick={() => {
             socket.emit("friend_req", { to: _id, from: user_id }, () => {
               alert("request sent");
             });
           }}
         >
-          Send Request
+          <Typography variant="subtitle2" bgcolor={theme.palette.background.paper} >Send Request </Typography>
         </Button>
       </Stack>
     </StyledChatBox>
@@ -83,8 +86,9 @@ const FriendRequestComponent = ({
         direction={"row"}
         alignItems={"center"}
         justifyContent={"space-between"}
+        p={2}
       >
-        <Stack direction={"row"} alignItems={"center"} spacing={2}>
+        <Stack direction={"row"} alignItems={"center"} spacing={2} p={2} >
           {online ? (
             <StyledBadge
               overlap="circular"
@@ -127,8 +131,9 @@ const FriendsComponent = ({ firstName, lastName, img, online, _id }) => {
         direction={"row"}
         alignItems={"center"}
         justifyContent={"space-between"}
+        p={2}
       >
-        <Stack direction={"row"} alignItems={"center"} spacing={2}>
+        <Stack direction={"row"} alignItems={"center"} spacing={2} p={2}>
           {online ? (
             <StyledBadge
               overlap="circular"

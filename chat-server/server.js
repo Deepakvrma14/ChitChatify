@@ -19,9 +19,10 @@ const port = process.env.PORT || 3001;
 
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:3000" || "http://localhost:3001",
+    origin: "http://localhost:3000" ||"http://localhost:3001" ,
     methods: ["GET", "POST"],
-    credentials: true,
+   
+    credentials: true
   },
 });
 
@@ -69,7 +70,7 @@ io.on("connection", async (socket) => {
     });
 
     // reuqest sending emit event
-    it.to(from_user.socket_id).emit("request_sent", {
+    io.to(from_user.socket_id).emit("request_sent", {
       message: "Request sent successfully",
     });
   });
