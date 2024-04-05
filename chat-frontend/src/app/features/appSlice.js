@@ -88,7 +88,7 @@ export const FetchUsers = () => {
       })
       .then((response) => {
         // console.log(getState);
-        console.log(response);
+        // console.log(response);
         dispatch(appSlice.actions.updateUsers({ users: response.data.data }));
       })
       .catch((err) => {

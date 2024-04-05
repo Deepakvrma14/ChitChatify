@@ -97,7 +97,7 @@ io.on("connection", async (socket) => {
     io.to(receiver.socket_id).emit("request_accepted", {
       message: "Request accepted successfully ",
     });
-
+  });
     // socket connection for the messages sending and receiving,
 
     socket.on("text_message", async (data) => {
@@ -137,7 +137,6 @@ io.on("connection", async (socket) => {
       socket.disconnect(0);
     });
   });
-});
 
 process.on("unhandledRejection", (err) => {
   console.log(err);

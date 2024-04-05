@@ -24,9 +24,9 @@ const UserList = () => {
       {users.map((el, idx) => {
         // render the fragment or component to show users
         return (
-          <>
+         
             <UserComponent key={el._id} {...el} />
-          </>
+          
         );
       })}
     </>
@@ -44,9 +44,9 @@ const FriendsList = () => {
     <>
       {friends.map((el, idx) => {
         return (
-          <>
+          
             <FriendsComponent key={el._id} {...el} />
-          </>
+         
         );
       })}
     </>

@@ -17,7 +17,7 @@ exports.updateMe = async (req, res, next) => {
     validateModelOnly: true,
   });
 
-  res.status(200).json({
+  return res.status(200).json({
     status: "success",
     data: updated_user,
     message: "Profile Updated successfully!",
@@ -36,7 +36,7 @@ exports.getUsers = async (req, res, next) => {
       //   to check if the user we got and user from the request are same
       user._id.toString() != req.user._id.toString()
   );
-  res.status(200).json({
+  return res.status(200).json({
     status: "success",
     data: remaining_users,
     message: "Remaining users found successfully",
@@ -49,23 +49,23 @@ exports.getRequest = async (req, res, next) => {
     .find({ receiver: req.user._id })
     .populate("sender", "_id firstName lastName");
 
-    res.status(200).json({
+    return res.status(200).json({
+      data: requests,
       status: "success",
-      data: requests.friends,
+      
       message: "Friends Request fetch from DB successfully",
     });
 };
 
 exports.getFriends = async (req, res, next) => {
-  // user id from the protected router middlewarte that will be running before this
   const this_user = await User.findById(req.user._id).populate(
     "friends",
     "_id firstName lastName"
   );
 
-  res.status(200).json({
+  return res.status(200).json({
     status: "success",
-    data: this_user.friends,
+    data: this_user.friends, 
     message: "Friends list fetch from DB successfully",
   });
 };

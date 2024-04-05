@@ -57,7 +57,7 @@ const UserComponent = ({ firstName, lastName, img, online, _id }) => {
             });
           }}
         >
-          <Typography variant="subtitle2" bgcolor={theme.palette.background.paper} >Send Request </Typography>
+          <Typography variant="subtitle2" bg-color={theme.palette.background.paper} >Send Request </Typography>
         </Button>
       </Stack>
     </StyledChatBox>
