@@ -120,7 +120,7 @@ exports.sendOTP = async (req, res, next) => {
     "text",
     `${otpEmailerHTMLOutput(user.firstName, new_otp)}`
   );
-  // console.log(new_otp);
+  console.log(new_otp);
   return res.status(200).json({
     status: "success",
     message: "OTP sent successfully",

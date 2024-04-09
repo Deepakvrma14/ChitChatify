@@ -12,13 +12,7 @@ const DashboardLayout = () => {
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
 
-  if (!isLoggedIn) {
-    return <Navigate to="/auth/login" />;
-  }
-
-  if (isSmallScreen || isMediumScreen) {
-    return <MobileScreenComponent />;
-  }
+  
   const dispatch = useDispatch();
 
   const user_id = window.localStorage.getItem("user_id");
@@ -43,7 +37,13 @@ const DashboardLayout = () => {
       };
     }
   }, [isLoggedIn, user_id, socket, dispatch ]);
+  if (!isLoggedIn) {
+    return <Navigate to="/auth/login" />;
+  }
 
+  if (isSmallScreen || isMediumScreen) {
+    return <MobileScreenComponent />;
+  }
   // old approach
   // useEffect(() => {
   //   if (isLoggedIn) {

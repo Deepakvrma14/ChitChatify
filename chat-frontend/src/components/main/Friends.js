@@ -65,7 +65,7 @@ const FriendsRequests = () => {
       ) : (
         friendRequests && friendRequests.map((el, idx) => {
           // el => {_id, sender: {firstName, lastName, _id, image etc}}
-          return <FriendRequestComponent key={el._id} {...el} id={el._id} />;
+          return <FriendRequestComponent key={el._id} {...el.sender} id={el._id} />;
         })
       )}
     </>

@@ -109,7 +109,7 @@ export const FetchFriends = () => {
       .then((response) => {
         console.log(response);
         dispatch(
-          appSlice.actions.updateFriends({ friends: response.data.data })
+          appSlice.actions.updateFriends({ friends: response.data.data }) 
         );
       })
       .catch((error) => {
@@ -129,7 +129,16 @@ export const FetchRequests = () => {
         },
       })
       .then((response) => {
-        console.log(response);
+        // console.log(response.data.data);
+        const req = response.data.data.map(item => ({
+          ...item,
+          senderFirstName: item.sender.firstName,
+          senderLastName: item.sender.lastName
+        }));
+        // console.log(requests.senderFirstName);
+        // req.forEach(request =>{
+        //   console.log(request.senderFirstName);
+        // } )
         dispatch(
           appSlice.actions.updateFriendRequests({
             requests: response.data.data,

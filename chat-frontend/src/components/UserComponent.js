@@ -73,6 +73,7 @@ const FriendRequestComponent = ({
 }) => {
   const theme = useTheme();
   // id is request id which is used to point to the reque4st id of frined request
+  console.log(firstName);
   const name = `${firstName} ${lastName}`;
   return (
     <StyledChatBox
