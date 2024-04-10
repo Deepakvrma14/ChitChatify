@@ -11,6 +11,8 @@ import React from "react";
 import { StyledBadge } from "./customMui/StyledBadge";
 import { socket } from "../socket";
 import { Chat } from "phosphor-react";
+import { useDispatch } from "react-redux";
+import { showSnackbar } from "../app/features/appSlice";
 const StyledChatBox = styled(Box)(({ theme }) => ({
   "&:hover": {
     cursor: "pointer",
@@ -20,6 +22,7 @@ const user_id = window.localStorage.getItem("user_id");
 const UserComponent = ({ firstName, lastName, img, online, _id }) => {
   const theme = useTheme();
   const name = `${firstName} ${lastName}`;
+  const dispatch = useDispatch();
   return (
     <StyledChatBox
       sx={{
@@ -53,7 +56,9 @@ const UserComponent = ({ firstName, lastName, img, online, _id }) => {
           
           onClick={() => {
             socket.emit("friend_req", { to: _id, from: user_id }, () => {
-              alert("request sent");
+              // alert("request sent");
+             dispatch( showSnackbar({ severity: "success", message: "Request sent successfully" }))
+              // console.log("sent");
             });
           }}
         >
@@ -73,7 +78,8 @@ const FriendRequestComponent = ({
 }) => {
   const theme = useTheme();
   // id is request id which is used to point to the reque4st id of frined request
-  console.log(firstName);
+  // console.log(firstName);
+  const dispatch = useDispatch();
   const name = `${firstName} ${lastName}`;
   return (
     <StyledChatBox
@@ -106,7 +112,9 @@ const FriendRequestComponent = ({
         <Button
           onClick={() => {
             socket.emit("accept_friend", { request_id: id }, () => {
-              alert("request accepted");
+              // alert("request accepted");
+             dispatch( showSnackbar({ severity: "success", message: "Request accepted successfully" }));
+
             });
           }}
         >

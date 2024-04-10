@@ -130,11 +130,11 @@ export const FetchRequests = () => {
       })
       .then((response) => {
         // console.log(response.data.data);
-        const req = response.data.data.map(item => ({
-          ...item,
-          senderFirstName: item.sender.firstName,
-          senderLastName: item.sender.lastName
-        }));
+        // const req = response.data.data.map(item => ({
+        //   ...item,
+        //   senderFirstName: item.sender.firstName,
+        //   senderLastName: item.sender.lastName
+        // }));
         // console.log(requests.senderFirstName);
         // req.forEach(request =>{
         //   console.log(request.senderFirstName);

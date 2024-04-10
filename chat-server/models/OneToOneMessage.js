@@ -1,12 +1,12 @@
 const mongoose = require("mongoose");
 
 const oneToOneMessage = new mongoose.Schema({
-  participants: {
+  participants: [{
     type: mongoose.Schema.ObjectId,
     ref: "User",
-  },
-  message: {
-    to: {
+  }],
+  message: [
+    {to: {
         type: mongoose.Schema.ObjectId,
         ref:"User"
     },
@@ -27,8 +27,9 @@ const oneToOneMessage = new mongoose.Schema({
     },
     file: {
         type: String,
-    }
-  }
+    }}
+  
+]
 });
 
 const oneToOneModel = new mongoose.model("OneToOneMessage", oneToOneMessage);

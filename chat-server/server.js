@@ -8,6 +8,7 @@ const { Server } = require("socket.io");
 const User = require("./models/user");
 const friendRequest = require("./models/friendRequest");
 const path = require("path");
+const oneToOneModel = require("./models/OneToOneMessage");
 process.on("uncaughtException", (err) => {
   console.log(err);
   process.exit(1);
@@ -19,10 +20,10 @@ const port = process.env.PORT || 3001;
 
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:3000" ||"http://localhost:3001" ,
+    origin: "http://localhost:3000" || "http://localhost:3001",
     methods: ["GET", "POST"],
-   
-    credentials: true
+
+    credentials: true,
   },
 });
 
@@ -98,45 +99,54 @@ io.on("connection", async (socket) => {
       message: "Request accepted successfully ",
     });
   });
-    // socket connection for the messages sending and receiving,
+  socket.on("get_direct_conversations", async ({ user_id }, callback) => {
+    const existing_user = await oneToOneModel
+      .find({
+        participants: { $all: [user_id] },
+      })
+      .populate("participants", "firstName lastName _id email status");
+    console.log(existing_user);
 
-    socket.on("text_message", async (data) => {
-      console.log("Received message is ", data.text);
-      // add new msg or add new msg to msg list which is lready there
-      // data => {to, from, text}
-
-      // save to db
-
-      // emit incoming_message for to_user
-
-      // emit outgoing_message for from_user
-    });
-    socket.on("file_message", async (data) => {
-      console.log(`${data} received`);
-
-      const fileExtension = path.extname(data.file.name);
-
-      const dbUniqueName = `${Date.now()}_${Math.floor(Math.random()*10000)}_${fileExtension}`;
-
-      // upload files to aws s3
-
-      // data => {to, from, text, file}
-
-      // save to db
-
-      // emit incoming_message for to_user
-
-      // emit outgoing_message for from_user
-
-    });
-    socket.on("end", async (data) => {
-      if (data.user_id) {
-        await User.findByIdAndUpdate(data.user_id, { status: "Offline" });
-      }
-      console.log("disconnecting this connection");
-      socket.disconnect(0);
-    });
+    callback(existing_user);
   });
+  socket.on("text_message", async (data) => {
+    console.log("Received message is ", data.text);
+    // add new msg or add new msg to msg list which is lready there
+    // data => {to, from, text}
+
+    // save to db
+
+    // emit incoming_message for to_user
+
+    // emit outgoing_message for from_user
+  });
+  socket.on("file_message", async (data) => {
+    console.log(`${data} received`);
+
+    const fileExtension = path.extname(data.file.name);
+
+    const dbUniqueName = `${Date.now()}_${Math.floor(
+      Math.random() * 10000
+    )}_${fileExtension}`;
+
+    // upload files to aws s3
+
+    // data => {to, from, text, file}
+
+    // save to db
+
+    // emit incoming_message for to_user
+
+    // emit outgoing_message for from_user
+  });
+  socket.on("end", async (data) => {
+    if (data.user_id) {
+      await User.findByIdAndUpdate(data.user_id, { status: "Offline" });
+    }
+    console.log("disconnecting this connection");
+    socket.disconnect(0);
+  });
+});
 
 process.on("unhandledRejection", (err) => {
   console.log(err);

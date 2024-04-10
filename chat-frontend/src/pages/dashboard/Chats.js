@@ -20,9 +20,10 @@ import {
   SearchIconWrapper,
   StyledInputBase,
 } from "./custom/CustomMaterialUI";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Friends from "../../components/main/Friends";
-
+import { socket } from "../../socket";
+const user_id = window.localStorage.getItem("user_id");
 const Chats = () => {
   const theme = useTheme();
   const [openDialog, setOpenDialog] = useState(false);
@@ -33,6 +34,12 @@ const Chats = () => {
   const handleCloseDialog = () => {
     setOpenDialog(false);
   };
+
+  useEffect(() => {
+    socket.emit("get_direct_conversations", { user_id }, (data) => {
+      // data=> existing users list coming from backend
+    });
+  }, []);
   return (
     <>
       <Box
@@ -133,7 +140,9 @@ const Chats = () => {
           </Stack>
         </Stack>
       </Box>
-      {openDialog && <Friends open={openDialog} handleClose={handleCloseDialog} />}
+      {openDialog && (
+        <Friends open={openDialog} handleClose={handleCloseDialog} />
+      )}
     </>
   );
 };
