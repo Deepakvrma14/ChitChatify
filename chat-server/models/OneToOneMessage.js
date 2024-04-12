@@ -1,35 +1,38 @@
 const mongoose = require("mongoose");
 
 const oneToOneMessage = new mongoose.Schema({
-  participants: [{
-    type: mongoose.Schema.ObjectId,
-    ref: "User",
-  }],
+  participants: [
+    {
+      type: mongoose.Schema.ObjectId,
+      ref: "User",
+    },
+  ],
   message: [
-    {to: {
+    {
+      to: {
         type: mongoose.Schema.ObjectId,
-        ref:"User"
-    },
-    from:{
-        type:mongoose.Schema.ObjectId,
-        ref: "User"
-    },
-    type: {
-        type:String,
-        enum: ["Text", "Media", "Document", "Link"]
-    },
-    createdAt: {
-        type:Date,
+        ref: "User",
+      },
+      from: {
+        type: mongoose.Schema.ObjectId,
+        ref: "User",
+      },
+      type: {
+        type: String,
+        enum: ["Text", "Media", "Document", "Link"],
+      },
+      createdAt: {
+        type: Date,
         default: Date.now(),
-    },
-    text: {
+      },
+      text: {
         type: String,
-    },
-    file: {
+      },
+      file: {
         type: String,
-    }}
-  
-]
+      },
+    },
+  ],
 });
 
 const oneToOneModel = new mongoose.model("OneToOneMessage", oneToOneMessage);

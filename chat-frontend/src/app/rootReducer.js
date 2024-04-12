@@ -1,22 +1,19 @@
 import { combineReducers } from "redux";
 import storage from "redux-persist/lib/storage";
 import appReducer from "./features/appSlice";
-
-// sllices here 
- 
+import authReducer from "./features/authSlice";
+import conversationReducer from "./features/conversationSlice";
 
 const rootPersistConfig = {
-    key: 'root',
-    storage,
-    keyPrefix: 'redux-',
-    // whitelist to allow certain parts to persist 
-    // blacklist to not to fill unnecessary storage 
-
+  key: 'root',
+  storage,
+  keyPrefix: 'redux-',
 }
 
-const rootReducer = combineReducers({ // combine and help to have all the reducers at one place only 
-    app:appReducer,
-
+const rootReducer = combineReducers({
+  appState: appReducer,
+  authState: authReducer,
+  conversationState: conversationReducer,
 });
 
 export {rootPersistConfig, rootReducer};

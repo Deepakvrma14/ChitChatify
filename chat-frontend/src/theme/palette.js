@@ -1,5 +1,5 @@
 import { alpha } from '@mui/material/styles';
-
+import { darkBackground, lightBackground } from './background';
 // ----------------------------------------------------------------------
 
 function createGradient(color1, color2) {
@@ -109,13 +109,14 @@ const COMMON = {
     disabledOpacity: 0.48,
   },
 };
+
 const palette = {
   light: {
     ...COMMON,
     mode: 'light',
     primary: { main: '#826a5c', contrastText: '#fff' }, // Updated primary color
     secondary: { main: '#826a5c', contrastText: '#fff' }, // Sidebar color
-    background: { paper: '#f1f1f1', default: '#g0g0g0', neutral: GREY[200] }, // Darkened background color
+    background: { ...lightBackground, neutral: GREY[200] }, // Darkened background color
     text: { primary: '#141414', secondary: GREY[600], disabled: GREY[500] }, // Text color
     action: { active: GREY[600], ...COMMON.action },
   },
@@ -124,7 +125,7 @@ const palette = {
     mode: 'dark',
     primary: { main: '#7da875', contrastText: '#1c212b' }, // Darkened primary color
     secondary: { main: '#7fda77', contrastText: '#fff' }, // Shade of primary color
-    background: { paper: '#2a303c', default: '#1c212b', neutral: '#242933' }, // Background colors
+    background: { ...darkBackground , neutral: '#242933' }, // Background colors
     text: { primary: '#b2ccd6', secondary: GREY[500], disabled: GREY[600] }, // Text color
     action: { active: GREY[500], ...COMMON.action },
   },

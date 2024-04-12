@@ -1,24 +1,27 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import App from "./App";
 // contexts
 import SettingsProvider from "./contexts/SettingsContext";
-import {store} from './app/store'
-import { Provider } from 'react-redux';
+import { store, persistor } from "./app/store";
+import { PersistGate } from "redux-persist/integration/react";
+
+import { Provider } from "react-redux";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
-    // <HelmetProvider>
+  // <HelmetProvider>
   <Provider store={store}>
+    <PersistGate loading={null} persistor={persistor}>
       <SettingsProvider>
         <BrowserRouter>
           <App />
         </BrowserRouter>
       </SettingsProvider>
-      </Provider>
-    // </HelmetProvider>
+    </PersistGate>
+  </Provider>
+  // </HelmetProvider>
 );
-

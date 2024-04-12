@@ -14,6 +14,7 @@ const ChatElement = ({ id, name, img, msg, time, unread, online }) => {
       sx={{
         width: "100%",
         borderRadius: 1,
+        
         backgroundColor:
           theme.palette.mode === "light"
             ? "#fff"
