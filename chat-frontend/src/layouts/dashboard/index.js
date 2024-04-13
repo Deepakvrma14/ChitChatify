@@ -5,14 +5,21 @@ import { useDispatch, useSelector } from "react-redux";
 import SideBar from "./SideBar";
 import MobileScreenComponent from "./MobileScreenComponent.js";
 import { socket, connectSocket } from "../../socket.js";
-import { showSnackbar } from "../../app/features/appSlice.js";
+import {
+  SelectConversation,
+  showSnackbar,
+} from "../../app/features/appSlice.js";
+import { AddDirectConversation, UpdateDirectConversation } from "../../app/features/conversationSlice.js";
 const DashboardLayout = () => {
   const { isLoggedIn } = useSelector((state) => state.authState);
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
 
-  
+  const { conversations } = useSelector(
+    (state) => state.conversationState.direct_chat
+  );
+
   const dispatch = useDispatch();
 
   const user_id = window.localStorage.getItem("user_id");
@@ -29,14 +36,25 @@ const DashboardLayout = () => {
       socket.on("accept_friend", (data) => {
         dispatch(showSnackbar({ severity: "success", message: data.message }));
       });
+      socket.on("start_chat", (data) => {
+        console.log(data);
+        const existingConvo = conversations.find((el) => el._id === data._id);
+        if (existingConvo) {
+          dispatch(UpdateDirectConversation({ conversation: data }));
+        } else {
+          dispatch(AddDirectConversation({ conversation: data }));
+        }
+        dispatch(SelectConversation({ room_id: data._id }));
+      });
       // cleanup functions
       return () => {
-        socket.off("new_friend_request");
-        socket.off("request_send");
-        socket.off("accept_friend");
+        socket?.off("new_friend_request");
+        socket?.off("request_send");
+        socket?.off("accept_friend");
+        socket?.off("start_chat");
       };
     }
-  }, [isLoggedIn, user_id, socket, dispatch ]);
+  }, [isLoggedIn, user_id, socket, dispatch]);
   if (!isLoggedIn) {
     return <Navigate to="/auth/login" />;
   }

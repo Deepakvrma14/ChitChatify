@@ -105,9 +105,43 @@ io.on("connection", async (socket) => {
         participants: { $all: [user_id] },
       })
       .populate("participants", "firstName lastName _id email status");
-    console.log(existing_user);
+    // console.log(existing_user);
 
     callback(existing_user);
+  });
+  socket.on("start_conversation", async (data) => {
+    const { to, from } = data;
+
+    try {
+      // check if there's existing convo
+      const existingConvo = await oneToOneModel
+        .find({
+          participants: { $size: 2, $all: [to, from] },
+        })
+        .populate("participants", "firstName lastName _id email status");
+
+      console.log(existingConvo[0]); //as there could be only one conversation between an to and from
+
+      // if no convo until now
+      if (existingConvo.length === 0) {
+        let newChat = await oneToOneModel.create({
+          participants: [to, from],
+        });
+        newChat = await oneToOneModel
+          .findById(newChat._id)
+          .populate("participants", "firstName lastName _id email status");
+        console.log(newChat);
+
+        socket.emit("start_chat", newChat);
+      }
+      // if convo already
+      else {
+        socket.emit("start_chat", existingConvo[0]);
+      }
+    } catch (error) {
+      console.error(`Error during start_conversation: ${error}`);
+    }
+ 
   });
   socket.on("text_message", async (data) => {
     console.log("Received message is ", data.text);

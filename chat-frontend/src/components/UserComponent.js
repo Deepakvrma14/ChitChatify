@@ -27,7 +27,7 @@ const UserComponent = ({ firstName, lastName, img, online, _id }) => {
     <StyledChatBox
       sx={{
         width: "100%",
-        
+
         borderRadius: 1,
         backgroundColor: theme.palette.background.paper,
       }}
@@ -38,14 +38,14 @@ const UserComponent = ({ firstName, lastName, img, online, _id }) => {
         justifyContent={"space-between"}
         p={2}
       >
-        <Stack direction={"row"} alignItems={"center"} spacing={2}  >
+        <Stack direction={"row"} alignItems={"center"} spacing={2}>
           {online ? (
             <StyledBadge
               overlap="circular"
               anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
               variant="dot"
             >
-              <Avatar src={img} alt={name}  />
+              <Avatar src={img} alt={name} />
             </StyledBadge>
           ) : (
             <Avatar src={img} alt={name} />
@@ -53,16 +53,25 @@ const UserComponent = ({ firstName, lastName, img, online, _id }) => {
           <Typography variant="subtitle2">{name}</Typography>
         </Stack>
         <Button
-          
           onClick={() => {
             socket.emit("friend_req", { to: _id, from: user_id }, () => {
               // alert("request sent");
-             dispatch( showSnackbar({ severity: "success", message: "Request sent successfully" }))
+              dispatch(
+                showSnackbar({
+                  severity: "success",
+                  message: "Request sent successfully",
+                })
+              );
               // console.log("sent");
             });
           }}
         >
-          <Typography variant="subtitle2" bg-color={theme.palette.background.paper} >Send Request </Typography>
+          <Typography
+            variant="subtitle2"
+            bg-color={theme.palette.background.paper}
+          >
+            Send Request{" "}
+          </Typography>
         </Button>
       </Stack>
     </StyledChatBox>
@@ -95,7 +104,7 @@ const FriendRequestComponent = ({
         justifyContent={"space-between"}
         p={2}
       >
-        <Stack direction={"row"} alignItems={"center"} spacing={2} p={2} >
+        <Stack direction={"row"} alignItems={"center"} spacing={2} p={2}>
           {online ? (
             <StyledBadge
               overlap="circular"
@@ -113,8 +122,12 @@ const FriendRequestComponent = ({
           onClick={() => {
             socket.emit("accept_friend", { request_id: id }, () => {
               // alert("request accepted");
-             dispatch( showSnackbar({ severity: "success", message: "Request accepted successfully" }));
-
+              dispatch(
+                showSnackbar({
+                  severity: "success",
+                  message: "Request accepted successfully",
+                })
+              );
             });
           }}
         >
@@ -159,6 +172,7 @@ const FriendsComponent = ({ firstName, lastName, img, online, _id }) => {
         <IconButton
           onClick={() => {
             //  TODO create link to open individual chat from here
+            socket.emit("start_conversation", { to: _id, from: user_id });
           }}
         >
           <Chat />

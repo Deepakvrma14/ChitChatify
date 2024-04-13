@@ -8,6 +8,7 @@ const rootPersistConfig = {
   key: 'root',
   storage,
   keyPrefix: 'redux-',
+  whitelist: ['authState', 'conversationState']
 }
 
 const rootReducer = combineReducers({

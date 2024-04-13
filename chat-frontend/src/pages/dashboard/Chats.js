@@ -1,28 +1,13 @@
-import {
-  Box,
-  IconButton,
-  Typography,
-  Stack,
-  Divider,
-  Button,
-} from "@mui/material";
-import {
-  CircleDashed,
-  MagnifyingGlass,
-  ArchiveBox,
-  Users,
-} from "phosphor-react";
-import { useTheme } from "@mui/material/styles";
-import ChatElement from "./ChatElement";
-import { ChatList } from "../../data";
-import {
-  Search,
-  SearchIconWrapper,
-  StyledInputBase,
-} from "./custom/CustomMaterialUI";
+import { Box, IconButton, Typography, Stack, Divider, Button } from "@mui/material"; 
+import { CircleDashed, MagnifyingGlass, ArchiveBox, Users } from "phosphor-react"; 
+import { useTheme } from "@mui/material/styles"; 
+import ChatElement from "./ChatElement"; 
+import { ChatList } from "../../data"; 
+import { Search, SearchIconWrapper, StyledInputBase } from "./custom/CustomMaterialUI";
 import { useEffect, useState } from "react";
 import Friends from "../../components/main/Friends";
 import { socket } from "../../socket";
+import { useSelector } from "react-redux";
 const user_id = window.localStorage.getItem("user_id");
 const Chats = () => {
   const theme = useTheme();
@@ -40,6 +25,7 @@ const Chats = () => {
       // data=> existing users list coming from backend
     });
   }, []);
+  const {conversations} = useSelector((state)=> state.conversationState.direct_chat);
   return (
     <>
       <Box
@@ -105,7 +91,7 @@ const Chats = () => {
             }}
             spacing={2}
           >
-            <Stack spacing={2.4}>
+            {/* <Stack spacing={2.4}>
               <Typography
                 variant="subtitle"
                 sx={{
@@ -120,7 +106,7 @@ const Chats = () => {
               {ChatList.filter((el) => el.pinned).map((el) => {
                 return <ChatElement {...el} key={el.id} />;
               })}
-            </Stack>
+            </Stack> */}
             <Stack spacing={2.4} marginTop={2}>
               <Typography
                 variant="subtitle"
@@ -133,7 +119,7 @@ const Chats = () => {
               >
                 All Chats
               </Typography>
-              {ChatList.filter((el) => !el.pinned).map((el) => {
+              {conversations.filter((el) => !el.pinned).map((el) => {
                 return <ChatElement {...el} key={el.id} />;
               })}
             </Stack>
