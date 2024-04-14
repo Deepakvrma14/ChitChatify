@@ -141,7 +141,6 @@ io.on("connection", async (socket) => {
     } catch (error) {
       console.error(`Error during start_conversation: ${error}`);
     }
- 
   });
   socket.on("text_message", async (data) => {
     console.log("Received message is ", data.text);
@@ -160,7 +159,7 @@ io.on("connection", async (socket) => {
     const fileExtension = path.extname(data.file.name);
 
     const dbUniqueName = `${Date.now()}_${Math.floor(
-      Math.random() * 10000
+      Math.random() * 10000                     
     )}_${fileExtension}`;
 
     // upload files to aws s3
