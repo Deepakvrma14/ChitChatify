@@ -22,7 +22,7 @@ const DocMsg = ({ el }) => {
         p={1.5}
         sx={{
           backgroundColor: el.incoming
-            ? theme.palette.primary.contrastText
+            ? theme.palette.text.msg
             : theme.palette.primary.main,
           borderRadius: 1.5,
           width: "max-content",
@@ -47,7 +47,7 @@ const DocMsg = ({ el }) => {
           </Stack>
           <Typography
             variant="body2"
-            color={el.incoming ? theme.palette.text : "#fff"}
+            color={el.incoming ? theme.palette.text :theme.palette.primary.contrastText}
           >
             {el.message}
           </Typography>
@@ -67,7 +67,7 @@ const LinkMsg = ({ el }) => {
         p={1.5}
         sx={{
           backgroundColor: el.incoming
-            ? theme.palette.primary.contrastText
+            ? theme.palette.text.msg
             : theme.palette.primary.main,
           borderRadius: 1.5,
           width: "max-content",
@@ -108,7 +108,7 @@ const LinkMsg = ({ el }) => {
           </Stack>
           <Typography
             variant="body2"
-            color={el.incoming ? theme.palette.text : "#fff"}
+            color={el.incoming ? theme.palette.text : theme.palette.primary.contrastText}
           >
             {el.message}
           </Typography>
@@ -128,7 +128,7 @@ const ReplyMsg = ({ el }) => {
         p={1.5}
         sx={{
           backgroundColor: el.incoming
-            ? theme.palette.primary.contrastText
+            ? theme.palette.text.msg
             : theme.palette.primary.main,
           borderRadius: 1.5,
           width: "max-content",
@@ -151,7 +151,7 @@ const ReplyMsg = ({ el }) => {
           </Stack>
           <Typography
             variant="body2"
-            color={el.incoming ? theme.palette.text : "#fff"}
+            color={el.incoming ? theme.palette.text : theme.palette.primary.contrastText}
           >
             {el.reply}
           </Typography>
@@ -171,7 +171,7 @@ const MediaMsg = ({ el }) => {
         p={1.5}
         sx={{
           backgroundColor: el.incoming
-            ? theme.palette.primary.contrastText
+            ? theme.palette.text.msg
             : theme.palette.primary.main,
           borderRadius: 1.5,
           width: "max-content",
@@ -186,7 +186,7 @@ const MediaMsg = ({ el }) => {
         </Stack>
         <Typography
           variant="body2"
-          color={el.incoming ? theme.palette.text : "#fff"}
+          color={el.incoming ? theme.palette.text : theme.palette.primary.contrastText}
         >
           {el.message}
         </Typography>
@@ -205,7 +205,7 @@ const TextMsg = ({ el }) => {
         p={1.5}
         sx={{
           backgroundColor: el.incoming
-            ? theme.palette.primary.contrastText
+            ? theme.palette.text.msg
             : theme.palette.primary.main,
           borderRadius: 1.5,
           width: "max-content",
@@ -213,7 +213,7 @@ const TextMsg = ({ el }) => {
       >
         <Typography
           variant="body2"
-          color={el.incoming ? theme.palette.text : "#fff"}
+          color={el.incoming ? theme.palette.text :theme.palette.primary.contrastText}
         >
           {el.message}
         </Typography>

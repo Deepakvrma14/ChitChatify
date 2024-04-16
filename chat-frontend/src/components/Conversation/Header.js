@@ -57,27 +57,27 @@ const Header = () => {
               color:
                 theme.palette.mode === "light"
                   ? "#000"
-                  : theme.palette.text.primary,
+                  : "fff",
             }}
           >
-            <VideoCamera size={24} />
+            <VideoCamera size={24} weight="fill" />
           </IconButton>
           <IconButton
             sx={{
               color:
                 theme.palette.mode === "light"
                   ? "#000"
-                  : theme.palette.text.primary,
+                  : "fff",
             }}
           >
-            <Phone size={24} />
+            <Phone size={24} weight="fill" />
           </IconButton>
           <IconButton
             sx={{
               color:
                 theme.palette.mode === "light"
                   ? "#000"
-                  : theme.palette.text.primary,
+                  : "fff",
             }}
           >
             <MagnifyingGlass size={24} />
@@ -88,7 +88,7 @@ const Header = () => {
               color:
                 theme.palette.mode === "light"
                   ? "#000"
-                  : theme.palette.text.primary,
+                  : "fff",
             }}
           >
             <CaretDown size={24} />

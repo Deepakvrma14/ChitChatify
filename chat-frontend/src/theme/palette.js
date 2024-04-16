@@ -118,26 +118,30 @@ const palette = {
     primary: { main: "#ff4a09", contrastText: "#fff" }, // Updated primary color
     secondary: { main: "#e6e6e6", contrastText: "#fff" }, // Sidebar color
     background: {
+      back:"#eeeeee" ,
       paper: "#f1f1f1",
       logo: "#ff4a09",
       default: "#g0g0g0",
       neutral: GREY[200],
     }, // Darkened background color
-    text: { primary: "#141414", secondary: GREY[600], disabled: GREY[500] }, // Text color
-    action: { active: GREY[600], ...COMMON.action },
+    text: { primary: "#141414", secondary: GREY[600], disabled: GREY[500] , msg: "#d7d7d7"}, // Text color
+    action: { active: GREY[600],  ...COMMON.action },
   },
   dark: {
     ...COMMON,
     mode: "dark",
     primary: { main: "#c5a55d", contrastText: "#1c212b" }, // Darkened primary color
     secondary: { main: "#7fda77", contrastText: "#fff" }, // Shade of primary color
+    
     background: {
-      paper: "#2a303c",
+      back:"#2C2C2C",
+    
+      paper: "#333333",
       logo: "#c5a55d",
       default: "#222429",
       neutral: "#242933",
     }, // Background colors
-    text: { primary: "#b2ccd6", secondary: GREY[500], disabled: GREY[600] }, // Text color
+    text: { primary: "#F0F0F0", secondary: GREY[500], disabled: GREY[600],msg: "#2C2C2C" }, // Text color
     action: { active: GREY[500], ...COMMON.action },
   },
 };

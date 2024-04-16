@@ -1,18 +1,19 @@
 import { useSelector } from "react-redux";
-import {Contact} from "../../components/Contact";
+import { Contact } from "../../components/Contact";
 import { Media } from "../../components/Media";
 import { Starred } from "../../components/Starred";
 import Conversation from "../../components/Conversation";
 import Chats from "./Chats";
-import { Stack, Box, Typography } from '@mui/material';
-import { useTheme } from '@mui/material/styles';
+import { Stack, Box, Typography } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import { ChatsTeardrop } from "phosphor-react";
 import NoChat from "../../assets/Illustration/NoChat";
 
-
 const GeneralApp = () => {
   const theme = useTheme();
-  const { sidebar, chat_type, room_id } = useSelector((store) => store.appState);
+  const { sidebar, chat_type, room_id } = useSelector(
+    (store) => store.appState
+  );
   console.log(sidebar);
   const type = sidebar.type;
   console.log(type);
@@ -22,38 +23,49 @@ const GeneralApp = () => {
       direction={"row"}
       sx={{
         width: "100%",
-        height: "100vh"
+        height: "100vh",
       }}
     >
-      {/* Chats */}     
+      {/* Chats */}
       <Chats />
-     
+
       <Box
         sx={{
           height: "100%",
-          width: sidebar.open ?  "calc(100vw - 730px)" : "calc(100vw - 420px)",
-          
-          backgroundColor:theme.palette.mode === "light"
-    ? "#eeeeee"
-    : "#1a1e2a",
+          width: sidebar.open ? "calc(100vw - 730px)" : "calc(100vw - 420px)",
+
+          backgroundColor:theme.palette.background.back,
         }}
       >
-
         {/* Conversation */}
-        {chat_type === "individual" && room_id !== null ? <Conversation/> : 
-          <Stack sx={{height:"100%", width:"100%"}}  alignItems={"center"} justifyContent={"center"} spacing={3} direction={"column"}>
-            <NoChat/>
+        {chat_type === "individual" && room_id !== null ? (
+          <Conversation />
+        ) : (
+          <Stack
+            sx={{ height: "100%", width: "100%" }}
+            alignItems={"center"}
+            justifyContent={"center"}
+            spacing={3}
+            direction={"column"}
+          >
+            <NoChat />
             {/* <ChatsTeardrop size={52} /> */}
-            <Typography variant="subtitle2" >
+            <Typography variant="subtitle2">
               select a conversation or start a new one
             </Typography>
           </Stack>
-         }
+        )}
       </Box>
-        {/* Contact */}
-        
-        { sidebar.open && (type === 'CONTACT' ? <Contact/> : type === 'MEDIA' ? <Media/> : type=== 'STARRED' ? <Starred/> : null ) }
+      {/* Contact */}
 
+      {sidebar.open &&
+        (type === "CONTACT" ? (
+          <Contact />
+        ) : type === "MEDIA" ? (
+          <Media />
+        ) : type === "STARRED" ? (
+          <Starred />
+        ) : null)}
     </Stack>
   );
 };

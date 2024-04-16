@@ -128,7 +128,7 @@ const ChatList = [
 const Chat_History = [
   {
     type: "msg",
-    message: "Hi 👋🏻, How are ya ?",
+    message: "Hi, How are ya ?",
     incoming: true,
     outgoing: false,
   },
@@ -138,7 +138,7 @@ const Chat_History = [
   },
   {
     type: "msg",
-    message: "Hi 👋 Panda, not bad, u ?",
+    message: "Hi Panda, not bad, u ?",
     incoming: false,
     outgoing: true,
   },

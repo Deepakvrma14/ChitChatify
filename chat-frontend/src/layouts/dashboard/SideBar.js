@@ -17,6 +17,7 @@ import useSettings from "../../hooks/useSettings";
 import { useDispatch } from "react-redux";
 import { LogOutUser } from "../../app/features/authSlice";
 import {
+  Gear,
   GitlabLogoSimple,
   Moon,
   PawPrint,
@@ -115,7 +116,7 @@ const SideBar = () => {
                     }}
                     sx={{
                       width: "max-content",
-                      color: el.index === selected ? theme.palette.background.logo : "#fff",
+                      color: el.index === selected ? theme.palette.background.logo : themeMode === "light" ? "#fff" : theme.palette.text.primary,
                     }}
                   >
                     {el.icon}
@@ -129,10 +130,10 @@ const SideBar = () => {
                   <IconButton
                     sx={{
                       width: "max-content",
-                      color: "#ff4a09",
+                      color: theme.palette.background.logo,
                     }}
                   >
-                    <SettingsOutlinedIcon />
+                    <Gear />
                   </IconButton>
                 </Box>
               ) : (
@@ -143,10 +144,10 @@ const SideBar = () => {
                     }}
                     sx={{
                       width: "max-content",
-                      color: "#fff",
+                      color: themeMode === "light" ? "#fff" : theme.palette.text.primary,
                     }}
                   >
-                    <SettingsOutlinedIcon />
+                    <Gear />
                   </IconButton>
                 </Box>
               )}

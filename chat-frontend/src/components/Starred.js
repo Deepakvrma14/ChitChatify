@@ -25,8 +25,7 @@ export const Starred = () => {
             boxShadow: "0px 0px 2px rgba(0,0,0,0.25)",
             width: "100%",
             height: 100,
-            backgroundColor:
-              theme.palette.mode === "light" ? "#f1f1f1" : "#2a303c",
+            backgroundColor:theme.palette.background.back,
           }}
         >
           <Stack

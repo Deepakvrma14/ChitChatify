@@ -34,61 +34,60 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
 });
 
-const Block = ({open, handleClose}) =>{
+const Block = ({ open, handleClose }) => {
   return (
     <Dialog
-  open={open}
-  TransitionComponent={Transition}
-  keepMounted
-  onClose={handleClose}
-  aria-describedby="alert-dialog-slide-description"
->
-  <DialogTitle>{"Block Contact?"}</DialogTitle>
-  <DialogContent>
-    <DialogContentText id="alert-dialog-slide-description">
-      Are you sure want to block this contact?
-    </DialogContentText>
-  </DialogContent>
-  <DialogActions>
-    <Button onClick={handleClose}>No</Button>
-    <Button onClick={handleClose}>Yes</Button>
-  </DialogActions>
-</Dialog>
+      open={open}
+      TransitionComponent={Transition}
+      keepMounted
+      onClose={handleClose}
+      aria-describedby="alert-dialog-slide-description"
+    >
+      <DialogTitle>{"Block Contact?"}</DialogTitle>
+      <DialogContent>
+        <DialogContentText id="alert-dialog-slide-description">
+          Are you sure want to block this contact?
+        </DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleClose}>No</Button>
+        <Button onClick={handleClose}>Yes</Button>
+      </DialogActions>
+    </Dialog>
   );
-}
-const Delete = ({open, handleClose}) =>{
+};
+const Delete = ({ open, handleClose }) => {
   return (
     <Dialog
-  open={open}
-  TransitionComponent={Transition}
-  keepMounted
-  onClose={handleClose}
-  aria-describedby="alert-dialog-slide-description"
->
-  <DialogTitle>{"Delete Contact?"}</DialogTitle>
-  <DialogContent>
-    <DialogContentText id="alert-dialog-slide-description">
-      Are you sure want to delete this contact?
-    </DialogContentText>
-  </DialogContent>
-  <DialogActions>
-    <Button onClick={handleClose}>No</Button>
-    <Button onClick={handleClose}>Yes</Button>
-  </DialogActions>
-</Dialog>
+      open={open}
+      TransitionComponent={Transition}
+      keepMounted
+      onClose={handleClose}
+      aria-describedby="alert-dialog-slide-description"
+    >
+      <DialogTitle>{"Delete Contact?"}</DialogTitle>
+      <DialogContent>
+        <DialogContentText id="alert-dialog-slide-description">
+          Are you sure want to delete this contact?
+        </DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleClose}>No</Button>
+        <Button onClick={handleClose}>Yes</Button>
+      </DialogActions>
+    </Dialog>
   );
-}
+};
 
 export const Contact = () => {
   const theme = useTheme();
   const dispatch = useDispatch();
   const [opneBlock, setOpenBlock] = useState(false);
   const [opneDelete, setOpenDelete] = useState(false);
-  const handleClose = () =>{
-    if(setOpenBlock(false));
-    if(setOpenDelete(false));
-
-  }
+  const handleClose = () => {
+    if (setOpenBlock(false));
+    if (setOpenDelete(false));
+  };
   return (
     <Box sx={{ width: 320, height: "100vh", overflowY: "auto" }}>
       <Stack sx={{ height: "100%" }}>
@@ -97,8 +96,7 @@ export const Contact = () => {
             boxShadow: "0px 0px 2px rgba(0,0,0,0.25)",
             width: "100%",
             height: 100,
-            backgroundColor:
-              theme.palette.mode === "light" ? "#f1f1f1" : "#2a303c",
+            backgroundColor: theme.palette.background.back,
           }}
         >
           <Stack
@@ -107,11 +105,11 @@ export const Contact = () => {
             alignItems="center"
             justifyContent="around"
             spacing={3}
-          ><IconButton onClick={() => dispatch(toggleSidebar())}>
+          >
+            <IconButton onClick={() => dispatch(toggleSidebar())}>
               <X />
             </IconButton>
             <Typography variant="subtitle2">Contact Info</Typography>
-            
           </Stack>
         </Box>
         {/* Body */}
@@ -159,8 +157,12 @@ export const Contact = () => {
               spacing={1}
             >
               {/* 2 verticl for video and audio  */}
-              <IconButton>
-                <VideoCamera />
+              <IconButton
+                sx={{
+                  color: theme.palette.mode === "light" ? "#000" : "fff",
+                }}
+              >
+                <VideoCamera weight="fill" />
               </IconButton>
               <Typography variant="overline">Video</Typography>
             </Stack>
@@ -172,8 +174,12 @@ export const Contact = () => {
               p={0.5}
               spacing={1}
             >
-              <IconButton>
-                <Phone />
+              <IconButton
+                sx={{
+                  color: theme.palette.mode === "light" ? "#000" : "fff",
+                }}
+              >
+                <Phone weight="fill" />
               </IconButton>
               <Typography variant="overline">Audio</Typography>
             </Stack>
@@ -283,7 +289,7 @@ export const Contact = () => {
           <Stack direction={"row"} alignItems={"center"} spacing={2}>
             <Button
               fullWidth
-              onClick={()=>setOpenBlock(true) }
+              onClick={() => setOpenBlock(true)}
               variant="outlined"
               color="inherit"
               startIcon={<Prohibit />}
@@ -292,7 +298,7 @@ export const Contact = () => {
             </Button>
             <Button
               fullWidth
-              onClick={()=>setOpenDelete(true) }
+              onClick={() => setOpenDelete(true)}
               variant="outlined"
               startIcon={<Trash />}
               color="inherit"

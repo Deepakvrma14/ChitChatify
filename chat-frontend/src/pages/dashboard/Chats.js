@@ -137,10 +137,9 @@ const Chats = () => {
             </Stack> */}
             <Stack spacing={2.4} marginTop={2}>
               <Typography
-                fontWeight={5}
-                fontSize={15}
+                
                 p={2}
-                variant="subtitle"
+                variant="subtitle2"
                 sx={{
                   color:
                     theme.palette.mode === "light"
