@@ -3,11 +3,13 @@ import {
   ChatCircleDots,
   Gear,
   GearSix,
+  MagnifyingGlass,
   Phone,
   SignOut,
   User,
   Users,
 } from "phosphor-react";
+import { Search } from "../pages/dashboard/custom/CustomMaterialUI";
 
 const Profile_Menu = [
   {
@@ -37,6 +39,10 @@ const Nav_Buttons = [
     index: 2,
     icon: <Phone />,
   },
+  {
+    index:4,
+    icon: <MagnifyingGlass/>
+  }
 ];
 
 const Nav_Setting = [

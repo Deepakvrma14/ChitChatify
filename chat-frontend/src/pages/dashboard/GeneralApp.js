@@ -33,7 +33,9 @@ const GeneralApp = () => {
           height: "100%",
           width: sidebar.open ?  "calc(100vw - 730px)" : "calc(100vw - 420px)",
           
-          backgroundColor: theme.palette.mode === "light" ? "#F0F4FA" : theme.palette.background.paper,
+          backgroundColor:theme.palette.mode === "light"
+    ? "#eeeeee"
+    : "#1a1e2a",
         }}
       >
 

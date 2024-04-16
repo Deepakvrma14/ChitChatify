@@ -34,32 +34,32 @@ const ChatInput = ({ setOpenPicker }) => {
   const theme = useTheme();
   const Actions = [
     {
-      color: theme.palette.mode === "light" ? "#9d8574" : "#7da875",
-      icon: <Image size={24} />,
+      color: theme.palette.primary.main,
+      icon: <Image color= {theme.palette.primary.contrastText} size={24} />,
       y: 102,
       title: "Photo/Video",
     },
     {
-      color: theme.palette.mode === "light" ? "#9d8574" : "#7da875",
-      icon: <Sticker size={24} />,
+      color: theme.palette.primary.main,
+      icon: <Sticker color= {theme.palette.primary.contrastText} size={24} />,
       y: 172,
       title: "Stickers",
     },
     {
-      color: theme.palette.mode === "light" ? "#9d8574" : "#7da875",
-      icon: <Camera size={24} />,
+      color: theme.palette.primary.main,
+      icon: <Camera color= {theme.palette.primary.contrastText} size={24} />,
       y: 242,
       title: "Image",
     },
     {
-      color: theme.palette.mode === "light" ? "#9d8574" : "#7da875",
-      icon: <File size={24} />,
+      color: theme.palette.primary.main,
+      icon: <File color= {theme.palette.primary.contrastText} size={24} />,
       y: 312,
       title: "Document",
     },
     {
-      color: theme.palette.mode === "light" ? "#9d8574" : "#7da875",
-      icon: <User size={24} />,
+      color: theme.palette.primary.main,
+      icon: <User color= {theme.palette.primary.contrastText} size={24} />,
       y: 382,
       title: "Contact",
     },
@@ -67,8 +67,9 @@ const ChatInput = ({ setOpenPicker }) => {
   return (
     <StyledInput
       fullWidth
+      
       placeholder="Write a message..."
-      variant="filled"
+      variant="standard"
       InputProps={{
         disableUnderline: true,
         startAdornment: (
@@ -118,19 +119,8 @@ const Footer = () => {
   const [openPicker, setOpenPicker] = useState(false);
 
   return (
-    <Box
-      p={3}
-      sx={{
-        height: 100,
-        width: "100%",
-        backgroundColor:
-          theme.palette.mode === "light"
-            ? "#F8FAFF"
-            : theme.palette.background.default,
-        boxShadow: "0 0 2px rgba(0, 0, 0, 0.25)",
-      }}
-    >
-      <Stack direction={"row"} alignItems={"center"} spacing={3}>
+    
+      <Stack direction={"row"} alignItems={"center"} spacing={3} p={1} >
         {/* Chat Input */}
         <Stack
           sx={{
@@ -155,16 +145,16 @@ const Footer = () => {
           <ChatInput setOpenPicker={setOpenPicker} />
         </Stack>
         <IconButton
+        
           sx={{
-            borderRadius: "5px",
+            borderRadius: "10px",
             backgroundColor: theme.palette.primary.main,
-            color: "#fff",
+            color: theme.palette.primary.contrastText,
           }}
         >
           <PaperPlaneTilt size={24} />
         </IconButton>
       </Stack>
-    </Box>
   );
 };
 

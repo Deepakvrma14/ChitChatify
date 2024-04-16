@@ -15,27 +15,17 @@ import {
 import { useTheme } from "@mui/material/styles";
 import { faker } from "@faker-js/faker";
 import { StyledBadge } from "../customMui/StyledBadge";
-import { useDispatch, useSelector } from 'react-redux';
-import {toggleSidebar} from '../../app/features/appSlice'
+import { useDispatch, useSelector } from "react-redux";
+import { toggleSidebar } from "../../app/features/appSlice";
 
 const Header = () => {
   const theme = useTheme();
   const dispatch = useDispatch();
-  
+
   return (
-    <Box
-      p={2}
-      sx={{
-        height: 100,
-        width: "100%",
-        backgroundColor:
-          theme.palette.mode === "light"
-            ? "#F8FAFF"
-            : theme.palette.background.default,
-            boxShadow: "0px 0px 2px rgba(0,0,0,0.25)"
-      }}
-    >
+    // <Box p={2} >
       <Stack
+      p={2}
         direction={"row"}
         alignItems={"center"}
         justifyContent={"space-between"}
@@ -44,21 +34,24 @@ const Header = () => {
           height: "100%",
         }}
       >
-        <Stack direction={"row"} alignItems={"center"} spacing={3}>
+        <Stack direction={"row"} alignItems={"center"} justifyContent={"center"} spacing={3}>
           <StyledBadge
             overlap="circular"
             anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
             variant="dot"
           >
-    
-            <Avatar onClick={() => dispatch(toggleSidebar())} alt={faker.name.fullName()} src={faker.image.avatar()} />
+            <Avatar
+              onClick={() => dispatch(toggleSidebar())}
+              alt={faker.name.fullName()}
+              src={faker.image.avatar()}
+            />
           </StyledBadge>
           <Stack spacing={0.2} direction={"column"}>
             <Typography variant="subtitle2">{faker.name.fullName()}</Typography>
             <Typography variant="caption">Online</Typography>
           </Stack>
         </Stack>
-        <Stack direction="row" alignItems={"center"} spacing={3}>
+        <Stack direction="row" alignItems={"center"} justifyContent={"center"} spacing={3}>
           <IconButton
             sx={{
               color:
@@ -102,7 +95,7 @@ const Header = () => {
           </IconButton>
         </Stack>
       </Stack>
-    </Box>
+    // </Box>
   );
 };
 

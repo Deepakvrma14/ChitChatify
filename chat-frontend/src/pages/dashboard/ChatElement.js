@@ -1,24 +1,22 @@
-import { Box, Stack, Avatar, Typography, Badge } from "@mui/material";
+import { Box, Stack, Avatar, Typography, Badge, Divider } from "@mui/material";
 import { styled, useTheme } from "@mui/material/styles";
 
 import { StyledBadge } from "../../components/customMui/StyledBadge";
 import { useDispatch } from "react-redux";
 import { SelectConversation } from "../../app/features/appSlice";
+import { Divide } from "phosphor-react";
 
 const ChatElement = ({ id, name, img, msg, time, unread, online }) => {
   const theme = useTheme();
   const dispatch = useDispatch();
   return (
-    <Box
+    <><Box
       
       sx={{
         width: "100%",
         borderRadius: 1,
         
-        backgroundColor:
-          theme.palette.mode === "light"
-            ? "#fff"
-            : theme.palette.background.paper,
+   
       }}
       p={2}
       onClick={() => {
@@ -61,10 +59,12 @@ const ChatElement = ({ id, name, img, msg, time, unread, online }) => {
           >
             {time}
           </Typography>
-          <Badge color="primary" badgeContent={unread} />
+          <Badge color="primary"  badgeContent={unread} />
         </Stack>
       </Stack>
     </Box>
+    <Divider style={{ width: '50%', margin: '0 auto' }}/>    </>
+    
   );
 };
 

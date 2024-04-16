@@ -96,7 +96,9 @@ const DashboardLayout = () => {
   // }, [isLoggedIn, user_id]);
 
   return (
-    <Stack direction={"row"} overflow={"hidden"}>
+    <Stack direction={"row"} overflow={"hidden"} sx={{backgroundColor:theme.palette.mode === "light"
+    ? "#eeeeee"
+    : "#1a1e2a"}} >
       <SideBar />
       <Outlet />
     </Stack>
