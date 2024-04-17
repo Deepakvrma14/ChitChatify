@@ -119,7 +119,7 @@ const Footer = () => {
   const [openPicker, setOpenPicker] = useState(false);
 
   return (
-    
+      
       <Stack direction={"row"} alignItems={"center"} spacing={3} p={1} >
         {/* Chat Input */}
         <Stack

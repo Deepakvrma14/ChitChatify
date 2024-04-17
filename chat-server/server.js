@@ -142,16 +142,43 @@ io.on("connection", async (socket) => {
       console.error(`Error during start_conversation: ${error}`);
     }
   });
+  socket.on("get_message", async (data, callback) => {
+    const { message } = await oneToOneModel
+      .findById(data.conversation_id)
+      .select("message");
+    callback(message);
+  });
   socket.on("text_message", async (data) => {
     console.log("Received message is ", data.text);
+
+    const { to, from, message, conversation_id, type } = data;
+
+    const to_user = await User.findById(to);
+    const from_user = await User.findById(from);
+
+    const new_message = {
+      to,
+      from,
+      type,
+      text: message,
+    };
+
     // add new msg or add new msg to msg list which is lready there
-    // data => {to, from, text}
-
+    // data => {to, from, message, conversation_id, type}
+    const chat = await oneToOneModel.findById(conversation_id);
+    chat.message.push(new_message);
     // save to db
-
+    await chat.save({});
     // emit incoming_message for to_user
-
+    io.to(to_user.socket_id).emit("new_message", {
+      conversation_id,
+      message: new_message,
+    });
     // emit outgoing_message for from_user
+    io.to(from_user.socket_id).emit("new_message", {
+      conversation_id,
+      message: new_message,
+    });
   });
   socket.on("file_message", async (data) => {
     console.log(`${data} received`);
@@ -159,7 +186,7 @@ io.on("connection", async (socket) => {
     const fileExtension = path.extname(data.file.name);
 
     const dbUniqueName = `${Date.now()}_${Math.floor(
-      Math.random() * 10000                     
+      Math.random() * 10000
     )}_${fileExtension}`;
 
     // upload files to aws s3
