@@ -134,7 +134,7 @@ const palette = {
     secondary: { main: "#7fda77", contrastText: "#fff" }, // Shade of primary color
     
     background: {
-      back:"#2C2C2C",
+      back:"#1E1E1E",
     
       paper: "#333333",
       logo: "#c5a55d",

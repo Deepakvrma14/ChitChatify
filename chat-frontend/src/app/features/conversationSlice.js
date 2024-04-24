@@ -77,10 +77,38 @@ const slice = createSlice({
         online: otherUser.status === "online",
       });
     },
+    setCurrentConversation(state, action) {
+      state.direct_chat.current_conversation = action.payload;
+    },
+    fetchCurrentMessages(state, action) {
+      const messages = action.payload.message;
+      const formattedMessages = messages.map((el) => ({
+        id: el.id,
+        type: "msg",
+        subtype: el.type,
+        message: el.message,
+        incoming: el.to === user_id,
+        outgoing: el.from === user_id,
+      }));
+      state.direct_chat.current_messages = formattedMessages;
+    },
+    addDirectMessage(state, action) {
+      state.direct_chat.current_messages.push(action.payload.message);
+    },
   },
 });
 
 export default slice.reducer;
+
+export const AddDirectMessage = (message) =>{
+  return async(dispatch, getState) =>{
+    dispatch(slice.actions.addDirectMessage({message}));
+  }
+}
+// export const FetchCurrentMessages = ({message}) =>{
+  
+// }
+
 export const UpdateDirectConversation = ({ conversation }) => {
   return async (dispatch, getState) => {
     dispatch(slice.actions.updateDirectConversations({ conversation }));
