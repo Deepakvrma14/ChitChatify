@@ -130,20 +130,21 @@ const palette = {
   dark: {
     ...COMMON,
     mode: "dark",
-    primary: { main: "#c5a55d", contrastText: "#1c212b" }, // Darkened primary color
-    secondary: { main: "#7fda77", contrastText: "#fff" }, // Shade of primary color
+    primary: { main: "#c5721f", contrastText: "#f5f5f5" }, 
+    secondary: { main: "#7fda77", contrastText: "#fff" },
     
     background: {
-      back:"#1E1E1E",
-    
-      paper: "#333333",
-      logo: "#c5a55d",
-      default: "#222429",
+      back: "#1A1A1A", 
+      paper: "#282828", 
+      logo: "#c5721f", 
+      default: "#222429", 
       neutral: "#242933",
     }, // Background colors
-    text: { primary: "#F0F0F0", secondary: GREY[500], disabled: GREY[600],msg: "#2C2C2C" }, // Text color
+    text: { primary: "#F0F0F0", secondary: GREY[500], disabled: GREY[600], msg: "#2C2C2C" }, // Text color
     action: { active: GREY[500], ...COMMON.action },
   },
+  
+  
 };
 
 export default palette;

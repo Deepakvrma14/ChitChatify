@@ -100,13 +100,24 @@ const slice = createSlice({
 
 export default slice.reducer;
 
-export const AddDirectMessage = (message) =>{
-  return async(dispatch, getState) =>{
-    dispatch(slice.actions.addDirectMessage({message}));
-  }
-}
+export const AddDirectMessage = (message) => {
+  return async (dispatch, getState) => {
+    dispatch(slice.actions.addDirectMessage({ message }));
+  };
+};
+
+export const SetCurrentConversation = (current_conversation) => {
+  return async (dispatch, getState) => {
+    dispatch(slice.actions.setCurrentConversation(current_conversation));
+  };
+};
+export const FetchCurrentMessages = ({ messages }) => {
+  return async (dispatch, getState) => {
+    dispatch(slice.actions.fetchCurrentMessages({ messages }));
+  };
+};
 // export const FetchCurrentMessages = ({message}) =>{
-  
+
 // }
 
 export const UpdateDirectConversation = ({ conversation }) => {

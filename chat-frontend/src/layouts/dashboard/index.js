@@ -9,14 +9,18 @@ import {
   SelectConversation,
   showSnackbar,
 } from "../../app/features/appSlice.js";
-import { AddDirectConversation, UpdateDirectConversation } from "../../app/features/conversationSlice.js";
+import {
+  AddDirectConversation,
+  AddDirectMessage,
+  UpdateDirectConversation,
+} from "../../app/features/conversationSlice.js";
 const DashboardLayout = () => {
   const { isLoggedIn } = useSelector((state) => state.authState);
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
 
-  const { conversations } = useSelector(
+  const { conversations, current_conversation } = useSelector(
     (state) => state.conversationState.direct_chat
   );
 
@@ -36,6 +40,22 @@ const DashboardLayout = () => {
       socket.on("accept_friend", (data) => {
         dispatch(showSnackbar({ severity: "success", message: data.message }));
       });
+      socket.on("new_message", (data) => {
+        const message = data.message;
+        // if message receiveed is from currently selceted one
+        if (current_conversation.id === data.conversation_id) {
+          dispatch(
+            AddDirectMessage({
+              id: message._id,
+              type: "msg",
+              subtype: message.type,
+              message: message.text,
+              incoming: message.to === user_id,
+              outgoing: message.from === user_id,
+            })
+          );
+        }
+      });
       socket.on("start_chat", (data) => {
         console.log(data);
         const existingConvo = conversations.find((el) => el._id === data._id);
@@ -51,10 +71,11 @@ const DashboardLayout = () => {
         socket?.off("new_friend_request");
         socket?.off("request_send");
         socket?.off("accept_friend");
+        socket?.off("new_message");
         socket?.off("start_chat");
       };
     }
-  }, [isLoggedIn, user_id, socket, dispatch]);
+  }, [isLoggedIn, socket]);
   if (!isLoggedIn) {
     return <Navigate to="/auth/login" />;
   }
@@ -96,7 +117,11 @@ const DashboardLayout = () => {
   // }, [isLoggedIn, user_id]);
 
   return (
-    <Stack direction={"row"} overflow={"hidden"} sx={{backgroundColor:theme.palette.background.back}} >
+    <Stack
+      direction={"row"}
+      overflow={"hidden"}
+      sx={{ backgroundColor: theme.palette.background.back }}
+    >
       <SideBar />
       <Outlet />
     </Stack>
