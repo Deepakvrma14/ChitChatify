@@ -138,19 +138,16 @@ const Footer = () => {
   const inputRef = useRef(null);
 
   function handleEmojiClick(emoji) {
+    console.log("Emoji clicked: ", emoji);
     const input = inputRef.current;
     if (input) {
-      const selectionStart = input.selectionStart;
-      const selectionEnd = input.selectionEnd;
+      const start = input.selectionStart;
+      const end = input.selectionEnd;
+      const updatedValue =
+        value.substring(0, start) + emoji + value.substring(end);
 
-      setValue(
-        value.substring(0, selectionStart) +
-          emoji +
-          value.substring(0, selectionEnd)
-      );
-      // move cursssor
-
-      input.selectionStart = input.selectionEnd = selectionStart + 1;
+      setValue(updatedValue);
+      input.selectionStart = input.selectionEnd = start + emoji.length;
     }
   }
 
@@ -208,25 +205,25 @@ const Footer = () => {
               borderRadius: 1.5,
             }}
           >
-            <Stack
-              sx={{ height: "100%" }}
-              alignItems={"center"}
-              justifyContent="center"
+            <IconButton
+              onClick={() => {
+                console.log("clicked");
+                // if (value.trim() !== "") {
+                //   console.log("Sending message: ", value);
+                //   console.log(socket.connected);
+                //   socket.emit("text_message", {
+                //     to: current_conversation.user_id,
+                //     from: user_id,
+                //     message: linkify(value),
+                //     conversation_id: room_id,
+                //     type: containsUrl(value) ? "Link" : "Text",
+                //   });
+                //   setValue("");
+                // }
+              }}
             >
-              <IconButton
-                onClick={() => {
-                  socket.emit("text_message", {
-                    to: current_conversation.user_id,
-                    from:user_id,
-                    message:linkify(value),
-                    conversation_id :room_id ,
-                    type: containsUrl(value) ? "Link" : "Text" ,
-                  });
-                }}
-              >
-                <PaperPlaneTilt color="#ffffff" />
-              </IconButton>
-            </Stack>
+              <PaperPlaneTilt color="#00000" />
+            </IconButton>
           </Box>
         </Stack>
       </Box>

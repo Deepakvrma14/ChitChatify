@@ -49,8 +49,10 @@ io.on("connection", async (socket) => {
   // evry connection id for evry new connection
   const socket_id = socket.id;
 
-  if (Boolean(user_id)) {
-    User.findByIdAndUpdate(user_id, { socket_id, status: "Online" });
+  try {
+    await User.findByIdAndUpdate(user_id, { socket_id, status: "Online" });
+  } catch (error) {
+    console.error(`Error updating user status: ${error}`);
   }
 
   socket.on("friend_req", async (data) => {

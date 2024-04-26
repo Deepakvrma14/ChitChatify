@@ -19,7 +19,7 @@ const slice = createSlice({
       state.direct_chat.conversations = action.payload.conversations.map(
         (conversation) => {
           const otherUser = conversation.participants.find((participant) => {
-            participant._id.toString() !== user_id;
+            return participant._id.toString() !== user_id;
           });
           return {
             id: conversation._id,

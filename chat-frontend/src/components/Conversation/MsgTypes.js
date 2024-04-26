@@ -110,7 +110,7 @@ const LinkMsg = ({ el }) => {
             variant="body2"
             color={el.incoming ? theme.palette.text : theme.palette.primary.contrastText}
           >
-            {el.message}
+                        <div dangerouslySetInnerHTML={{__html: el.message}}></div>
           </Typography>
         </Stack>
       </Box>
