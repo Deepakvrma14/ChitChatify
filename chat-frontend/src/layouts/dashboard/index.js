@@ -12,6 +12,7 @@ import {
 import {
   AddDirectConversation,
   AddDirectMessage,
+  SetCurrentConversation,
   UpdateDirectConversation,
 } from "../../app/features/conversationSlice.js";
 const DashboardLayout = () => {
@@ -42,6 +43,7 @@ const DashboardLayout = () => {
       });
       socket.on("new_message", (data) => {
         const message = data.message;
+        console.log(message);
         // if message receiveed is from currently selceted one
         if (current_conversation.id === data.conversation_id) {
           dispatch(
@@ -65,6 +67,10 @@ const DashboardLayout = () => {
           dispatch(AddDirectConversation({ conversation: data }));
         }
         dispatch(SelectConversation({ room_id: data._id }));
+        
+
+        console.log('Starting chat with conversation id: ', data._id); 
+
       });
       // cleanup functions
       return () => {

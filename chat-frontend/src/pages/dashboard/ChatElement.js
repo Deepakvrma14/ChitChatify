@@ -5,6 +5,7 @@ import { StyledBadge } from "../../components/customMui/StyledBadge";
 import { useDispatch } from "react-redux";
 import { SelectConversation } from "../../app/features/appSlice";
 import { Divide } from "phosphor-react";
+import { SetCurrentConversation } from "../../app/features/conversationSlice";
 
 const ChatElement = ({ id, name, img, msg, time, unread, online }) => {
   const theme = useTheme();
@@ -22,6 +23,10 @@ const ChatElement = ({ id, name, img, msg, time, unread, online }) => {
       onClick={() => {
         // console.log("working");
         dispatch(SelectConversation({ room_id: id }));
+        dispatch(SetCurrentConversation(id));
+        console.log(`id is ${
+          id
+        }`);
       }}
     >
       <Stack

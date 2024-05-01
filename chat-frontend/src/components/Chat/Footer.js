@@ -21,7 +21,7 @@ import { useTheme, styled } from "@mui/material/styles";
 import React, { useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import useResponsive from "../../hooks/useResponsive";
-import Actions from "./Actions";
+import Actions from "../Conversation/Actions";
 import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
 import { useSelector } from "react-redux";
@@ -222,7 +222,7 @@ const Footer = () => {
                 // }
               }}
             >
-              <PaperPlaneTilt color="#00000" />
+              <PaperPlaneTilt color="#fff" />
             </IconButton>
           </Box>
         </Stack>

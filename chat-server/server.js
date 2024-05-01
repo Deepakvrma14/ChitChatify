@@ -48,6 +48,7 @@ io.on("connection", async (socket) => {
   // console.log(JSON.stringify(socket.handshake.query));
   // evry connection id for evry new connection
   const socket_id = socket.id;
+  console.log(`User connected: ${user_id}`);
 
   try {
     await User.findByIdAndUpdate(user_id, { socket_id, status: "Online" });
@@ -122,7 +123,9 @@ io.on("connection", async (socket) => {
         })
         .populate("participants", "firstName lastName _id email status");
 
-      console.log(existingConvo[0]); //as there could be only one conversation between an to and from
+      console.log(existingConvo[0]); //as there could be only one conversation between an to and from'
+      // console.log("Started convo");
+      // this would be the conversation id used
 
       // if no convo until now
       if (existingConvo.length === 0) {
@@ -133,11 +136,15 @@ io.on("connection", async (socket) => {
           .findById(newChat._id)
           .populate("participants", "firstName lastName _id email status");
         console.log(newChat);
+        console.log("emitting new_chat");
 
         socket.emit("start_chat", newChat);
       }
       // if convo already
       else {
+        // console.log("emitting start_chat");
+        // console.log(existingConvo[0]);
+        
         socket.emit("start_chat", existingConvo[0]);
       }
     } catch (error) {
@@ -151,36 +158,56 @@ io.on("connection", async (socket) => {
     callback(message);
   });
   socket.on("text_message", async (data) => {
-    console.log("Received message is ", data.text);
+    console.log("Received message is ", data.message);
 
     const { to, from, message, conversation_id, type } = data;
 
-    const to_user = await User.findById(to);
+    const chat = await oneToOneModel.findById(conversation_id);
+    if (!chat) {
+      console.log("No chat found");
+      return;
+    }
+
+    const to_user_id = chat.participants.find((id) => id !== from);
+    const to_user = await User.findById(to_user_id);
     const from_user = await User.findById(from);
 
+    console.log(to_user);
+    // // if (!to_user) {
+      // console.log(`to not found ${to_user_id}`);
+    // //   return;
+    // // }
+    // if (!from_user) {
+    //   console.log(`from not found ${from_user}`);
+    //   return;
+    // }
+
     const new_message = {
-      to,
-      from,
+      to:to_user ,
+      from: from_user,
       type,
       text: message,
     };
 
-    // add new msg or add new msg to msg list which is lready there
-    // data => {to, from, message, conversation_id, type}
-    const chat = await oneToOneModel.findById(conversation_id);
     chat.message.push(new_message);
+
     // save to db
     await chat.save({});
+
     // emit incoming_message for to_user
     io.to(to_user.socket_id).emit("new_message", {
       conversation_id,
       message: new_message,
     });
+    console.log(`Message emitted to ${to_user.socket_id}`);
+
     // emit outgoing_message for from_user
-    io.to(from_user.socket_id).emit("new_message", {
+    io.to(from_user).emit("new_message", {
       conversation_id,
       message: new_message,
     });
+    console.log(`Message emitted to ${from_user.socket_id}`);
+
   });
   socket.on("file_message", async (data) => {
     console.log(`${data} received`);
