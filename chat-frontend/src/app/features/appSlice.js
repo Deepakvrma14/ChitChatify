@@ -117,7 +117,6 @@ export const FetchFriends = () => {
       });
   };
 };
-
 export const FetchRequests = () => {
   return async (dispatch, getState) => {
     dispatch(appSlice.actions.setLoading(true));
@@ -129,19 +128,20 @@ export const FetchRequests = () => {
         },
       })
       .then((response) => {
-        // console.log(response.data.data);
-        // const req = response.data.data.map(item => ({
-        //   ...item,
-        //   senderFirstName: item.sender.firstName,
-        //   senderLastName: item.sender.lastName
-        // }));
-        // console.log(requests.senderFirstName);
-        // req.forEach(request =>{
-        //   console.log(request.senderFirstName);
-        // } )
+        const requests = response.data.data.map(item => {
+          if (item.sender && item.sender.firstName && item.sender.lastName) {
+            return {
+              ...item,
+              senderFirstName: item.sender.firstName,
+              senderLastName: item.sender.lastName
+            };
+          } else {
+            return item;
+          }
+        });
         dispatch(
           appSlice.actions.updateFriendRequests({
-            requests: response.data.data,
+            requests: requests,
           })
         );
       })
@@ -149,7 +149,6 @@ export const FetchRequests = () => {
         console.log(error);
       }).finally(()=>{
         dispatch(appSlice.actions.setLoading(false));
-
       });
   };
 };

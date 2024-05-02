@@ -82,9 +82,17 @@ io.on("connection", async (socket) => {
   socket.on("accept_friend", async (data) => {
     const req_doc = await friendRequest.findById(data.request_id);
     console.log(`data is ${data} and request id is ${req_doc}`);
-    const sender = await User.findById(req_doc.sender);
-    const receiver = await User.findById(req_doc.receiver);
 
+
+  // if (!sender || !receiver) {
+  //   console.log("User not found");
+  //   return;
+  // }
+    const sender = await User.findById(req_doc.sender);
+    console.log(sender);
+
+    const receiver = await User.findById(req_doc.receiver);
+    console.log(`receriver ${receiver}`);
     sender.friends.push(req_doc.receiver);
     receiver.friends.push(req_doc.sender);
 
