@@ -30,8 +30,9 @@ const DashboardLayout = () => {
   const user_id = window.localStorage.getItem("user_id");
 
   useEffect(() => {
-    if (isLoggedIn && user_id && !socket) {
+    if (isLoggedIn && user_id ) {
       connectSocket(user_id);
+      // console.log(socket);
       socket.on("new_friend_request", (data) => {
         dispatch(showSnackbar({ severity: "success", message: data.message }));
       });
@@ -41,21 +42,32 @@ const DashboardLayout = () => {
       socket.on("accept_friend", (data) => {
         dispatch(showSnackbar({ severity: "success", message: data.message }));
       });
+      // socket.on("incomming_message", (data) =>{
+      //   console.log(`received data is ${data}`);
+      // })
       socket.on("new_message", (data) => {
         const message = data.message;
-        console.log(message);
-        // if message receiveed is from currently selceted one
-        if (current_conversation.id === data.conversation_id) {
+        console.log(current_conversation, data);
+
+        console.log(`to user is  ${message.to._id} `);
+        console.log(`from user is  ${message.from._id} `);
+
+        
+        // check if msg we got is from currently selected conversation
+        if (current_conversation === data.conversation_id) {
+          console.log(`inside add direct message`);
           dispatch(
             AddDirectMessage({
               id: message._id,
               type: "msg",
               subtype: message.type,
               message: message.text,
-              incoming: message.to === user_id,
-              outgoing: message.from === user_id,
+              incoming: message.to._id === user_id,
+              outgoing: message.from._id === user_id,
             })
           );
+        }else {
+          console.log("Skipped add direct message");
         }
       });
       socket.on("start_chat", (data) => {
@@ -80,6 +92,9 @@ const DashboardLayout = () => {
         socket?.off("new_message");
         socket?.off("start_chat");
       };
+    }else{
+      // console.log("socket not connected");
+      console.log(`ilogged in is ${isLoggedIn} userid is ${user_id} socket is ${socket}`)
     }
   }, [isLoggedIn, socket]);
   if (!isLoggedIn) {

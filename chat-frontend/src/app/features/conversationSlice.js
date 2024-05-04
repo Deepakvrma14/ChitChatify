@@ -102,6 +102,7 @@ export default slice.reducer;
 
 export const AddDirectMessage = (message) => {
   return async (dispatch, getState) => {
+    console.log(`dispatching add message as ${message}`)
     dispatch(slice.actions.addDirectMessage({ message }));
   };
 };

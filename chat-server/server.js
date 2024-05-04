@@ -202,19 +202,24 @@ io.on("connection", async (socket) => {
     // save to db
     await chat.save({});
 
-    // emit incoming_message for to_user
-    io.to(to_user.socket_id).emit("new_message", {
-      conversation_id,
-      message: new_message,
-    });
+    
     console.log(`Message emitted to ${to_user.socket_id}`);
 
+    console.log(`conversation_id is ${conversation_id}`)
     // emit outgoing_message for from_user
-    io.to(from_user).emit("new_message", {
+    // emit incoming_message for to_user
+    // socket.emit("incomming_message", (data) => {conversation_id});
+    io.to(to_user?.socket_id).emit("new_message", {
       conversation_id,
       message: new_message,
     });
-    console.log(`Message emitted to ${from_user.socket_id}`);
+
+    // emit outgoing_message -> from user
+    io.to(from_user?.socket_id).emit("new_message", {
+      conversation_id,
+      message: new_message,
+    });
+    console.log(`Message emitted from ${from_user.socket_id}`);
 
   });
   socket.on("file_message", async (data) => {
