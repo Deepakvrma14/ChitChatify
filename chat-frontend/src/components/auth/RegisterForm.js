@@ -126,7 +126,7 @@ export const RegisterForm = () => {
         variant="text"
           sx={{ backgroundColor: theme.palette.background.paper }}
         >
-          Login
+          Sign up here
         </LoadingButton>
       </Stack>
     </form>

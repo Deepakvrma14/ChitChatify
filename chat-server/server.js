@@ -123,7 +123,7 @@ io.on("connection", async (socket) => {
   socket.on("start_conversation", async (data) => {
     const { to, from } = data;
 
-    try {
+   
       // check if there's existing convo
       const existingConvo = await oneToOneModel
         .find({
@@ -155,9 +155,7 @@ io.on("connection", async (socket) => {
         
         socket.emit("start_chat", existingConvo[0]);
       }
-    } catch (error) {
-      console.error(`Error during start_conversation: ${error}`);
-    }
+    
   });
   socket.on("get_message", async (data, callback) => {
     const { message } = await oneToOneModel

@@ -68,6 +68,7 @@ const DashboardLayout = () => {
           );
         }else {
           console.log("Skipped add direct message");
+          console.log(socket);
         }
       });
       socket.on("start_chat", (data) => {
