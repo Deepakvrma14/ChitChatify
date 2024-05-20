@@ -54,7 +54,7 @@ const Message = () => {
                 return <MediaMsg el={el} key={index} />;
               case "doc":
                 return <DocMsg el={el} key={index} />;
-              case "link":
+              case "Link":
                 return <LinkMsg el={el} key={index} />;
               case "reply":
                 return <ReplyMsg el={el} key={index} />;

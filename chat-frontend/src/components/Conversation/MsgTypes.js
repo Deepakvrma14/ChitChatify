@@ -9,9 +9,11 @@ import {
   Menu,
   MenuItem,
 } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
+import { alpha, useTheme } from "@mui/material/styles";
 import { Image, DownloadSimple, DotsThreeVertical } from "phosphor-react";
 import { Message_options } from "../../data";
+
+import Embed from "react-embed";
 
 const DocMsg = ({ el }) => {
   const theme = useTheme();
@@ -47,7 +49,11 @@ const DocMsg = ({ el }) => {
           </Stack>
           <Typography
             variant="body2"
-            color={el.incoming ? theme.palette.text :theme.palette.primary.contrastText}
+            color={
+              el.incoming
+                ? theme.palette.text
+                : theme.palette.primary.contrastText
+            }
           >
             {el.message}
           </Typography>
@@ -60,6 +66,11 @@ const DocMsg = ({ el }) => {
 
 const LinkMsg = ({ el }) => {
   const theme = useTheme();
+
+  // Extract the URL from el.message
+  const urlRegex = /(https?:\/\/[^\s]+)/g;
+  const urlMatch = el.message.match(urlRegex);
+  const url = urlMatch ? urlMatch[0] : "";
 
   return (
     <Stack direction={"row"} justifyContent={el.incoming ? "start" : "end"}>
@@ -74,43 +85,17 @@ const LinkMsg = ({ el }) => {
         }}
       >
         <Stack spacing={2}>
-          <Stack
-            p={2}
-            spacing={3}
-            alignItems={"center"}
-            direction={"column"}
-            sx={{
-              backgroundColor: theme.palette.background.paper,
-              borderRadius: 1,
-            }}
-          >
-            <img
-              src={el.preview}
-              alt={el.message}
-              style={{ maxHeight: 210, borderRadius: 10 }}
-            />
-          </Stack>
-          <Stack spacing={2}>
-            <Typography variant="subtitle2">Creating Chat App</Typography>
-            <Typography
-              variant="subtitle2"
-              component={Link}
-              sx={{
-                color: theme.palette.primary.main,
-                "&:hover": {
-                  cursor: "pointer",
-                },
-              }}
-              to="https://www.youtube.com"
-            >
-              www.youtube.com
-            </Typography>
-          </Stack>
+          <Embed url={url} />
           <Typography
             variant="body2"
-            color={el.incoming ? theme.palette.text : theme.palette.primary.contrastText}
+            color={
+              el.incoming
+                ? theme.palette.text
+                : theme.palette.primary.contrastText
+            }
           >
-                        <div dangerouslySetInnerHTML={{__html: el.message}}></div>
+            
+            <div dangerouslySetInnerHTML={{ __html: el.message }}></div>
           </Typography>
         </Stack>
       </Box>
@@ -151,7 +136,11 @@ const ReplyMsg = ({ el }) => {
           </Stack>
           <Typography
             variant="body2"
-            color={el.incoming ? theme.palette.text : theme.palette.primary.contrastText}
+            color={
+              el.incoming
+                ? theme.palette.text
+                : theme.palette.primary.contrastText
+            }
           >
             {el.reply}
           </Typography>
@@ -186,7 +175,11 @@ const MediaMsg = ({ el }) => {
         </Stack>
         <Typography
           variant="body2"
-          color={el.incoming ? theme.palette.text : theme.palette.primary.contrastText}
+          color={
+            el.incoming
+              ? theme.palette.text
+              : theme.palette.primary.contrastText
+          }
         >
           {el.message}
         </Typography>
@@ -213,7 +206,11 @@ const TextMsg = ({ el }) => {
       >
         <Typography
           variant="body2"
-          color={el.incoming ? theme.palette.text :theme.palette.primary.contrastText}
+          color={
+            el.incoming
+              ? theme.palette.text
+              : theme.palette.primary.contrastText
+          }
         >
           {el.message}
         </Typography>
@@ -245,13 +242,12 @@ const TimeLine = ({ el }) => {
 const MessageOptions = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
-  
+
   const handleClose = () => {
     setAnchorEl(null);
   };
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
-    
   };
   return (
     <>
@@ -263,10 +259,9 @@ const MessageOptions = () => {
         aria-expanded={open ? "true" : undefined}
         onClick={handleClick}
       />
-      
+
       <Menu
         id="demo-positioned-menu"
-        
         aria-labelledby="demo-positioned-button"
         anchorEl={anchorEl}
         open={open}
@@ -282,12 +277,14 @@ const MessageOptions = () => {
       >
         <Stack spacing={1} px={1}>
           {Message_options.map((el) => (
-            <MenuItem  key={el.title} >
-              <Stack onClick={(event) =>{
-                event.stopPropagation();
-                handleClose();
-              }} >
-              {el.title}
+            <MenuItem key={el.title}>
+              <Stack
+                onClick={(event) => {
+                  event.stopPropagation();
+                  handleClose();
+                }}
+              >
+                {el.title}
               </Stack>
             </MenuItem>
           ))}
