@@ -36,6 +36,7 @@ const UserList = () => {
 
 const FriendsList = () => {
   const dispatch = useDispatch();
+  
   useEffect(() => {
     dispatch(FetchFriends());
   }, []);
@@ -43,11 +44,7 @@ const FriendsList = () => {
   return (
     <>
       {friends.map((el, idx) => {
-        return (
-          
-            <FriendsComponent key={el._id} {...el} />
-         
-        );
+        return <FriendsComponent key={idx} {...el} />;
       })}
     </>
   );

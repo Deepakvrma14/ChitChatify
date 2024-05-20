@@ -1,6 +1,7 @@
 const User = require("../models/user");
 const filterObj = require("../utils/filterObj");
-const friendRequest = require("../models/friendRequest");
+const FriendRequest = require("../models/friendRequest");
+const { Chat } = require("../models/chat");
 exports.updateMe = async (req, res, next) => {
   const { user } = req;
 
@@ -23,6 +24,7 @@ exports.updateMe = async (req, res, next) => {
     message: "Profile Updated successfully!",
   });
 };
+
 exports.getUsers = async (req, res, next) => {
   const all_users = await User.find({
     verified: true,
@@ -45,16 +47,16 @@ exports.getUsers = async (req, res, next) => {
 //  TODO: Create one to get friend reqyuests
 exports.getRequest = async (req, res, next) => {
   // it'll search for the requests on db where am a receiver and popultate and get me fields who sent me requests
-  const requests = await friendRequest
-    .find({ receiver: req.user._id })
-    .populate("sender", "_id firstName lastName");
+  const requests = await FriendRequest.find({
+    receiver: req.user._id,
+  }).populate("sender", "_id firstName lastName");
 
-    return res.status(200).json({
-      data: requests,
-      status: "success",
-      
-      message: "Friends Request fetch from DB successfully",
-    });
+  return res.status(200).json({
+    data: requests,
+    status: "success",
+
+    message: "Friends Request fetch from DB successfully",
+  });
 };
 
 exports.getFriends = async (req, res, next) => {
@@ -65,7 +67,32 @@ exports.getFriends = async (req, res, next) => {
 
   return res.status(200).json({
     status: "success",
-    data: this_user.friends, 
+    data: this_user.friends,
     message: "Friends list fetch from DB successfully",
   });
+};
+exports.newGroupChat = async (req, res, next) => {
+  const { name, members } = req.body;
+  // members are user id's of the users who are in the group chat
+  if (members.length < 2) {
+    return res.status(400).json({
+      status: "fail",
+      message: "Group chat must have atleast 2 members",
+    });
+  }
+  const allMembers = [...members, req.user._id];
+  const newChat = await Chat.create({
+    name,
+    members: allMembers,
+    creator: req.user._id,
+    groupChat: true,
+  });
+
+  // todo emit event for refetch chat for all memebers
+
+  return res.status(201).json({
+    status: "success",
+    message: "Group chat created successfully",
+  });
+
 };

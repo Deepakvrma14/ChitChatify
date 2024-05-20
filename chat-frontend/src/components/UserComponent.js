@@ -18,8 +18,9 @@ const StyledChatBox = styled(Box)(({ theme }) => ({
     cursor: "pointer",
   },
 }));
-const user_id = window.localStorage.getItem("user_id");
+
 const UserComponent = ({ firstName, lastName, img, online, _id }) => {
+  const user_id = window.localStorage.getItem("user_id");
   const theme = useTheme();
   const name = `${firstName} ${lastName}`;
   const dispatch = useDispatch();
@@ -85,6 +86,7 @@ const FriendRequestComponent = ({
   _id,
   id,
 }) => {
+  const user_id = window.localStorage.getItem("user_id");
   const theme = useTheme();
   // id is request id which is used to point to the reque4st id of frined request
   // console.log(firstName);
@@ -139,6 +141,8 @@ const FriendRequestComponent = ({
 };
 
 const FriendsComponent = ({ firstName, lastName, img, online, _id }) => {
+  const user_id = window.localStorage.getItem("user_id");
+  console.log(`data sent to is ${_id} and from is ${user_id}`);
   const theme = useTheme();
   const name = `${firstName} ${lastName}`;
   return (
