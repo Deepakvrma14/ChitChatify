@@ -2,6 +2,7 @@ const User = require("../models/user");
 const filterObj = require("../utils/filterObj");
 const FriendRequest = require("../models/friendRequest");
 const { Chat } = require("../models/chat");
+const OneToOneMessage = require("../models/OneToOneMessage");
 exports.updateMe = async (req, res, next) => {
   const { user } = req;
 
@@ -94,5 +95,33 @@ exports.newGroupChat = async (req, res, next) => {
     status: "success",
     message: "Group chat created successfully",
   });
+};
+// controller for getting all the chats of the user
+exports.getMessages = async (req, res, next) => {
+  const chatId = req.params.id;
+  const { page = 1 } = req.query;
 
+  const resultPerPage = 20;
+  const skip = (page - 1) * resultPerPage;
+
+  const chat = await OneToOneMessage.findById(chatId);
+
+  if(!chat){
+    return res.status(404).json({
+      status: "fail",
+      message: "Chat not found",
+    });
+  }
+
+  const messages = chat.message
+    .sort((a, b) => b.created_at - a.created_at)
+    .slice(skip, skip + resultPerPage);
+
+  const totalPages = Math.ceil(chat.message.length / resultPerPage) || 0;
+
+  return res.status(200).json({
+    success: true,
+    messages: messages.reverse(),
+    totalPages,
+  });
 };
