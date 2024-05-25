@@ -172,65 +172,65 @@ const Footer = () => {
           boxShadow: "0px 0px 2px rgba(0, 0, 0, 0.25)",
         }}
       >
-        <Stack direction="row" alignItems={"center"} spacing={3}>
-          <Stack sx={{ width: "100%" }}>
-            <Box
-              style={{
-                zIndex: 10,
-                position: "fixed",
-                display: openPicker ? "inline" : "none",
-                bottom: 81,
-                right: searchParams.get("open") === "true" ? 420 : 100,
-              }}
-            >
-              <Picker
-                theme={theme.palette.mode}
-                data={data}
-                onEmojiSelect={(emoji) => {
-                  handleEmojiClick(emoji.native);
-                }}
-              />
-            </Box>
-            {/* Chat Input */}
-            <ChatInput
-              openPicker={openPicker}
-              setOpenPicker={setOpenPicker}
-              inputRef={inputRef}
-              setValue={setValue}
-              value={value}
-            />
-          </Stack>
-          <Box
-            sx={{
-              height: 48,
-              width: 48,
-              backgroundColor: theme.palette.primary.main,
-              borderRadius: 1.5,
-            }}
-          >
-            <IconButton
-              onClick={() => {
-                console.log(`footer conver id ${current_conversation}`);
-                console.log(`user id is ${user_id}`);
-                // console.log("clicked");
-                if (value.trim() !== "") {
-                  console.log("Sending message: ", value);
-                  console.log(socket.connected);
-                  socket.emit("text_message", {
-                    to: current_conversation,
-                    from: user_id,
-                    message: linkify(value),
-                    conversation_id: current_conversation,
-                    type: containsUrl(value) ? "Link" : "Text",
-                  });
-                  setValue("");
-                }
-              }}
-            >
-              <PaperPlaneTilt color="#fff" />
-            </IconButton>
-          </Box>
-        </Stack>
+<form
+  onSubmit={(e) => {
+    e.preventDefault();
+    if (value.trim() !== "") {
+      console.log("Sending message: ", value);
+      console.log(socket.connected);
+      socket.emit("text_message", {
+        to: current_conversation,
+        from: user_id,
+        message: linkify(value),
+        conversation_id: current_conversation,
+        type: containsUrl(value) ? "Link" : "Text",
+      });
+      setValue("");
+    }
+  }}
+>
+  <Stack direction="row" alignItems={"center"} spacing={3}>
+    <Stack sx={{ width: "100%" }}>
+      <Box
+        style={{
+          zIndex: 10,
+          position: "fixed",
+          display: openPicker ? "inline" : "none",
+          bottom: 81,
+          right: searchParams.get("open") === "true" ? 420 : 100,
+        }}
+      >
+        <Picker
+          theme={theme.palette.mode}
+          data={data}
+          onEmojiSelect={(emoji) => {
+            handleEmojiClick(emoji.native);
+          }}
+        />
+      </Box>
+      {/* Chat Input */}
+      <ChatInput
+        openPicker={openPicker}
+        setOpenPicker={setOpenPicker}
+        inputRef={inputRef}
+        setValue={setValue}
+        value={value}
+      />
+    </Stack>
+    <Box
+      sx={{
+        height: 48,
+        width: 48,
+        backgroundColor: theme.palette.primary.main,
+        borderRadius: 1.5,
+      }}
+    >
+      <IconButton type="submit">
+        <PaperPlaneTilt color="#fff" />
+      </IconButton>
+    </Box>
+  </Stack>
+</form>
       </Box>
     </Box>
   );

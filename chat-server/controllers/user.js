@@ -99,14 +99,15 @@ exports.newGroupChat = async (req, res, next) => {
 // controller for getting all the chats of the user
 exports.getMessages = async (req, res, next) => {
   const chatId = req.params.id;
+  console.log(chatId);
   const { page = 1 } = req.query;
 
-  const resultPerPage = 20;
+  const resultPerPage = 12;
   const skip = (page - 1) * resultPerPage;
 
   const chat = await OneToOneMessage.findById(chatId);
 
-  if(!chat){
+  if (!chat) {
     return res.status(404).json({
       status: "fail",
       message: "Chat not found",
