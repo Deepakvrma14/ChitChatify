@@ -16,6 +16,7 @@ import {
   FetchMessagesForCurrentConversation,
   SetCurrentConversation,
 } from "../../app/features/conversationSlice";
+import { current } from "@reduxjs/toolkit";
 
 const Message = () => {
   const dispatch = useDispatch();
@@ -80,6 +81,11 @@ const Message = () => {
     }
   }, [handleScroll]);
 
+  // console.logg current_messages array comollete and it should not only show object Object but to display all objects in the array
+
+  
+
+
   return (
     <Box ref={messageListRef} sx={{ overflow: "auto", height: "100%" }}>
       <Stack spacing={3} p={3}>
@@ -97,8 +103,10 @@ const Message = () => {
                   return <LinkMsg el={el} key={index} />;
                 case "reply":
                   return <ReplyMsg el={el} key={index} />;
-                default:
-                  return <TextMsg el={el} key={index} />;
+                case "Text":
+                    return <TextMsg el={el} key={index} />;
+                  default:
+                    return null;
               }
             default:
               return null;

@@ -191,7 +191,7 @@ const MediaMsg = ({ el }) => {
 
 const TextMsg = ({ el }) => {
   const theme = useTheme();
-
+  
   return (
     <Stack direction={"row"} justifyContent={el.incoming ? "start" : "end"}>
       <Box
@@ -212,6 +212,7 @@ const TextMsg = ({ el }) => {
               : theme.palette.primary.contrastText
           }
         >
+          
           {el.message}
         </Typography>
       </Box>

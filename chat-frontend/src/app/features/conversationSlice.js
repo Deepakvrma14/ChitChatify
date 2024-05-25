@@ -91,7 +91,7 @@ const slice = createSlice({
         id: el._id,
         type: "msg",
         subtype: el.type,
-        message: el.message,
+        message: el.text,
         incoming: el.to === user_id,
         outgoing: el.from === user_id,
       }));
@@ -127,7 +127,7 @@ export const FetchMessagesForCurrentConversation = ({ conversation_id, page = 1 
       },
     })
     .then((response) => {
-      console.log(`response: ${response.data.messages}`);
+      console.log(`response:`, response.data); 
       console.log(`Fetching messages for conversation_id: ${conversation_id}, page: ${page}`);
       const data = response.data;
 
