@@ -21,7 +21,7 @@ import { useTheme, styled } from "@mui/material/styles";
 import React, { useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import useResponsive from "../../hooks/useResponsive";
-import Actions from "./Actions";
+import UseActions from './Actions';
 import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
 import { useSelector } from "react-redux";
@@ -42,6 +42,7 @@ const ChatInput = ({
   inputRef,
 }) => {
   const [openActions, setOpenActions] = React.useState(false);
+  const actions = UseActions();
 
   return (
     <StyledInput
@@ -63,7 +64,7 @@ const ChatInput = ({
                 display: openActions ? "inline-block" : "none",
               }}
             >
-              {Actions.map((el) => (
+              {actions.map((el) => (
                 <Tooltip placement="right" title={el.title} key={el.title}>
                   <Fab
                     onClick={() => {
@@ -167,9 +168,9 @@ const Footer = () => {
         sx={{
           backgroundColor:
             theme.palette.mode === "light"
-              ? "#F8FAFF"
+              ? "#f6f6f6"
               : theme.palette.background,
-          boxShadow: "0px 0px 2px rgba(0, 0, 0, 0.25)",
+          // boxShadow: "0px 0px 2px rgba(0, 0, 0, 0.25)",
         }}
       >
 <form

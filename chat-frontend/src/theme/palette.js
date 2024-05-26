@@ -127,7 +127,7 @@ const palette = {
     text: { primary: "#141414", secondary: GREY[600], disabled: GREY[500] , msg: "#d7d7d7"}, // Text color
     action: { active: GREY[600],  ...COMMON.action },
   },
-  dark: {
+ dark: {
     ...COMMON,
     mode: "dark",
     primary: { main: "#c5721f", contrastText: "#f5f5f5" }, 
@@ -140,10 +140,9 @@ const palette = {
       default: "#222429", 
       neutral: "#242933",
     }, // Background colors
-    text: { primary: "#F0F0F0", secondary: GREY[500], disabled: GREY[600], msg: "#2C2C2C" }, // Text color
+    text: { primary: "#F0F0F0", secondary: GREY[500], disabled: GREY[600], msg: "#404040" }, // Text color
     action: { active: GREY[500], ...COMMON.action },
   },
-  
   
 };
 
