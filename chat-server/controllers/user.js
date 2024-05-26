@@ -99,7 +99,8 @@ exports.newGroupChat = async (req, res, next) => {
 // controller for getting all the chats of the user
 exports.getMessages = async (req, res, next) => {
   const chatId = req.params.id;
-  console.log(chatId);
+  // console.log(chatId);
+  console.log(`messages for chat ${chatId} requested`)
   const { page = 1 } = req.query;
 
   const resultPerPage = 12;

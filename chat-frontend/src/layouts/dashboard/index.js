@@ -79,7 +79,7 @@ const DashboardLayout = () => {
         } else {
           dispatch(AddDirectConversation({ conversation: data }));
         }
-        dispatch(SelectConversation({ room_id: data._id }));
+        // dispatch(SelectConversation({ room_id: data._id }));
         
 
         console.log('Starting chat with conversation id: ', data._id); 

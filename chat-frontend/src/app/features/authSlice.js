@@ -94,7 +94,7 @@ export function registerUser(formValues) {
 
         setTimeout(() => {
           window.location.href = `/auth/verify-otp?email=${email}`;
-        }, 3000);
+        }, 1000);
       })
       .catch((error) => {
         console.log(error);
