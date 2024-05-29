@@ -4,20 +4,15 @@ const FriendRequest = require("../models/friendRequest");
 const { Chat } = require("../models/chat");
 const OneToOneMessage = require("../models/OneToOneMessage");
 exports.updateMe = async (req, res, next) => {
-  const { user } = req;
+  console.log("update me controller"  );
 
-  const filteredBody = filterObj(
-    req.body,
-    "firstName",
-    "lastName",
-    "about",
-    "avatar"
-  );
+  const { firstName, lastName, user_id } = req.body;
+  console.log(`user_id: ${user_id} firstName: ${firstName} lastName: ${lastName}`); 
 
-  const updated_user = await User.findByIdAndUpdate(user._id, filteredBody, {
-    new: true,
-    validateModelOnly: true,
-  });
+   const updated_user = await User.findByIdAndUpdate(user_id, {firstName, lastName}, {
+     new: true,
+     validateModelOnly: true,
+   });
 
   return res.status(200).json({
     status: "success",

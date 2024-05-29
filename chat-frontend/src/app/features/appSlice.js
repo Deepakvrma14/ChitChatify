@@ -61,6 +61,26 @@ const appSlice = createSlice({
 export const { toggleSidebar, updateSidebarType } = appSlice.actions;
 export default appSlice.reducer;
 
+const user_id = window.localStorage.getItem("user_id");
+
+export function updateMe(formValues) {
+  return async (dispatch, getState) =>{
+    await axios.patch("/user/update-me", {...formValues, user_id}, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${getState().authState.token}`,
+      },
+    }).then((response) => {
+      dispatch(showSnackbar({severity: "success", message: response.data.message}));
+    }).catch((error) => {
+      console.error(error);
+      dispatch(showSnackbar({severity: "error", message: error.response.data.message}));
+    });
+    
+  }
+}
+
+
 export function showSnackbar({ severity, message }) {
   return async (dispatch, getState) => {
     dispatch(appSlice.actions.openSnackbar({ message, severity }));
@@ -152,3 +172,4 @@ export const FetchRequests = () => {
       });
   };
 };
+

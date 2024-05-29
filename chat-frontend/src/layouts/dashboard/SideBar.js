@@ -26,6 +26,7 @@ import {
   Users,
 } from "phosphor-react";
 import Friends from "../../components/main/Friends";
+import { useNavigate } from "react-router-dom";
 
 const SideBar = () => {
   const theme = useTheme();
@@ -34,7 +35,7 @@ const SideBar = () => {
     setOpenDialog(true);
     setSelected(1);
   };
-
+  const navigate = useNavigate();
   const handleCloseDialog = () => {
     setOpenDialog(false);
   };
@@ -63,12 +64,14 @@ const SideBar = () => {
           backgroundColor:  theme.palette.mode === "light"
           ? "#010019"
           : theme.palette.background.paper,
-          boxShadow: "0px 0px 4px 0px rgba(0, 0, 0, 0.25)",
+          boxShadow: "0px 0px 6px 0px rgba(0, 0, 0, 0.25)",
           height: "98h",
-          width: "60vh",
+          width: "9vh",
           borderRadius: "20px",
           position: "relative",
           margin: "1vh",
+        
+
         }}
       >
         <Stack
@@ -110,9 +113,15 @@ const SideBar = () => {
                   <IconButton
                     onClick={() => {
                       setSelected(el.index);
+                      
+
                       if (el.index === 1) {
                         handleOpenDialog();
+                        
+                      }else if (el.index === 0) {
+                        navigate('/app'); 
                       }
+                      
                     }}
                     sx={{
                       width: "max-content",
@@ -128,6 +137,7 @@ const SideBar = () => {
               {selected === 3 ? (
                 <Box p={1}>
                   <IconButton
+                  
                     sx={{
                       width: "max-content",
                       color: theme.palette.background.logo,
@@ -141,6 +151,7 @@ const SideBar = () => {
                   <IconButton
                     onClick={() => {
                       setSelected(3);
+                      navigate('/profile');
                     }}
                     sx={{
                       width: "max-content",

@@ -29,6 +29,9 @@ export default slice.reducer;
 
 // thunk actions : // redux does thigns sysncronously so these need to perofrmed outside store for async actions ...  to have to have async actions, we use the middlewares to perofrm these
 
+
+
+
 export function verifyOtp(formValues) {
   return async (dispatch, getState) => {
     await axios
